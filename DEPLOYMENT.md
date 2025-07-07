@@ -1,6 +1,7 @@
 # Deployment Guide
 
 ## ✅ Latest Update (December 2024)
+
 This repository has been comprehensively optimized for Vercel deployment with all dependency issues resolved in commit `f7b8bda`.
 
 ## GitHub Setup
@@ -59,6 +60,7 @@ Every push to the `main` branch will trigger an automatic deployment to Vercel. 
 ## Analytics & Performance
 
 Consider enabling:
+
 - Google Analytics (add `NEXT_PUBLIC_GOOGLE_ANALYTICS` to environment variables)
 - Vercel Analytics (built-in, enable in dashboard)
-- Core Web Vitals monitoring 
+- Core Web Vitals monitoring
