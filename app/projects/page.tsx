@@ -4,6 +4,14 @@ import { genPageMetadata } from 'app/seo'
 
 export const metadata = genPageMetadata({ title: 'Projects' })
 
+/**
+ * The page component for showcasing projects.
+ *
+ * It maps over the `projectsData` array and renders a `Card` component for
+ * each project, displaying them in a grid.
+ *
+ * @returns {JSX.Element} The rendered projects page.
+ */
 export default function Projects() {
   return (
     <>

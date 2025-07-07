@@ -9,6 +9,16 @@ import { Metadata } from 'next'
 
 const POSTS_PER_PAGE = 5
 
+/**
+ * Generates metadata for a specific tag page.
+ *
+ * This function creates the title, description, and other metadata for a page
+ * that lists all blog posts associated with a given tag.
+ *
+ * @param {object} props - The properties for the function.
+ * @param {Promise<{ tag: string }>} props.params - The route parameters, containing the tag.
+ * @returns {Promise<Metadata>} A promise that resolves to the metadata object.
+ */
 export async function generateMetadata(props: {
   params: Promise<{ tag: string }>
 }): Promise<Metadata> {
@@ -26,6 +36,14 @@ export async function generateMetadata(props: {
   })
 }
 
+/**
+ * Generates static parameters for all tag pages.
+ *
+ * This function is used by Next.js to pre-render all tag pages at build time.
+ * It returns an array of all possible tag parameters.
+ *
+ * @returns {Promise<{ tag: string }[]>} A promise that resolves to an array of tag parameter objects.
+ */
 export const generateStaticParams = async () => {
   const tagCounts = tagData as Record<string, number>
   const tagKeys = Object.keys(tagCounts)
@@ -34,6 +52,16 @@ export const generateStaticParams = async () => {
   }))
 }
 
+/**
+ * The page component for displaying posts filtered by a specific tag.
+ *
+ * It filters all posts to find those that include the given tag, then renders
+ * them in a paginated list using the `ListLayout`.
+ *
+ * @param {object} props - The properties for the component.
+ * @param {Promise<{ tag: string }>} props.params - The route parameters, containing the tag.
+ * @returns {Promise<JSX.Element>} A promise that resolves to the rendered tag page.
+ */
 export default async function TagPage(props: { params: Promise<{ tag: string }> }) {
   const params = await props.params
   const tag = decodeURI(params.tag)

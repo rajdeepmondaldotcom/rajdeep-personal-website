@@ -21,6 +21,16 @@ const layouts = {
   PostBanner,
 }
 
+/**
+ * Generates metadata for a blog post page.
+ *
+ * This function is used by Next.js to generate the title, description,
+ * Open Graph, and Twitter card metadata for a specific blog post based on its slug.
+ *
+ * @param {object} props - The properties for the function.
+ * @param {Promise<{ slug: string[] }>} props.params - The route parameters, containing the slug.
+ * @returns {Promise<Metadata | undefined>} A promise that resolves to the metadata object.
+ */
 export async function generateMetadata(props: {
   params: Promise<{ slug: string[] }>
 }): Promise<Metadata | undefined> {
@@ -73,10 +83,29 @@ export async function generateMetadata(props: {
   }
 }
 
+/**
+ * Generates static parameters for all blog post pages.
+ *
+ * This function is used by Next.js to pre-render all blog post pages at
+ * build time. It returns an array of all possible slug parameters.
+ *
+ * @returns {Promise<{ slug: string[] }[]>} A promise that resolves to an array of slug objects.
+ */
 export const generateStaticParams = async () => {
   return allBlogs.map((p) => ({ slug: p.slug.split('/').map((name) => decodeURI(name)) }))
 }
 
+/**
+ * The page component for a single blog post.
+ *
+ * It finds the post by its slug, determines the correct layout, and renders
+ * the post content using the `MDXLayoutRenderer`. It also handles JSON-LD
+ * structured data and provides previous/next post navigation.
+ *
+ * @param {object} props - The properties for the component.
+ * @param {Promise<{ slug: string[] }>} props.params - The route parameters, containing the slug.
+ * @returns {Promise<JSX.Element>} A promise that resolves to the rendered page component.
+ */
 export default async function Page(props: { params: Promise<{ slug: string[] }> }) {
   const params = await props.params
   const slug = decodeURI(params.slug.join('/'))

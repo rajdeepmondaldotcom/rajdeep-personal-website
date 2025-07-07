@@ -3,10 +3,23 @@
 import siteMetadata from '@/data/siteMetadata'
 import { useEffect, useState } from 'react'
 
+/**
+ * A component that provides floating buttons for scrolling to the top of the
+ * page or to the comments section.
+ *
+ * The buttons appear only after the user has scrolled down a certain amount.
+ * The "scroll to comment" button is only rendered if a comment provider is
+ * configured in the site metadata.
+ *
+ * @returns {JSX.Element} The rendered floating button container.
+ */
 const ScrollTopAndComment = () => {
   const [show, setShow] = useState(false)
 
   useEffect(() => {
+    /**
+     * Handles the window's scroll event to show or hide the buttons.
+     */
     const handleWindowScroll = () => {
       if (window.scrollY > 50) setShow(true)
       else setShow(false)
@@ -16,9 +29,17 @@ const ScrollTopAndComment = () => {
     return () => window.removeEventListener('scroll', handleWindowScroll)
   }, [])
 
+  /**
+   * Smoothly scrolls the window to the top of the page.
+   */
   const handleScrollTop = () => {
     window.scrollTo({ top: 0 })
   }
+
+  /**
+   * Smoothly scrolls the window to the comment section, identified by the
+   * element with the ID "comment".
+   */
   const handleScrollToComment = () => {
     document.getElementById('comment')?.scrollIntoView()
   }

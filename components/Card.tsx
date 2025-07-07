@@ -1,6 +1,18 @@
 import Image from './Image'
 import Link from './Link'
 
+/**
+ * A reusable card component that displays a preview of content, such as a blog
+ * post or a project.
+ *
+ * @param {object} props - The properties for the component.
+ * @param {string} props.title - The main title of the card.
+ * @param {string} props.description - A short summary of the content.
+ * @param {string} [props.imgSrc] - Optional. The URL for the image to display.
+ * @param {string} [props.href] - Optional. The URL the card should link to.
+ *   If provided, the image, title, and a "Learn more" link will be created.
+ * @returns {JSX.Element} The rendered card component.
+ */
 const Card = ({ title, description, imgSrc, href }) => (
   <div className="md max-w-[544px] p-4 md:w-1/2">
     <div

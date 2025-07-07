@@ -2,6 +2,14 @@ import { AlgoliaButton } from 'pliny/search/AlgoliaButton'
 import { KBarButton } from 'pliny/search/KBarButton'
 import siteMetadata from '@/data/siteMetadata'
 
+/**
+ * A component that renders a search button based on the configured search provider.
+ *
+ * It checks the `siteMetadata` to determine whether to render a button for
+ * Algolia or KBar. If no search provider is configured, it renders nothing.
+ *
+ * @returns {JSX.Element | null} The rendered search button component or null.
+ */
 const SearchButton = () => {
   if (
     siteMetadata.search &&

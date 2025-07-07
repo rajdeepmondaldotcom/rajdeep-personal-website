@@ -6,6 +6,14 @@ import { genPageMetadata } from 'app/seo'
 
 export const metadata = genPageMetadata({ title: 'Tags', description: 'Things I blog about' })
 
+/**
+ * The main page for displaying all tags.
+ *
+ * This component fetches all unique tags, counts their occurrences, and displays
+ * them in a sorted list. Each tag links to a page showing all posts with that tag.
+ *
+ * @returns {Promise<JSX.Element>} A promise that resolves to the rendered tags page.
+ */
 export default async function Page() {
   const tagCounts = tagData as Record<string, number>
   const tagKeys = Object.keys(tagCounts)

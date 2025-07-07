@@ -6,10 +6,25 @@ import { Fragment, useState, useEffect, useRef } from 'react'
 import Link from './Link'
 import headerNavLinks from '@/data/headerNavLinks'
 
+/**
+ * A component for the mobile navigation menu.
+ *
+ * Renders a hamburger icon that, when clicked, opens a full-screen overlay
+ * with navigation links. It handles body scroll locking to prevent scrolling
+ * of the background content when the menu is open.
+ *
+ * @returns {JSX.Element} The rendered mobile navigation component.
+ */
 const MobileNav = () => {
   const [navShow, setNavShow] = useState(false)
   const navRef = useRef(null)
 
+  /**
+   * Toggles the visibility of the mobile navigation menu.
+   *
+   * Manages the `navShow` state and enables or disables body scrolling
+   * accordingly to prevent the background from scrolling when the menu is open.
+   */
   const onToggleNav = () => {
     setNavShow((status) => {
       if (status) {

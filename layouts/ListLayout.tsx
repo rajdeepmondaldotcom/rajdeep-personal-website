@@ -20,6 +20,18 @@ interface ListLayoutProps {
   pagination?: PaginationProps
 }
 
+/**
+ * A component for rendering pagination controls.
+ *
+ * Displays "Previous" and "Next" links to navigate between pages, along with
+ * the current page number and total pages. It correctly constructs the URLs
+ * for paginated routes.
+ *
+ * @param {PaginationProps} props - The properties for the component.
+ * @param {number} props.totalPages - The total number of pages.
+ * @param {number} props.currentPage - The current active page number.
+ * @returns {JSX.Element} The rendered pagination navigation.
+ */
 function Pagination({ totalPages, currentPage }: PaginationProps) {
   const pathname = usePathname()
   const segments = pathname.split('/')
@@ -65,6 +77,22 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
   )
 }
 
+/**
+ * A layout for displaying a list of blog posts with a search input and optional pagination.
+ *
+ * It renders a page title, a search bar to filter posts in real-time, and a
+ * list of posts. If pagination data is provided, it also renders the
+ * `Pagination` component.
+ *
+ * @param {ListLayoutProps} props - The properties for the component.
+ * @param {CoreContent<Blog>[]} props.posts - An array of all posts to be listed and searched.
+ * @param {string} props.title - The title to be displayed at the top of the page.
+ * @param {CoreContent<Blog>[]} [props.initialDisplayPosts=[]] - An array of posts to
+ *   display initially (e.g., for the first page). If empty, all posts are shown.
+ * @param {PaginationProps} [props.pagination] - Optional pagination data. If provided,
+ *   pagination controls will be displayed.
+ * @returns {JSX.Element} The rendered list layout.
+ */
 export default function ListLayout({
   posts,
   title,

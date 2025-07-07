@@ -8,6 +8,20 @@ interface Props {
   content: Omit<Authors, '_id' | '_raw' | 'body'>
 }
 
+/**
+ * A layout component for rendering an author's profile page.
+ *
+ * Displays the author's avatar, name, occupation, company, and social media
+ * links. The main content, passed as children, is displayed alongside this
+ * information.
+ *
+ * @param {Props} props - The properties for the component.
+ * @param {React.ReactNode} props.children - The main content to be rendered,
+ *   typically the author's biography from an MDX file.
+ * @param {Omit<Authors, '_id' | '_raw' | 'body'>} props.content - The metadata
+ *   for the author, sourced from Contentlayer.
+ * @returns {JSX.Element} The rendered author profile layout.
+ */
 export default function AuthorLayout({ children, content }: Props) {
   const { name, avatar, occupation, company, email, twitter, bluesky, linkedin, github } = content
 

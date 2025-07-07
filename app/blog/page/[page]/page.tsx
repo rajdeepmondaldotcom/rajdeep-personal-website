@@ -5,6 +5,14 @@ import { notFound } from 'next/navigation'
 
 const POSTS_PER_PAGE = 5
 
+/**
+ * Generates static parameters for all paginated blog pages.
+ *
+ * This function calculates the total number of pages and returns an array of
+ * all possible page number parameters for static site generation.
+ *
+ * @returns {Promise<{ page: string }[]>} A promise that resolves to an array of page parameter objects.
+ */
 export const generateStaticParams = async () => {
   const totalPages = Math.ceil(allBlogs.length / POSTS_PER_PAGE)
   const paths = Array.from({ length: totalPages }, (_, i) => ({ page: (i + 1).toString() }))
@@ -12,6 +20,17 @@ export const generateStaticParams = async () => {
   return paths
 }
 
+/**
+ * The page component for a specific page in the paginated blog list.
+ *
+ * It calculates the posts to display for the given page number and renders
+ * them using the `ListLayout`. It also handles invalid page numbers by
+ * returning a 404 error.
+ *
+ * @param {object} props - The properties for the component.
+ * @param {Promise<{ page: string }>} props.params - The route parameters, containing the page number.
+ * @returns {Promise<JSX.Element>} A promise that resolves to the rendered paginated blog page.
+ */
 export default async function Page(props: { params: Promise<{ page: string }> }) {
   const params = await props.params
   const posts = allCoreContent(sortPosts(allBlogs))

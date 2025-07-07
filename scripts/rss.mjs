@@ -9,6 +9,13 @@ import { sortPosts } from 'pliny/utils/contentlayer.js'
 
 const outputFolder = process.env.EXPORT ? 'out' : 'public'
 
+/**
+ * Generates an XML `<item>` block for a single blog post.
+ *
+ * @param {object} config - The site metadata configuration.
+ * @param {object} post - The post object to be included in the RSS item.
+ * @returns {string} An XML string representing a single RSS item.
+ */
 const generateRssItem = (config, post) => `
   <item>
     <guid>${config.siteUrl}/blog/${post.slug}</guid>
@@ -21,6 +28,14 @@ const generateRssItem = (config, post) => `
   </item>
 `
 
+/**
+ * Generates the complete RSS feed XML structure.
+ *
+ * @param {object} config - The site metadata configuration.
+ * @param {object[]} posts - An array of post objects to include in the feed.
+ * @param {string} [page='feed.xml'] - The filename for the generated RSS feed.
+ * @returns {string} An XML string representing the complete RSS feed.
+ */
 const generateRss = (config, posts, page = 'feed.xml') => `
   <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
@@ -37,6 +52,18 @@ const generateRss = (config, posts, page = 'feed.xml') => `
   </rss>
 `
 
+/**
+ * Generates and writes RSS feeds for the main blog and for each individual tag.
+ *
+ * This function filters out draft posts, generates a main RSS feed, and then
+ * creates a separate RSS feed for each tag, saving them to the appropriate
+ * directories.
+ *
+ * @param {object} config - The site metadata configuration.
+ * @param {object[]} allBlogs - An array of all blog post objects.
+ * @param {string} [page='feed.xml'] - The base filename for the generated RSS feeds.
+ * @returns {Promise<void>} A promise that resolves when all RSS feeds have been written.
+ */
 async function generateRSS(config, allBlogs, page = 'feed.xml') {
   const publishPosts = allBlogs.filter((post) => post.draft !== true)
   // RSS for blog post
@@ -56,6 +83,12 @@ async function generateRSS(config, allBlogs, page = 'feed.xml') {
   }
 }
 
+/**
+ * The main function to trigger the generation of all RSS feeds.
+ *
+ * It calls `generateRSS` with the site metadata and all blog posts, and logs
+ * a message to the console upon completion.
+ */
 const rss = () => {
   generateRSS(siteMetadata, allBlogs)
   console.log('RSS feed generated...')

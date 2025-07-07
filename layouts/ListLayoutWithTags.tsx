@@ -21,6 +21,18 @@ interface ListLayoutProps {
   pagination?: PaginationProps
 }
 
+/**
+ * A component for rendering pagination controls.
+ *
+ * Displays "Previous" and "Next" links to navigate between pages, along with
+ * the current page number and total pages. It correctly constructs the URLs
+ * for paginated routes.
+ *
+ * @param {PaginationProps} props - The properties for the component.
+ * @param {number} props.totalPages - The total number of pages.
+ * @param {number} props.currentPage - The current active page number.
+ * @returns {JSX.Element} The rendered pagination navigation.
+ */
 function Pagination({ totalPages, currentPage }: PaginationProps) {
   const pathname = usePathname()
   const segments = pathname.split('/')
@@ -66,6 +78,22 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
   )
 }
 
+/**
+ * A layout for displaying a list of blog posts alongside a filterable list of all tags.
+ *
+ * Renders a sidebar with all available tags, allowing users to filter the
+ * displayed posts. The main content area lists the posts, and optional
+ * pagination is provided.
+ *
+ * @param {ListLayoutProps} props - The properties for the component.
+ * @param {CoreContent<Blog>[]} props.posts - An array of all posts to be listed.
+ * @param {string} props.title - The title to be displayed at the top of the page.
+ * @param {CoreContent<Blog>[]} [props.initialDisplayPosts=[]] - An array of posts
+ *   to display initially. If empty, all posts are shown.
+ * @param {PaginationProps} [props.pagination] - Optional pagination data. If
+ *   provided, pagination controls will be displayed.
+ * @returns {JSX.Element} The rendered list layout with a tags sidebar.
+ */
 export default function ListLayoutWithTags({
   posts,
   title,

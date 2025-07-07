@@ -12,6 +12,18 @@ const inter = Inter({
   subsets: ['latin'],
 })
 
+/**
+ * A primary layout component that wraps the main content of every page.
+ *
+ * It establishes the overall page structure, including the site header and
+ * footer, and sets the primary font for the site using `next/font`. It ensures
+ * a consistent layout across all pages.
+ *
+ * @param {object} props - The properties for the component.
+ * @param {React.ReactNode} props.children - The child elements to be rendered
+ *   within the main content area of the layout.
+ * @returns {JSX.Element} The rendered page layout with header, content, and footer.
+ */
 const LayoutWrapper = ({ children }: Props) => {
   return (
     <SectionContainer>

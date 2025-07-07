@@ -1,5 +1,12 @@
 import Link from '@/components/Link'
 
+/**
+ * A component to be displayed when a requested page is not found (404 error).
+ *
+ * It renders a large "404" message and a link to return to the homepage.
+ *
+ * @returns {JSX.Element} The rendered 404 page content.
+ */
 export default function NotFound() {
   return (
     <div className="flex flex-col items-start justify-start md:mt-24 md:flex-row md:items-center md:justify-center md:space-x-6">

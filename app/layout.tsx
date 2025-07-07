@@ -58,6 +58,18 @@ export const metadata: Metadata = {
   },
 }
 
+/**
+ * The root layout for the entire application.
+ *
+ * This component wraps every page, setting up the `<html>` and `<body>` tags,
+ * loading fonts, providing theme and search contexts, and including the main
+ * header, footer, and analytics. It also defines the site's primary metadata.
+ *
+ * @param {object} props - The properties for the component.
+ * @param {React.ReactNode} props.children - The child components to be rendered
+ *   within the layout, typically the current page.
+ * @returns {JSX.Element} The rendered root layout.
+ */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const basePath = process.env.BASE_PATH || ''
 

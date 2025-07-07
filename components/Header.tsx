@@ -6,6 +6,15 @@ import MobileNav from './MobileNav'
 import ThemeSwitch from './ThemeSwitch'
 import SearchButton from './SearchButton'
 
+/**
+ * The main header for the website.
+ *
+ * Renders the site logo, title, primary navigation links for desktop,
+ * and icons for search, theme switching, and the mobile navigation menu.
+ * The header can be made sticky based on the `siteMetadata.stickyNav` setting.
+ *
+ * @returns {JSX.Element} The rendered header component.
+ */
 const Header = () => {
   let headerClass = 'flex items-center w-full bg-white dark:bg-gray-950 justify-between py-10'
   if (siteMetadata.stickyNav) {

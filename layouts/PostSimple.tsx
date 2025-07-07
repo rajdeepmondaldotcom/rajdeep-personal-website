@@ -16,6 +16,23 @@ interface LayoutProps {
   prev?: { path: string; title: string }
 }
 
+/**
+ * A simple layout for rendering a blog post without author details in the sidebar.
+ *
+ * It displays the post's title and publication date, followed by the main
+ * content, a comments section, and navigation to the next/previous posts.
+ *
+ * @param {LayoutProps} props - The properties for the component.
+ * @param {CoreContent<Blog>} props.content - The core content of the blog post.
+ * @param {React.ReactNode} props.children - The main content of the post (the body).
+ * @param {object} [props.next] - Optional. The next post in the series.
+ * @param {string} props.next.path - The path to the next post.
+ * @param {string} props.next.title - The title of the next post.
+ * @param {object} [props.prev] - Optional. The previous post in the series.
+ * @param {string} props.prev.path - The path to the previous post.
+ * @param {string} props.prev.title - The title of the previous post.
+ * @returns {JSX.Element} The rendered post layout.
+ */
 export default function PostLayout({ content, next, prev, children }: LayoutProps) {
   const { path, slug, date, title } = content
 

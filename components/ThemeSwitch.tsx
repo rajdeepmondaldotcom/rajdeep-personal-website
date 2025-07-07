@@ -12,6 +12,10 @@ import {
   Transition,
 } from '@headlessui/react'
 
+/**
+ * Renders a sun icon for the light theme.
+ * @returns {JSX.Element} The Sun SVG icon.
+ */
 const Sun = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -26,6 +30,10 @@ const Sun = () => (
     />
   </svg>
 )
+/**
+ * Renders a moon icon for the dark theme.
+ * @returns {JSX.Element} The Moon SVG icon.
+ */
 const Moon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -36,6 +44,10 @@ const Moon = () => (
     <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
   </svg>
 )
+/**
+ * Renders a monitor icon for the system theme.
+ * @returns {JSX.Element} The Monitor SVG icon.
+ */
 const Monitor = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -52,8 +64,23 @@ const Monitor = () => (
     <line x1="10" y1="13" x2="10" y2="17"></line>
   </svg>
 )
+/**
+ * Renders a blank placeholder icon.
+ * Used to prevent layout shift before the theme is determined on the client.
+ * @returns {JSX.Element} A blank SVG element.
+ */
 const Blank = () => <svg className="h-6 w-6" />
 
+/**
+ * A theme switcher component that allows the user to select between light, dark,
+ * and system themes.
+ *
+ * It uses `next-themes` to manage theme state and renders a dropdown menu
+ * with options to change the current theme. It handles client-side mounting
+ * to avoid hydration mismatches.
+ *
+ * @returns {JSX.Element} The rendered theme switcher component.
+ */
 const ThemeSwitch = () => {
   const [mounted, setMounted] = useState(false)
   const { theme, setTheme, resolvedTheme } = useTheme()

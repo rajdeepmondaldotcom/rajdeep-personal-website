@@ -4,6 +4,11 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
 
+/**
+ * A Content Security Policy (CSP) to mitigate cross-site scripting (XSS)
+ * and other code injection attacks.
+ * @type {string}
+ */
 // You might need to insert additional domains in script-src if you are using external services
 const ContentSecurityPolicy = `
   default-src 'self';
@@ -16,6 +21,13 @@ const ContentSecurityPolicy = `
   frame-src giscus.app
 `
 
+/**
+ * An array of security-related HTTP headers to be applied to all responses.
+ *
+ * These headers help to enhance the security of the application by enabling
+ * features like CSP, preventing clickjacking, and enforcing secure transport.
+ * @type {Array<{key: string, value: string}>}
+ */
 const securityHeaders = [
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
   {
@@ -59,6 +71,13 @@ const basePath = process.env.BASE_PATH || undefined
 const unoptimized = process.env.UNOPTIMIZED ? true : undefined
 
 /**
+ * The main Next.js configuration object.
+ *
+ * This function constructs the final Next.js configuration by applying a series
+ * of plugins (`withContentlayer`, `withBundleAnalyzer`). It sets up page extensions,
+ * ESLint directories, image remote patterns, security headers, and custom
+ * webpack configurations.
+ *
  * @type {import('next/dist/next-server/server/config').NextConfig}
  **/
 module.exports = () => {

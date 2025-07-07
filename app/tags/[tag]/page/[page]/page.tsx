@@ -7,6 +7,14 @@ import { notFound } from 'next/navigation'
 
 const POSTS_PER_PAGE = 5
 
+/**
+ * Generates static parameters for paginated tag pages.
+ *
+ * This function creates all possible combinations of tags and page numbers
+ * to pre-render every paginated tag page at build time.
+ *
+ * @returns {Promise<{ tag: string; page: string }[]>} A promise that resolves to an array of parameter objects.
+ */
 export const generateStaticParams = async () => {
   const tagCounts = tagData as Record<string, number>
   return Object.keys(tagCounts).flatMap((tag) => {
@@ -19,6 +27,16 @@ export const generateStaticParams = async () => {
   })
 }
 
+/**
+ * The page component for displaying a paginated list of posts for a specific tag.
+ *
+ * It filters posts by the given tag, calculates the correct posts to display
+ * for the current page number, and renders them using the `ListLayout`.
+ *
+ * @param {object} props - The properties for the component.
+ * @param {Promise<{ tag: string; page: string }>} props.params - The route parameters, containing the tag and page number.
+ * @returns {Promise<JSX.Element>} A promise that resolves to the rendered page or a 404 error if the page is invalid.
+ */
 export default async function TagPage(props: { params: Promise<{ tag: string; page: string }> }) {
   const params = await props.params
   const tag = decodeURI(params.tag)

@@ -2,6 +2,14 @@ import Link from './Link'
 import siteMetadata from '@/data/siteMetadata'
 import SocialIcon from '@/components/social-icons'
 
+/**
+ * The primary footer component for the website.
+ *
+ * Renders a set of social media icons, the author's name, the current year,
+ * and the site title. All data is sourced from the `siteMetadata` object.
+ *
+ * @returns {JSX.Element} The rendered footer element.
+ */
 export default function Footer() {
   return (
     <footer>

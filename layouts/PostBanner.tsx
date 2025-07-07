@@ -17,6 +17,24 @@ interface LayoutProps {
   prev?: { path: string; title: string }
 }
 
+/**
+ * A layout for a blog post that features a prominent banner image.
+ *
+ * It displays a full-width banner image at the top, followed by the post title
+ * and content. It also includes the comments section and navigation links to
+ * the previous and next posts.
+ *
+ * @param {LayoutProps} props - The properties for the component.
+ * @param {CoreContent<Blog>} props.content - The core content of the blog post.
+ * @param {React.ReactNode} props.children - The main content of the post (the body).
+ * @param {object} [props.next] - Optional. The next post in the series.
+ * @param {string} props.next.path - The path to the next post.
+ * @param {string} props.next.title - The title of the next post.
+ * @param {object} [props.prev] - Optional. The previous post in the series.
+ * @param {string} props.prev.path - The path to the previous post.
+ * @param {string} props.prev.title - The title of the previous post.
+ * @returns {JSX.Element} The rendered post layout.
+ */
 export default function PostMinimal({ content, next, prev, children }: LayoutProps) {
   const { slug, title, images } = content
   const displayImage =

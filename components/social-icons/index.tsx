@@ -34,6 +34,19 @@ type SocialIconProps = {
   size?: number
 }
 
+/**
+ * A component that renders a social media icon with a link.
+ *
+ * It dynamically selects the appropriate SVG icon from the `components` map
+ * based on the `kind` prop. The component will not render if the `href` is
+ * missing or invalid (for mail links).
+ *
+ * @param {SocialIconProps} props - The properties for the component.
+ * @param {keyof typeof components} props.kind - The type of social icon to render.
+ * @param {string | undefined} props.href - The URL the icon should link to.
+ * @param {number} [props.size=8] - The size of the icon, used for Tailwind CSS height and width classes (e.g., `h-8 w-8`).
+ * @returns {JSX.Element | null} The rendered social icon link, or null if href is invalid.
+ */
 const SocialIcon = ({ kind, href, size = 8 }: SocialIconProps) => {
   if (
     !href ||

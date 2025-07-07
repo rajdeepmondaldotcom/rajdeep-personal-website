@@ -3,6 +3,12 @@ import { SVGProps } from 'react'
 // Icons taken from: https://simpleicons.org/
 // To add a new icon, add a new function here and add it to components in social-icons/index.tsx
 
+/**
+ * Renders the Facebook icon as an SVG element.
+ *
+ * @param {SVGProps<SVGSVGElement>} svgProps - Standard SVG properties.
+ * @returns {JSX.Element} The Facebook SVG icon.
+ */
 export function Facebook(svgProps: SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...svgProps}>
@@ -12,6 +18,12 @@ export function Facebook(svgProps: SVGProps<SVGSVGElement>) {
   )
 }
 
+/**
+ * Renders the Github icon as an SVG element.
+ *
+ * @param {SVGProps<SVGSVGElement>} svgProps - Standard SVG properties.
+ * @returns {JSX.Element} The Github SVG icon.
+ */
 export function Github(svgProps: SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...svgProps}>
@@ -21,6 +33,12 @@ export function Github(svgProps: SVGProps<SVGSVGElement>) {
   )
 }
 
+/**
+ * Renders the Linkedin icon as an SVG element.
+ *
+ * @param {SVGProps<SVGSVGElement>} svgProps - Standard SVG properties.
+ * @returns {JSX.Element} The Linkedin SVG icon.
+ */
 export function Linkedin(svgProps: SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...svgProps}>
@@ -30,6 +48,12 @@ export function Linkedin(svgProps: SVGProps<SVGSVGElement>) {
   )
 }
 
+/**
+ * Renders the Mail icon as an SVG element.
+ *
+ * @param {SVGProps<SVGSVGElement>} svgProps - Standard SVG properties.
+ * @returns {JSX.Element} The Mail SVG icon.
+ */
 export function Mail(svgProps: SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" {...svgProps}>
@@ -40,6 +64,12 @@ export function Mail(svgProps: SVGProps<SVGSVGElement>) {
   )
 }
 
+/**
+ * Renders the Twitter icon as an SVG element.
+ *
+ * @param {SVGProps<SVGSVGElement>} svgProps - Standard SVG properties.
+ * @returns {JSX.Element} The Twitter SVG icon.
+ */
 export function Twitter(svgProps: SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...svgProps}>
@@ -49,6 +79,12 @@ export function Twitter(svgProps: SVGProps<SVGSVGElement>) {
   )
 }
 
+/**
+ * Renders the X (formerly Twitter) icon as an SVG element.
+ *
+ * @param {SVGProps<SVGSVGElement>} svgProps - Standard SVG properties.
+ * @returns {JSX.Element} The X SVG icon.
+ */
 export function X(svgProps: SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...svgProps}>
@@ -58,6 +94,12 @@ export function X(svgProps: SVGProps<SVGSVGElement>) {
   )
 }
 
+/**
+ * Renders the Youtube icon as an SVG element.
+ *
+ * @param {SVGProps<SVGSVGElement>} svgProps - Standard SVG properties.
+ * @returns {JSX.Element} The Youtube SVG icon.
+ */
 export function Youtube(svgProps: SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...svgProps}>
@@ -67,6 +109,12 @@ export function Youtube(svgProps: SVGProps<SVGSVGElement>) {
   )
 }
 
+/**
+ * Renders the Mastodon icon as an SVG element.
+ *
+ * @param {SVGProps<SVGSVGElement>} svgProps - Standard SVG properties.
+ * @returns {JSX.Element} The Mastodon SVG icon.
+ */
 export function Mastodon(svgProps: SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...svgProps}>
@@ -76,6 +124,12 @@ export function Mastodon(svgProps: SVGProps<SVGSVGElement>) {
   )
 }
 
+/**
+ * Renders the Threads icon as an SVG element.
+ *
+ * @param {SVGProps<SVGSVGElement>} svgProps - Standard SVG properties.
+ * @returns {JSX.Element} The Threads SVG icon.
+ */
 export function Threads(svgProps: SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...svgProps}>
@@ -85,6 +139,12 @@ export function Threads(svgProps: SVGProps<SVGSVGElement>) {
   )
 }
 
+/**
+ * Renders the Instagram icon as an SVG element.
+ *
+ * @param {SVGProps<SVGSVGElement>} svgProps - Standard SVG properties.
+ * @returns {JSX.Element} The Instagram SVG icon.
+ */
 export function Instagram(svgProps: SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...svgProps}>
@@ -94,6 +154,12 @@ export function Instagram(svgProps: SVGProps<SVGSVGElement>) {
   )
 }
 
+/**
+ * Renders the Medium icon as an SVG element.
+ *
+ * @param {SVGProps<SVGSVGElement>} svgProps - Standard SVG properties.
+ * @returns {JSX.Element} The Medium SVG icon.
+ */
 export function Medium(svgProps: SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...svgProps}>
@@ -102,6 +168,13 @@ export function Medium(svgProps: SVGProps<SVGSVGElement>) {
     </svg>
   )
 }
+
+/**
+ * Renders the Bluesky icon as an SVG element.
+ *
+ * @param {SVGProps<SVGSVGElement>} svgProps - Standard SVG properties.
+ * @returns {JSX.Element} The Bluesky SVG icon.
+ */
 export function Bluesky(svgProps: SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...svgProps}>

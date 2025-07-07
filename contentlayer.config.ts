@@ -29,6 +29,13 @@ import prettier from 'prettier'
 const root = process.cwd()
 const isProduction = process.env.NODE_ENV === 'production'
 
+/**
+ * An SVG icon component used for anchor links in headings.
+ *
+ * This is an `isomorphic` HAST (Hypertext Abstract Syntax Tree) node created
+ * from an SVG string, designed to be used with `rehype-autolink-headings`.
+ * @type {import('hast').Root}
+ */
 // heroicon mini link
 const icon = fromHtmlIsomorphic(
   `
@@ -42,6 +49,13 @@ const icon = fromHtmlIsomorphic(
   { fragment: true }
 )
 
+/**
+ * A set of computed fields that are added to all document types.
+ *
+ * These fields are automatically generated for each document and include
+ * things like reading time, slug, file path, and table of contents.
+ * @type {ComputedFields}
+ */
 const computedFields: ComputedFields = {
   readingTime: { type: 'json', resolve: (doc) => readingTime(doc.body.raw) },
   slug: {
@@ -60,7 +74,14 @@ const computedFields: ComputedFields = {
 }
 
 /**
- * Count the occurrences of all tags across blog posts and write to json file
+ * Counts the occurrences of all tags across all blog posts and writes the
+ * result to a JSON file.
+ *
+ * This function iterates through all blog posts, counts each tag, and then
+ * saves the aggregated data to `./app/tag-data.json`.
+ *
+ * @param {import('contentlayer/generated').Blog[]} allBlogs - An array of all blog documents.
+ * @returns {Promise<void>} A promise that resolves when the file has been written.
  */
 async function createTagCount(allBlogs) {
   const tagCount: Record<string, number> = {}
@@ -80,6 +101,15 @@ async function createTagCount(allBlogs) {
   writeFileSync('./app/tag-data.json', formatted)
 }
 
+/**
+ * Creates a search index file for the kbar search provider.
+ *
+ * If kbar is configured as the search provider in `siteMetadata`, this function
+ * generates a JSON file containing all core blog content and saves it to the
+ * `public` directory.
+ *
+ * @param {import('contentlayer/generated').Blog[]} allBlogs - An array of all blog documents.
+ */
 function createSearchIndex(allBlogs) {
   if (
     siteMetadata?.search?.provider === 'kbar' &&
@@ -93,6 +123,13 @@ function createSearchIndex(allBlogs) {
   }
 }
 
+/**
+ * Defines the `Blog` document type for Contentlayer.
+ *
+ * This schema specifies the fields, content type, and computed fields for
+ * all blog posts. It includes frontmatter fields like title, date, and tags,
+ * and automatically generates structured data for SEO.
+ */
 export const Blog = defineDocumentType(() => ({
   name: 'Blog',
   filePathPattern: 'blog/**/*.mdx',
@@ -128,6 +165,12 @@ export const Blog = defineDocumentType(() => ({
   },
 }))
 
+/**
+ * Defines the `Authors` document type for Contentlayer.
+ *
+ * This schema defines the structure for author profiles, including their name,
+ * avatar, social media links, and other professional information.
+ */
 export const Authors = defineDocumentType(() => ({
   name: 'Authors',
   filePathPattern: 'authors/**/*.mdx',
@@ -147,6 +190,14 @@ export const Authors = defineDocumentType(() => ({
   computedFields,
 }))
 
+/**
+ * The main Contentlayer configuration.
+ *
+ * This configuration sets up the source directory, document types, and MDX
+ * processing pipeline with various remark and rehype plugins. It also defines
+ * a `onSuccess` hook that runs after data is sourced to generate tag counts
+ * and the search index.
+ */
 export default makeSource({
   contentDirPath: 'data',
   documentTypes: [Blog, Authors],

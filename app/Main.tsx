@@ -6,6 +6,17 @@ import NewsletterForm from 'pliny/ui/NewsletterForm'
 
 const MAX_DISPLAY = 5
 
+/**
+ * The main component for the homepage.
+ *
+ * It features a hero section with a personal introduction and call-to-action
+ * buttons, followed by a list of the most recent blog posts and a newsletter
+ * signup form.
+ *
+ * @param {object} props - The properties for the component.
+ * @param {Array<object>} props.posts - An array of blog post objects to display.
+ * @returns {JSX.Element} The rendered homepage.
+ */
 export default function Home({ posts }) {
   return (
     <>
