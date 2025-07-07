@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "engines": {
-    "node": ">=18.0.0",
+    "node": "18.x",
     "yarn": ">=3.0.0"
   },
   "scripts": {
@@ -17,7 +17,8 @@
     "lint:check": "next lint --dir pages --dir app --dir components --dir lib --dir layouts --dir scripts",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md,mdx}\"",
     "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,css,md,mdx}\"",
-    "prepare": "husky"
+    "prepare": "husky",
+    "postinstall": "npx typesync"
   },
   "dependencies": {
     "@algolia/client-search": "4",
@@ -61,8 +62,12 @@
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.16.0",
     "@svgr/webpack": "^8.0.1",
+    "@types/body-scroll-lock": "~3.1.2",
+    "@types/eslint-config-prettier": "~6.11.3",
+    "@types/lint-staged": "~13.3.0",
     "@types/mdx": "^2.0.12",
-    "@types/react": "^19.0.8",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
     "@typescript-eslint/eslint-plugin": "^8.12.0",
     "@typescript-eslint/parser": "^8.12.0",
     "cross-env": "^7.0.3",
@@ -84,6 +89,15 @@
     "*.+(js|jsx|ts|tsx|json|css|md|mdx)": [
       "prettier --write"
     ]
+  },
+  "resolutions": {
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@algolia/client-search": "4.25.2",
+    "algoliasearch": "4.25.2",
+    "search-insights": "2.17.3"
   },
   "packageManager": "yarn@3.6.1"
 }
