@@ -10,20 +10,6 @@ import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 
-/**
- * Generates the URL for editing a post on GitHub.
- * @param {string} path - The file path of the post.
- * @returns {string} The full URL to the file on GitHub.
- */
-const editUrl = (path) => `${siteMetadata.siteRepo}/blob/main/data/${path}`
-/**
- * Generates the URL for discussing a post on Twitter.
- * @param {string} path - The URL path of the post.
- * @returns {string} The full URL for a Twitter search about the post.
- */
-const discussUrl = (path) =>
-  `https://mobile.twitter.com/search?q=${encodeURIComponent(`${siteMetadata.siteUrl}/${path}`)}`
-
 const postDateTemplate: Intl.DateTimeFormatOptions = {
   weekday: 'long',
   year: 'numeric',
@@ -59,7 +45,7 @@ interface LayoutProps {
  * @returns {JSX.Element} The rendered post layout.
  */
 export default function PostLayout({ content, authorDetails, next, prev, children }: LayoutProps) {
-  const { filePath, path, slug, date, title, tags } = content
+  const { path, slug, date, title, tags } = content
   const basePath = path.split('/')[0]
 
   return (
