@@ -11,6 +11,7 @@ import Footer from '@/components/Footer'
 import siteMetadata from '@/data/siteMetadata'
 import { ThemeProviders } from './theme-providers'
 import { Metadata } from 'next'
+import { inter, spaceGrotesk, firaCode } from './fonts'
 
 const space_grotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -76,7 +77,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang={siteMetadata.language}
-      className={`${space_grotesk.variable} scroll-smooth`}
+      className={`${spaceGrotesk.variable} ${inter.variable} ${firaCode.variable} scroll-smooth`}
       suppressHydrationWarning
     >
       <link
