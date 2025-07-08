@@ -8,30 +8,120 @@ Personal website and blog built with Next.js, TypeScript, and Tailwind CSS. Feat
 
 ## Prerequisites
 
-- Node.js 18.0.0 or higher
-- Yarn 3.0.0 or higher
+- Node.js version `18.x` (as specified in `.nvmrc`)
+- Yarn version `3.x` or higher
 
-## Quick Setup
+## Local Development Setup
 
-### Automated Setup (Recommended)
+This project includes an automated setup script for Unix-like systems (macOS, Linux). For Windows or manual setup, follow the steps below.
+
+### 1. Set Node.js Version
+
+Ensure you are using the correct Node.js version. If you have `nvm` (Node Version Manager) installed, you can run:
 
 ```bash
-# Make script executable and run
-chmod +x scripts/setup.sh
-./scripts/setup.sh
+nvm use
 ```
 
-### Manual Setup
+This command automatically reads the `.nvmrc` file and switches to the correct Node.js version.
+
+### 2. Install Dependencies
+
+Install the project dependencies using Yarn:
 
 ```bash
-# Install dependencies
 yarn install
+```
 
-# Start development server
+### 3. Configure Environment Variables
+
+Create a local environment file by copying the example:
+
+```bash
+cp .env.example .env.local
+```
+
+Next, open `.env.local` and add your configuration values. For the comment system to work, you must fill in the giscus variables.
+
+```bash
+# .env.local
+
+# Site Configuration
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+BASE_PATH=
+
+# Analytics (Optional)
+# NEXT_UMAMI_ID=your-umami-id-here
+
+# Comments (Required for blog posts)
+# Get these values from your giscus configuration
+NEXT_PUBLIC_GISCUS_REPO=your-github-username/your-repo
+NEXT_PUBLIC_GISCUS_REPOSITORY_ID=your-repo-id
+NEXT_PUBLIC_GISCUS_CATEGORY=your-giscus-category
+NEXT_PUBLIC_GISCUS_CATEGORY_ID=your-giscus-category-id
+
+NODE_ENV=development
+```
+
+### 4. Run Development Server
+
+Start the Next.js development server:
+
+```bash
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view the website.
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
+
+---
+
+## Deployment
+
+This project is optimized for deployment on [Vercel](https://vercel.com/).
+
+### 1. Connect Repository to Vercel
+
+Import your GitHub repository into Vercel. It will automatically detect that you are using Next.js and configure the project settings.
+
+### 2. Add Environment Variables
+
+In your Vercel project dashboard, go to **Settings > Environment Variables**. Add the same variables you defined in your `.env.local` file, particularly the `NEXT_PUBLIC_GISCUS_*` variables.
+
+These must be set in the Vercel UI for the deployed site to work correctly.
+
+### 3. Push to Deploy
+
+Vercel will automatically deploy your project every time you push a new commit to the `main` branch.
+
+---
+
+## Troubleshooting
+
+### Vercel Deployment Fails with Lockfile Error
+
+**Error Message:** `The lockfile would have been modified by this install, which is explicitly forbidden.`
+
+This error occurs when the `yarn.lock` file in your repository is out of sync with `package.json`, often due to differences between your local environment and Vercel's build environment.
+
+**Solution:** Regenerate the `yarn.lock` file.
+
+1.  **Ensure you are using the correct Node.js version** (`nvm use`).
+2.  **Delete the existing lockfile:**
+    ```bash
+    rm yarn.lock
+    ```
+3.  **Re-install dependencies to generate a new lockfile:**
+    ```bash
+    yarn install
+    ```
+4.  **Commit the updated `yarn.lock` file and push the changes:**
+    ```bash
+    git add yarn.lock
+    git commit -m "fix: regenerate yarn.lock"
+    git push
+    ```
+
+This will trigger a new Vercel deployment with a consistent lockfile, which should resolve the build failure.
 
 ## Development Commands
 
@@ -151,57 +241,6 @@ rajdeep-personal-website/
 - **Global styles**: `css/tailwind.css`
 - **Code highlighting**: `css/prism.css`
 - **Theme colors**: Edit `tailwind.config.js`
-
-## Deployment
-
-### Vercel (Recommended)
-
-1. Push code to GitHub
-2. Connect repository to Vercel
-3. Configure environment variables
-4. Deploy automatically on push
-
-### Static Export
-
-```bash
-# Build for static hosting
-EXPORT=1 UNOPTIMIZED=1 yarn build
-
-# Deploy the 'out' folder
-```
-
-## Development Workflow
-
-1. **Start development**: `yarn dev`
-2. **Make changes**: Edit files in `app/`, `components/`, or `data/`
-3. **Test locally**: View at http://localhost:3000
-4. **Format code**: `yarn format`
-5. **Build and test**: `yarn build`
-6. **Deploy**: Push to GitHub for automatic deployment
-
-## Troubleshooting
-
-### Common Issues
-
-- **Port already in use**: Kill the process or use a different port
-- **Build errors**: Run `yarn lint` to check for issues
-- **Styling issues**: Clear `.next` cache and restart dev server
-
-### Useful Commands
-
-```bash
-# Clear cache and restart
-rm -rf .next .contentlayer
-yarn dev
-
-# Check for issues
-yarn lint:check
-yarn format:check
-
-# Test production build
-yarn build
-yarn start
-```
 
 ## Features
 
