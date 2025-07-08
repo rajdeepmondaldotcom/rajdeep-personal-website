@@ -6,7 +6,7 @@ const siteMetadata = {
   description:
     'Personal website of Rajdeep Mondal - Software Engineer, Developer, and Tech Enthusiast',
   language: 'en-us',
-  theme: 'system', // system, dark or light
+  theme: 'dark', // system, dark or light
   siteUrl: 'https://www.rajdeepmondal.com',
   siteRepo: 'https://github.com/rajdeepmondaldotcom/rajdeep-personal-website',
   siteLogo: `${process.env.BASE_PATH || ''}/static/images/logo.png`,
