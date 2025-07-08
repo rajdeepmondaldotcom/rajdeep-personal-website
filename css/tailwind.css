@@ -10,7 +10,7 @@
 
 @layer base {
   body {
-    @apply font-sans;
+    font-family: var(--font-inter);
   }
   h1,
   h2,
@@ -18,11 +18,11 @@
   h4,
   h5,
   h6 {
-    @apply font-heading;
+    font-family: var(--font-space-grotesk);
   }
   pre,
   code {
-    @apply font-mono;
+    font-family: var(--font-fira-code);
   }
 
   *,
