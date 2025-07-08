@@ -11,18 +11,14 @@ const siteMetadata = {
   siteRepo: 'https://github.com/rajdeepmondaldotcom/rajdeep-personal-website',
   siteLogo: `${process.env.BASE_PATH || ''}/static/images/logo.png`,
   socialBanner: `${process.env.BASE_PATH || ''}/static/images/twitter-card.png`,
-  mastodon: 'https://mastodon.social/@rajdeepmondal', // Update if you have mastodon
+  mastodon: 'https://mastodon.social/@rajdeepmondal',
   email: 'rajdeep@rajdeepmondal.com',
   github: 'https://github.com/rajdeepmondaldotcom',
-  x: 'https://twitter.com/rajdeepmondal', // Update with your actual Twitter/X
-  // twitter: 'https://twitter.com/rajdeepmondal',
-  facebook: 'https://facebook.com/rajdeepmondal', // Update if you have Facebook
-  youtube: 'https://youtube.com/@rajdeepmondal', // Update if you have YouTube
+  x: 'https://x.com/_rajdeepmondal',
+  youtube: 'https://youtube.com/@irajdeepmondal',
   linkedin: 'https://www.linkedin.com/in/rajdeep-mondal/',
-  threads: 'https://www.threads.net/@rajdeepmondal', // Update if you have Threads
-  instagram: 'https://www.instagram.com/rajdeepmondal', // Update if you have Instagram
-  medium: 'https://medium.com/@rajdeepmondal', // Update if you have Medium
-  bluesky: 'https://bsky.app/profile/rajdeepmondal.bsky.social', // Update if you have Bluesky
+  instagram: 'https://www.instagram.com/irajdeepmondal',
+  medium: 'https://medium.com/@rajdeepmondal',
   locale: 'en-US',
   // set to true if you want a navbar fixed to the top
   stickyNav: false,

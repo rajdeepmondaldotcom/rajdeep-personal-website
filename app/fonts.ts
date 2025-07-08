@@ -16,4 +16,4 @@ export const firaCode = FiraCode({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-fira-code',
-}) 
+})

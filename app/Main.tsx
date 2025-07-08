@@ -31,9 +31,12 @@ export default function Home({ posts }) {
           </p>
           <div className="pt-4">
             <p className="max-w-4xl text-base leading-7 text-gray-600 dark:text-gray-300">
-              Welcome to my personal website! I'm a passionate software engineer who loves building
-              innovative solutions and exploring cutting-edge technologies. Here you'll find my
-              thoughts on technology, my projects, and insights from my journey in the tech world.
+              I'm a data scientist and software engineer who enjoys building things and exploring
+              new tech. I mostly do LLMs, everything AI, and full-stack development of sorts. In my
+              free time, I contribute to open-source projects, write tech articles, or try out new
+              programming languages and tools. On this site, I share what I've learned and projects
+              I've built. If you'd like to chat, just reach out via
+              [LinkedIn](https://www.linkedin.com/in/rajdeep-mondal/) or Twitter.
             </p>
           </div>
           <div className="flex flex-wrap space-x-4 pt-6">
