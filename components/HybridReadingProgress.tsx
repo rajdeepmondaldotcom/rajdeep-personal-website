@@ -1,8 +1,9 @@
 'use client'
 
-import { useState, useEffect, RefObject, useRef } from 'react'
-import { motion, useScroll, useSpring } from 'framer-motion'
-import Confetti from 'react-confetti'
+import { useState, useEffect, RefObject } from 'react'
+import { motion, useScroll, useSpring, useTransform } from 'framer-motion'
+import { Check } from 'lucide-react'
+import { useTheme } from 'next-themes'
 
 type HybridReadingProgressProps = {
   target: RefObject<HTMLElement>
@@ -12,9 +13,12 @@ type HybridReadingProgressProps = {
 export const HybridReadingProgress = ({ target, wordCount }: HybridReadingProgressProps) => {
   const [percentRead, setPercentRead] = useState(0)
   const [minutesLeft, setMinutesLeft] = useState(0)
-  const [runConfetti, setRunConfetti] = useState(false)
-  const [windowSize, setWindowSize] = useState({ width: 0, height: 0 })
-  const hasCompleted = useRef(false)
+  const [mounted, setMounted] = useState(false)
+  const { resolvedTheme } = useTheme()
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const { scrollYProgress } = useScroll({
     target: target,
@@ -27,6 +31,17 @@ export const HybridReadingProgress = ({ target, wordCount }: HybridReadingProgre
     restDelta: 0.001,
   })
 
+  const strokeColor = useTransform(
+    scrollYProgress,
+    [0, 0.5, 1],
+    ['#2563eb', '#16a34a', '#eab308']
+  )
+  const strokeColorDark = useTransform(
+    scrollYProgress,
+    [0, 0.5, 1],
+    ['#60a5fa', '#4ade80', '#facc15']
+  )
+
   useEffect(() => {
     const unsubscribe = scrollYProgress.on('change', (latest) => {
       const percent = Math.round(latest * 100)
@@ -36,92 +51,90 @@ export const HybridReadingProgress = ({ target, wordCount }: HybridReadingProgre
       const totalMinutes = wordCount / wordsPerMinute
       const minutesRemaining = totalMinutes * (1 - latest)
       setMinutesLeft(Math.ceil(minutesRemaining))
-
-      if (percent >= 100 && !hasCompleted.current) {
-        setRunConfetti(true)
-        hasCompleted.current = true
-      }
     })
-
-    const handleResize = () => {
-      setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      })
-    }
-
-    window.addEventListener('resize', handleResize)
-    handleResize()
 
     return () => {
       unsubscribe()
-      window.removeEventListener('resize', handleResize)
     }
   }, [scrollYProgress, wordCount])
 
+  const handleScrollTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   return (
     <>
-      {runConfetti && (
-        <Confetti
-          width={windowSize.width}
-          height={windowSize.height}
-          recycle={false}
-          numberOfPieces={400}
-          onConfettiComplete={() => setRunConfetti(false)}
-        />
-      )}
       <motion.div
-        className="fixed top-0 left-0 right-0 h-1 origin-[0%] bg-gradient-to-r from-pink-500 to-yellow-500"
-        style={{ scaleX }}
+        className="fixed top-0 right-0 left-0 h-1 origin-[0%] bg-gradient-to-r from-primary-500 to-primary-400 dark:from-primary-200 dark:to-primary-100"
+        style={{ scaleX, backgroundColor: mounted && resolvedTheme === 'dark' ? strokeColorDark : strokeColor }}
         role="progressbar"
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={percentRead}
         aria-label="Reading Progress"
       />
-      <motion.div
-        className="fixed bottom-6 right-6 z-50 hidden sm:block"
+      {mounted && (
+      <motion.button
+        aria-label="Scroll to Top"
+        onClick={handleScrollTop}
+        className="fixed right-6 bottom-6 z-50 hidden rounded-full sm:block"
         whileHover={{ scale: 1.1 }}
+        whileFocus={{ scale: 1.1 }}
         transition={{ type: 'spring', stiffness: 300 }}
       >
         <div className="relative h-24 w-24">
           <svg className="h-full w-full -rotate-90" viewBox="0 0 100 100" fill="none">
-            <defs>
-              <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="rgb(var(--color-primary-500))" />
-                <stop offset="100%" stopColor="rgb(var(--color-primary-400))" />
-              </linearGradient>
-            </defs>
             <circle
               cx="50"
               cy="50"
               r="45"
-              className="stroke-gray-200/50 dark:stroke-gray-700/50"
+              className="stroke-gray-800/20 dark:stroke-gray-200/20"
               strokeWidth="10"
               pathLength="1"
             />
-            <motion.circle
-              cx="50"
-              cy="50"
-              r="45"
-              stroke="url(#progressGradient)"
-              strokeWidth="10"
-              strokeLinecap="round"
-              style={{ pathLength: scrollYProgress }}
-            />
+            {percentRead < 100 ? (
+              <motion.circle
+                cx="50"
+                cy="50"
+                r="45"
+                strokeWidth="10"
+                strokeLinecap="round"
+                style={{
+                  pathLength: scrollYProgress,
+                  stroke: resolvedTheme === 'dark' ? strokeColorDark : strokeColor,
+                }}
+              />
+            ) : (
+              <motion.circle
+                cx="50"
+                cy="50"
+                r="45"
+                strokeWidth="10"
+                style={{
+                  stroke: resolvedTheme === 'dark' ? strokeColorDark : strokeColor,
+                }}
+              />
+            )}
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className="text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
-              {percentRead}%
-            </span>
-            <span className="text-xs text-gray-500 dark:text-gray-400">
-              {minutesLeft} min left
-            </span>
+            {percentRead < 100 ? (
+              <>
+                <span className="text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
+                  {percentRead}%
+                </span>
+                <span className="text-xs text-gray-500 dark:text-gray-400">
+                  {minutesLeft} min left
+                </span>
+              </>
+            ) : (
+              <Check className="h-10 w-10 text-emerald-500" />
+            )}
           </div>
         </div>
-      </motion.div>
+      </motion.button>
+      )}
     </>
   )
 }
 
-export default HybridReadingProgress 
+export default HybridReadingProgress

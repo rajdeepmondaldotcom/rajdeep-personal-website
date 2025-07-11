@@ -1,4 +1,6 @@
-import { ReactNode } from 'react'
+'use client'
+
+import { ReactNode, useRef } from 'react'
 import Image from '@/components/Image'
 import Bleed from 'pliny/ui/Bleed'
 import { CoreContent } from 'pliny/utils/contentlayer'
@@ -8,7 +10,7 @@ import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
 import SectionContainer from '@/components/SectionContainer'
 import siteMetadata from '@/data/siteMetadata'
-import ScrollTopAndComment from '@/components/ScrollTopAndComment'
+import HybridReadingProgress from '@/components/HybridReadingProgress'
 
 interface LayoutProps {
   content: CoreContent<Blog>
@@ -36,14 +38,15 @@ interface LayoutProps {
  * @returns {JSX.Element} The rendered post layout.
  */
 export default function PostMinimal({ content, next, prev, children }: LayoutProps) {
-  const { slug, title, images } = content
+  const { slug, title, images, readingTime } = content
   const displayImage =
     images && images.length > 0 ? images[0] : 'https://picsum.photos/seed/picsum/800/400'
+  const contentRef = useRef(null)
 
   return (
     <SectionContainer>
-      <ScrollTopAndComment />
-      <article>
+      <HybridReadingProgress target={contentRef} wordCount={readingTime.words} />
+      <article ref={contentRef}>
         <div>
           <div className="space-y-1 pb-10 text-center dark:border-gray-700">
             <div className="w-full">

@@ -55,7 +55,6 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
 
   return (
     <SectionContainer>
-      <ScrollTopAndComment />
       <HybridReadingProgress target={contentRef} wordCount={wordCount} />
       <article ref={contentRef}>
         <div className="xl:divide-y xl:divide-gray-200 xl:dark:divide-gray-700">

@@ -1,4 +1,6 @@
-import { ReactNode } from 'react'
+'use client'
+
+import { ReactNode, useRef } from 'react'
 import { formatDate } from 'pliny/utils/formatDate'
 import { CoreContent } from 'pliny/utils/contentlayer'
 import type { Blog } from 'contentlayer/generated'
@@ -7,7 +9,7 @@ import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
 import SectionContainer from '@/components/SectionContainer'
 import siteMetadata from '@/data/siteMetadata'
-import ScrollTopAndComment from '@/components/ScrollTopAndComment'
+import HybridReadingProgress from '@/components/HybridReadingProgress'
 
 interface LayoutProps {
   content: CoreContent<Blog>
@@ -34,12 +36,13 @@ interface LayoutProps {
  * @returns {JSX.Element} The rendered post layout.
  */
 export default function PostLayout({ content, next, prev, children }: LayoutProps) {
-  const { path, slug, date, title } = content
+  const { slug, date, title, readingTime } = content
+  const contentRef = useRef(null)
 
   return (
     <SectionContainer>
-      <ScrollTopAndComment />
-      <article>
+      <HybridReadingProgress target={contentRef} wordCount={readingTime.words} />
+      <article ref={contentRef}>
         <div>
           <header>
             <div className="space-y-1 border-b border-gray-200 pb-10 text-center dark:border-gray-700">
@@ -47,7 +50,9 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
                 <div>
                   <dt className="sr-only">Published on</dt>
                   <dd className="text-base leading-6 font-medium text-gray-500 dark:text-gray-400">
-                    <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
+                    <time dateTime={date}>
+                      {new Date(date).toLocaleDateString(siteMetadata.locale)}
+                    </time>
                   </dd>
                 </div>
               </dl>

@@ -49,7 +49,6 @@
     "pliny": "0.4.1",
     "postcss": "^8.4.24",
     "react": "^18.2.0",
-    "react-confetti": "^6.4.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.5.0",
     "reading-time": "1.5.0",
