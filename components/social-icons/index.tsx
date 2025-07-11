@@ -9,6 +9,14 @@ const components: Record<string, IconType> = {
   x: GrTwitter,
 }
 
+const socialIconLabels: Record<string, string> = {
+  mail: 'Email',
+  github: 'GitHub',
+  linkedin: 'LinkedIn',
+  twitter: 'Twitter',
+  x: 'X (formerly Twitter)',
+}
+
 type SocialIconProps = {
   kind: keyof typeof components
   href: string | undefined
@@ -30,8 +38,9 @@ const SocialIcon = ({ kind, href, size = 8 }: SocialIconProps) => {
       target="_blank"
       rel="noopener noreferrer"
       href={href}
+      aria-label={`My ${socialIconLabels[kind]} profile`}
     >
-      <span className="sr-only">{kind}</span>
+      <span className="sr-only">{`My ${socialIconLabels[kind]} profile`}</span>
       <SocialSvg
         className={`hover:text-primary-500 dark:hover:text-primary-400 h-6 w-6 text-gray-700 dark:text-gray-200`}
       />
