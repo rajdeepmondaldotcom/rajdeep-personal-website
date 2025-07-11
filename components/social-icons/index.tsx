@@ -1,45 +1,12 @@
-import { Mail, Github, Youtube, Linkedin, Twitter, Instagram, type LucideIcon } from 'lucide-react'
+import { Mail, Github, Youtube, Linkedin, Twitter, type LucideIcon } from 'lucide-react'
 
-const components: Record<string, LucideIcon | React.FC<React.SVGProps<SVGSVGElement>>> = {
+const components: Record<string, LucideIcon> = {
   mail: Mail,
   github: Github,
   youtube: Youtube,
   linkedin: Linkedin,
   twitter: Twitter,
-  x: (props) => (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
-      <path d="M18 6 6 18" />
-      <path d="m6 6 12 12" />
-    </svg>
-  ),
-  instagram: Instagram,
-  medium: (props) => (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
-      <path d="M12 12H4a8 8 0 1 0 16 0h-2a6 6 0 1 1-12 0Z" />
-    </svg>
-  ),
+  x: Twitter,
 }
 
 type SocialIconProps = {

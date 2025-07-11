@@ -17,7 +17,7 @@ const siteMetadata = {
   x: 'https://x.com/_rajdeepmondal',
   youtube: 'https://youtube.com/@irajdeepmondal',
   linkedin: 'https://www.linkedin.com/in/rajdeep-mondal/',
-  instagram: 'https://www.instagram.com/irajdeepmondal',
+  // instagram: 'https://www.instagram.com/irajdeepmondal',
   medium: 'https://medium.com/@rajdeepmondal',
   locale: 'en-US',
   // set to true if you want a navbar fixed to the top
