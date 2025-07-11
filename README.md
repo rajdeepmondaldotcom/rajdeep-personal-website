@@ -8,6 +8,7 @@
 Source code for **[rajdeepmondal.com](https://www.rajdeepmondal.com)**.
 
 This project serves three main purposes:
+
 1.  Publish technical articles using MDX.
 2.  Showcase my software projects and professional work.
 3.  Act as a learning sandbox for modern web technologies.
@@ -43,19 +44,19 @@ This project serves three main purposes:
 
 ## Content Management
 
--   **Blog Posts**: Add `.mdx` files to `data/blog/`.
--   **Projects**: Edit the array in `data/projectsData.ts`.
--   **Site Metadata**: Modify `data/siteMetadata.js`.
+- **Blog Posts**: Add `.mdx` files to `data/blog/`.
+- **Projects**: Edit the array in `data/projectsData.ts`.
+- **Site Metadata**: Modify `data/siteMetadata.js`.
 
 ---
 
 ## Tech Stack
 
--   **Framework**: Next.js 14 (App Router)
--   **Language**: TypeScript
--   **Styling**: Tailwind CSS, `clsx`, `cva`
--   **Content**: Contentlayer (MDX to JSON)
--   **Observability**: Vercel Analytics & Speed Insights
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS, `clsx`, `cva`
+- **Content**: Contentlayer (MDX to JSON)
+- **Observability**: Vercel Analytics & Speed Insights
 
 ---
 
@@ -70,6 +71,7 @@ This site is optimized for Vercel. Connect your repository, add environment vari
 **Error**: `The lockfile would have been modified by this install...`
 
 This indicates an inconsistency between your local `yarn.lock` and Vercel's build environment. To fix it, regenerate the lockfile:
+
 ```bash
 rm yarn.lock
 yarn install
