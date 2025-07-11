@@ -24,18 +24,18 @@ const Header = () => {
   return (
     <header className={headerClass}>
       <Link href="/" aria-label={siteMetadata.headerTitle}>
-        <div className="flex items-center justify-between">
-          <div className="mr-3">
+        <div className="flex items-center space-x-3">
+          <div className="flex-shrink-0">
             <Image
               src="/static/images/logo.png"
               alt={`${siteMetadata.title} logo`}
-              width={40}
-              height={40}
-              className="rounded-lg"
+              width={48}
+              height={48}
+              className="rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200"
             />
           </div>
           {typeof siteMetadata.headerTitle === 'string' ? (
-            <div className="hidden h-6 text-2xl font-semibold sm:block">
+            <div className="hidden text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:block lg:text-3xl">
               {siteMetadata.headerTitle}
             </div>
           ) : (
@@ -43,23 +43,25 @@ const Header = () => {
           )}
         </div>
       </Link>
-      <div className="flex items-center space-x-4 leading-5 sm:-mr-6 sm:space-x-6">
-        <div className="no-scrollbar hidden max-w-40 items-center gap-x-4 overflow-x-auto sm:flex md:max-w-72 lg:max-w-96">
+      <div className="flex items-center space-x-4 leading-5 sm:space-x-6">
+        <div className="no-scrollbar hidden max-w-40 items-center space-x-4 overflow-x-auto sm:flex md:max-w-72 lg:max-w-96 lg:space-x-6">
           {headerNavLinks
             .filter((link) => link.href !== '/')
             .map((link) => (
               <Link
                 key={link.title}
                 href={link.href}
-                className="hover:text-primary-500 dark:hover:text-primary-400 m-1 font-medium text-gray-900 dark:text-gray-100"
+                className="hover:text-primary-500 dark:hover:text-primary-400 whitespace-nowrap font-medium text-gray-900 transition-colors duration-200 dark:text-gray-100"
               >
                 {link.title}
               </Link>
             ))}
         </div>
-        <SearchButton />
-        <ThemeSwitch />
-        <MobileNav />
+        <div className="flex items-center space-x-3">
+          <SearchButton />
+          <ThemeSwitch />
+          <MobileNav />
+        </div>
       </div>
     </header>
   )
