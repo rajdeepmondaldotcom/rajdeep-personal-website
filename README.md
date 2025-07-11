@@ -79,7 +79,3 @@ git push
 ```
 
 ---
-
-## License
-
-[MIT](LICENSE)

@@ -96,11 +96,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <link
         rel="mask-icon"
         href={`${basePath}/static/favicons/safari-pinned-tab.svg`}
-        color="#1E90FF"
+        color="#0096FF"
       />
-      <meta name="msapplication-TileColor" content="#1E90FF" />
-      <meta name="theme-color" media="(prefers-color-scheme: light)" content="#1E90FF" />
-      <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1E90FF" />
+      <meta name="msapplication-TileColor" content="#0096FF" />
+      <meta name="theme-color" media="(prefers-color-scheme: light)" content="#0096FF" />
+      <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0096FF" />
       <link rel="alternate" type="application/rss+xml" href={`${basePath}/feed.xml`} />
       <body className="bg-white text-black antialiased dark:bg-gray-950 dark:text-white">
         <ThemeProviders>
