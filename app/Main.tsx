@@ -36,7 +36,7 @@ export default function Home({ posts, author }) {
           <div className="prose dark:prose-invert max-w-none pt-4 pb-4">
             <MDXLayoutRenderer code={author.body.code} />
           </div>
-          <div className="flex flex-wrap space-x-4 pt-6">
+          {/* <div className="flex flex-wrap space-x-4 pt-6">
             <Link
               href="/about"
               className="bg-primary-600 hover:bg-primary-700 focus:ring-primary-500 inline-flex items-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-white focus:ring-2 focus:ring-offset-2 focus:outline-none"
@@ -49,7 +49,7 @@ export default function Home({ posts, author }) {
             >
               View My Projects
             </Link>
-          </div>
+          </div> */}
         </div>
 
         {/* Latest Blog Posts Section */}
