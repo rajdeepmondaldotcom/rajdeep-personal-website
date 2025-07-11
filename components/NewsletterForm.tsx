@@ -51,13 +51,11 @@ const NewsletterForm = () => {
 
   return (
     <div className="w-full max-w-md">
-      <h2 className="text-2xl font-bold tracking-tight text-center">
-        Subscribe to my newsletter
-      </h2>
+      <h2 className="text-center text-2xl font-bold tracking-tight">Subscribe to my newsletter</h2>
       <p className="mt-2 text-center text-gray-600 dark:text-gray-400">
         Get the latest updates and articles delivered straight to your inbox.
       </p>
-      <form className="mt-4 flex flex-col sm:flex-row gap-2" onSubmit={handleSubscribe}>
+      <form className="mt-4 flex flex-col gap-2 sm:flex-row" onSubmit={handleSubscribe}>
         <Input
           type="email"
           placeholder="Enter your email"
@@ -75,4 +73,4 @@ const NewsletterForm = () => {
   )
 }
 
-export default NewsletterForm 
+export default NewsletterForm

@@ -2,17 +2,17 @@
 
 /**
  * Favicon Generation Script for Rajdeep's Personal Website
- * 
+ *
  * This script provides instructions for generating all necessary favicon files
  * from your logo.png file using online tools or ImageMagick.
- * 
+ *
  * ONLINE METHOD (Recommended):
  * 1. Go to https://realfavicongenerator.net/
  * 2. Upload your /public/static/images/logo.png file
  * 3. Configure the settings as needed
  * 4. Download the generated files
  * 5. Replace all files in /public/static/favicons/ with the new ones
- * 
+ *
  * MANUAL METHOD using ImageMagick (if installed):
  * Run the following commands from your project root:
  */
@@ -98,7 +98,7 @@ const path = require('path')
 function generateFavicons() {
   const logoPath = path.join(__dirname, '../public/static/images/logo.png')
   const faviconDir = path.join(__dirname, '../public/static/favicons')
-  
+
   if (!fs.existsSync(logoPath)) {
     console.error('❌ Logo file not found at:', logoPath)
     return
@@ -106,10 +106,10 @@ function generateFavicons() {
 
   try {
     console.log('\n🔄 Attempting to generate favicons with ImageMagick...\n')
-    
+
     // Change to favicon directory
     process.chdir(faviconDir)
-    
+
     const commands = [
       'magick ../images/logo.png -resize 16x16 favicon-16x16.png',
       'magick ../images/logo.png -resize 32x32 favicon-32x32.png',
@@ -119,12 +119,12 @@ function generateFavicons() {
       'magick ../images/logo.png -resize 180x180 apple-touch-icon.png',
       'magick ../images/logo.png -resize 150x150 mstile-150x150.png',
     ]
-    
-    commands.forEach(cmd => {
+
+    commands.forEach((cmd) => {
       execSync(cmd, { stdio: 'inherit' })
       console.log('✅', cmd)
     })
-    
+
     // Generate favicon.ico
     execSync('magick ../images/logo.png -resize 16x16 temp16.png', { stdio: 'inherit' })
     execSync('magick ../images/logo.png -resize 32x32 temp32.png', { stdio: 'inherit' })
@@ -132,11 +132,10 @@ function generateFavicons() {
     execSync('magick temp16.png temp32.png temp48.png favicon.ico', { stdio: 'inherit' })
     execSync('rm temp16.png temp32.png temp48.png', { stdio: 'inherit' })
     console.log('✅ Generated favicon.ico')
-    
+
     console.log('\n🎉 All favicons generated successfully!')
-    console.log('📝 Don\'t forget to commit the changes:')
+    console.log("📝 Don't forget to commit the changes:")
     console.log('git add . && git commit -m "feat: update all logos and favicons"')
-    
   } catch (error) {
     console.log('\n⚠️  ImageMagick not found or error occurred.')
     console.log('Please use the online method instead: https://realfavicongenerator.net/')
@@ -144,4 +143,4 @@ function generateFavicons() {
 }
 
 // Uncomment the line below if you want to automatically try ImageMagick
-// generateFavicons() 
+// generateFavicons()

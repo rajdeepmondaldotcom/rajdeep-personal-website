@@ -1,12 +1,4 @@
-import {
-  Mail,
-  Github,
-  Youtube,
-  Linkedin,
-  Twitter,
-  Instagram,
-  type LucideIcon,
-} from 'lucide-react'
+import { Mail, Github, Youtube, Linkedin, Twitter, Instagram, type LucideIcon } from 'lucide-react'
 
 const components: Record<string, LucideIcon | React.FC<React.SVGProps<SVGSVGElement>>> = {
   mail: Mail,
@@ -74,7 +66,7 @@ const SocialIcon = ({ kind, href, size = 8 }: SocialIconProps) => {
     >
       <span className="sr-only">{kind}</span>
       <SocialSvg
-        className={`h-6 w-6 fill-current text-gray-700 hover:text-primary-500 dark:text-gray-200 dark:hover:text-primary-400`}
+        className={`hover:text-primary-500 dark:hover:text-primary-400 h-6 w-6 fill-current text-gray-700 dark:text-gray-200`}
       />
     </a>
   )

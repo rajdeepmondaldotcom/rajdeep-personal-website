@@ -31,11 +31,11 @@ const Header = () => {
               alt={`${siteMetadata.title} logo`}
               width={48}
               height={48}
-              className="rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200"
+              className="rounded-lg shadow-sm transition-shadow duration-200 hover:shadow-md"
             />
           </div>
           {typeof siteMetadata.headerTitle === 'string' ? (
-            <div className="hidden text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:block lg:text-3xl">
+            <div className="hidden text-2xl font-bold tracking-tight text-gray-900 sm:block lg:text-3xl dark:text-gray-100">
               {siteMetadata.headerTitle}
             </div>
           ) : (
@@ -51,7 +51,7 @@ const Header = () => {
               <Link
                 key={link.title}
                 href={link.href}
-                className="hover:text-primary-500 dark:hover:text-primary-400 whitespace-nowrap font-medium text-gray-900 transition-colors duration-200 dark:text-gray-100"
+                className="hover:text-primary-500 dark:hover:text-primary-400 font-medium whitespace-nowrap text-gray-900 transition-colors duration-200 dark:text-gray-100"
               >
                 {link.title}
               </Link>

@@ -49,7 +49,7 @@ const MobileNav = () => {
   return (
     <>
       <button aria-label="Toggle Menu" onClick={onToggleNav} className="sm:hidden">
-        <Menu className="h-8 w-8 text-gray-900 hover:text-primary-500 dark:text-gray-100 dark:hover:text-primary-400" />
+        <Menu className="hover:text-primary-500 dark:hover:text-primary-400 h-8 w-8 text-gray-900 dark:text-gray-100" />
       </button>
       <Transition appear show={navShow} as={Fragment} unmount={false}>
         <Dialog as="div" onClose={onToggleNav} unmount={false}>
