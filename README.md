@@ -1,265 +1,178 @@
-# Rajdeep Mondal - Personal Website
+# Rajdeep Mondal — Personal Website & Blog
 
-[![Built with Next.js](https://img.shields.io/badge/Built%20with-Next.js-000000?style=flat&logo=next.js&logoColor=white)](https://nextjs.org/)
-[![Styled with Tailwind CSS](https://img.shields.io/badge/Styled%20with-Tailwind%20CSS-38B2AC?style=flat&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Next.js](https://img.shields.io/badge/Built%20with-Next.js-000000?style=flat&logo=next.js&logoColor=white)](https://nextjs.org)
+[![Tailwind CSS](https://img.shields.io/badge/Styled%20with-Tailwind%20CSS-38B2AC?style=flat&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Deployed on Vercel](https://img.shields.io/badge/Deploy-Vercel-000000?style=flat&logo=vercel&logoColor=white)](https://vercel.com)
 
-Personal website and blog built with Next.js, TypeScript, and Tailwind CSS. Features responsive design, dark/light mode, blog system with MDX support, and optimized performance.
+This repository contains the source code for my personal website, blog, and portfolio, available at **[rajdeepmondal.com](https://www.rajdeepmondal.com)**.
 
-## Prerequisites
+---
 
-- Node.js version `18.x` (as specified in `.nvmrc`)
-- Yarn version `3.x` or higher
+## About This Project
 
-## Local Development Setup
+This project serves as a central hub for my digital presence. Its primary goals are:
 
-This project includes an automated setup script for Unix-like systems (macOS, Linux). For Windows or manual setup, follow the steps below.
+1.  To publish long-form articles and technical guides using MDX.
+2.  To showcase a curated list of my software projects and professional work.
+3.  To serve as a sandbox for learning and implementing modern web technologies, including the Next.js App Router, Contentlayer, and Vercel's observability tools.
 
-### 1. Set Node.js Version
+Feel free to fork this repository or use it as inspiration for your own projects.
 
-Ensure you are using the correct Node.js version. If you have `nvm` (Node Version Manager) installed, you can run:
+---
 
-```bash
-nvm use
+## Getting Started
+
+To run this project locally, follow these steps.
+
+1.  **Clone the Repository**
+    ```bash
+    git clone https://github.com/rajdeepmondaldotcom/rajdeep-personal-website.git
+    cd rajdeep-personal-website
+    ```
+
+2.  **Set the Node.js Version**
+    This project requires Node.js version 18.x. If you use Node Version Manager (`nvm`), you can switch to the correct version by running:
+    ```bash
+    nvm use
+    ```
+
+3.  **Install Dependencies**
+    This project uses Yarn for package management.
+    ```bash
+    yarn install
+    ```
+
+4.  **Configure Environment Variables**
+    Copy the example environment file to create your local configuration:
+    ```bash
+    cp .env.example .env.local
+    ```
+    Then, open `.env.local` and add any necessary values, such as those required for the commenting system.
+
+5.  **Run the Development Server**
+    ```bash
+    yarn dev
+    ```
+    The application will be available at `http://localhost:3000`.
+
+---
+
+## Environment Variables
+
+| Variable               | Required | Description                                                                 |
+| ---------------------- | -------- | --------------------------------------------------------------------------- |
+| `NEXT_PUBLIC_SITE_URL` | Yes      | The canonical URL of your site. Use `http://localhost:3000` for local development. |
+| `BASE_PATH`            | No       | Set this if the site is hosted in a subdirectory of a domain.               |
+| `NEXT_PUBLIC_GISCUS_*` | No       | Required only if you intend to use the Giscus commenting system.            |
+
+---
+
+## Available Scripts
+
+| Command        | Description                                  |
+| -------------- | -------------------------------------------- |
+| `yarn dev`     | Starts the local development server.         |
+| `yarn build`   | Creates a production-ready build.            |
+| `yarn start`   | Starts the application from a production build. |
+| `yarn lint`    | Runs ESLint to identify and fix code issues. |
+| `yarn format`  | Formats all code using Prettier.             |
+| `yarn analyze` | Generates a bundle size analysis report.     |
+
+---
+
+## Technology Stack
+
+-   **Framework**: Next.js 14 (App Router)
+-   **Language**: TypeScript
+-   **Styling**: Tailwind CSS with `clsx` and `cva` for component variants
+-   **Content**: Contentlayer for transforming MDX and Markdown into type-safe JSON
+-   **Observability**: Vercel Web Analytics and Vercel Speed Insights
+-   **UI**: Sonner for toast notifications
+
+---
+
+## Project Structure
+
+```
+.
+├── app/                 # Next.js app routes, layouts, and API endpoints
+├── components/          # Reusable React components
+│   └── ui/              # Core UI elements built with Tailwind CSS
+├── data/                # Site content and configuration files
+├── public/              # Static assets like images and favicons
+├── css/                 # Global stylesheets and theme files
+└── scripts/             # Utility scripts for builds and maintenance
 ```
 
-This command automatically reads the `.nvmrc` file and switches to the correct Node.js version.
+---
 
-### 2. Install Dependencies
+## Content Management
 
-Install the project dependencies using Yarn:
+### Blog Posts
 
-```bash
-yarn install
+To add a new blog post, create a `.mdx` file in the `data/blog/` directory with the following front-matter:
+
+```md
+---
+title: "Your Post Title"
+date: "2025-01-01"
+tags: ["nextjs", "react"]
+draft: false
+summary: "A one-sentence summary of the article."
+authors: ["default"]
+---
+
+Your content starts here.
 ```
 
-### 3. Configure Environment Variables
+### Projects
 
-Create a local environment file by copying the example:
+To add a new project to your portfolio, edit the `data/projectsData.ts` file:
 
-```bash
-cp .env.example .env.local
+```ts
+{
+  title: 'Project Title',
+  description: 'A brief description of the project.',
+  imgSrc: '/static/images/your-project-image.png',
+  href: 'https://github.com/your-username/your-project',
+}
 ```
-
-Next, open `.env.local` and add your configuration values. For the comment system to work, you must fill in the giscus variables.
-
-```bash
-# .env.local
-
-# Site Configuration
-NEXT_PUBLIC_SITE_URL=http://localhost:3000
-BASE_PATH=
-
-# Analytics (Optional)
-# NEXT_UMAMI_ID=your-umami-id-here
-
-# Comments (Required for blog posts)
-# Get these values from your giscus configuration
-NEXT_PUBLIC_GISCUS_REPO=your-github-username/your-repo
-NEXT_PUBLIC_GISCUS_REPOSITORY_ID=your-repo-id
-NEXT_PUBLIC_GISCUS_CATEGORY=your-giscus-category
-NEXT_PUBLIC_GISCUS_CATEGORY_ID=your-giscus-category-id
-
-NODE_ENV=development
-```
-
-### 4. Run Development Server
-
-Start the Next.js development server:
-
-```bash
-yarn dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
 
 ---
 
 ## Deployment
 
-This project is optimized for deployment on [Vercel](https://vercel.com/).
+This project is optimized for deployment on Vercel.
 
-### 1. Connect Repository to Vercel
-
-Import your GitHub repository into Vercel. It will automatically detect that you are using Next.js and configure the project settings.
-
-### 2. Add Environment Variables
-
-In your Vercel project dashboard, go to **Settings > Environment Variables**. Add the same variables you defined in your `.env.local` file, particularly the `NEXT_PUBLIC_GISCUS_*` variables.
-
-These must be set in the Vercel UI for the deployed site to work correctly.
-
-### 3. Push to Deploy
-
-Vercel will automatically deploy your project every time you push a new commit to the `main` branch.
+1.  **Import Repository**: Connect your GitHub repository to Vercel.
+2.  **Configure Environment Variables**: Add any variables from your `.env.local` file to the Vercel project settings.
+3.  **Deploy**: Vercel will automatically build and deploy the site upon each push to the `main` branch.
 
 ---
 
 ## Troubleshooting
 
-### Vercel Deployment Fails with Lockfile Error
+**Error: "The lockfile would have been modified by this install..."**
 
-**Error Message:** `The lockfile would have been modified by this install, which is explicitly forbidden.`
-
-This error occurs when the `yarn.lock` file in your repository is out of sync with `package.json`, often due to differences between your local environment and Vercel's build environment.
-
-**Solution:** Regenerate the `yarn.lock` file.
-
-1.  **Ensure you are using the correct Node.js version** (`nvm use`).
-2.  **Delete the existing lockfile:**
-    ```bash
-    rm yarn.lock
-    ```
-3.  **Re-install dependencies to generate a new lockfile:**
-    ```bash
-    yarn install
-    ```
-4.  **Commit the updated `yarn.lock` file and push the changes:**
-    ```bash
-    git add yarn.lock
-    git commit -m "fix: regenerate yarn.lock"
-    git push
-    ```
-
-This will trigger a new Vercel deployment with a consistent lockfile, which should resolve the build failure.
-
-## Development Commands
-
-| Command        | Description               |
-| -------------- | ------------------------- |
-| `yarn dev`     | Start development server  |
-| `yarn build`   | Build for production      |
-| `yarn start`   | Start production server   |
-| `yarn lint`    | Run ESLint and fix issues |
-| `yarn format`  | Format code with Prettier |
-| `yarn analyze` | Analyze bundle size       |
-
-## Environment Configuration
-
-Create `.env.local` in the root directory:
+This error typically occurs if the `yarn.lock` file is inconsistent with the Vercel build environment. To resolve it, regenerate the lockfile locally, commit the changes, and redeploy.
 
 ```bash
-# Site Configuration
-NEXT_PUBLIC_SITE_URL=http://localhost:3000
-BASE_PATH=
-
-# Analytics (Optional)
-# NEXT_UMAMI_ID=your-umami-id-here
-# NEXT_PUBLIC_GOOGLE_ANALYTICS=your-google-analytics-id
-
-# Comments (Optional - Giscus)
-# NEXT_PUBLIC_GISCUS_REPO=rajdeepmondaldotcom/rajdeep-personal-website
-# NEXT_PUBLIC_GISCUS_REPOSITORY_ID=your-repository-id
-# NEXT_PUBLIC_GISCUS_CATEGORY=General
-# NEXT_PUBLIC_GISCUS_CATEGORY_ID=your-category-id
-
-NODE_ENV=development
+rm yarn.lock
+yarn install
+git add yarn.lock
+git commit -m "fix: regenerate yarn.lock"
+git push
 ```
 
-## Content Management
-
-### Adding Blog Posts
-
-Create new files in `data/blog/` directory:
-
-```markdown
----
-title: 'Your Blog Post Title'
-date: '2024-01-15'
-tags: ['nextjs', 'react', 'web development']
-draft: false
-summary: 'Brief description of your post'
-authors: ['default']
 ---
 
-Your content here...
-```
+## Acknowledgements
 
-### Adding Projects
+This project is based on the [Pliny](https://github.com/tailwindlabs/pliny) starter kit by Tailwind Labs. It has been heavily customized, including a migration to the Next.js App Router, the addition of new UI components, and integration with Vercel's observability suite.
 
-Edit `data/projectsData.ts`:
-
-```typescript
-{
-  title: 'Project Name',
-  description: 'Project description',
-  imgSrc: '/static/images/project-image.jpg',
-  href: 'https://github.com/rajdeepmondaldotcom/project-name',
-}
-```
-
-### Site Configuration
-
-Edit `data/siteMetadata.js` to update:
-
-- Site title and description
-- Author information
-- Social media links
-- Analytics settings
-
-### Navigation
-
-Modify `data/headerNavLinks.ts` to customize menu items:
-
-```typescript
-const headerNavLinks = [
-  { href: '/', title: 'Home' },
-  { href: '/about', title: 'About' },
-  { href: '/projects', title: 'Projects' },
-  { href: '/blog', title: 'Blog' },
-  { href: '/tags', title: 'Tags' },
-]
-```
-
-## Project Structure
-
-```
-rajdeep-personal-website/
-├── app/                    # Next.js App Router pages
-├── components/            # React components
-├── data/                  # Content and configuration
-│   ├── blog/              # Blog posts (markdown)
-│   ├── authors/           # Author information
-│   ├── siteMetadata.js    # Site configuration
-│   └── projectsData.ts    # Projects data
-├── layouts/               # Page layout components
-├── public/static/         # Static assets (images, etc.)
-├── css/                   # Styles and themes
-└── scripts/               # Build and utility scripts
-```
-
-## Key Configuration Files
-
-- `data/siteMetadata.js` - Main site configuration
-- `data/authors/default.mdx` - Your author profile
-- `data/headerNavLinks.ts` - Navigation menu
-- `tailwind.config.js` - Styling configuration
-- `next.config.js` - Next.js configuration
-
-## Styling
-
-- **Global styles**: `css/tailwind.css`
-- **Code highlighting**: `css/prism.css`
-- **Theme colors**: Edit `tailwind.config.js`
-
-## Features
-
-- Responsive design with dark/light mode
-- Blog system with MDX support and syntax highlighting
-- SEO optimized with meta tags and structured data
-- Analytics integration (Google Analytics, Umami, Plausible)
-- Comment system via Giscus
-- Command palette search
-- RSS feed generation
-- Performance optimized
-
-## Contact
-
-- Website: [https://www.rajdeepmondal.com](https://www.rajdeepmondal.com)
-- Email: [rajdeep@rajdeepmondal.com](mailto:rajdeep@rajdeepmondal.com)
-- GitHub: [@rajdeepmondaldotcom](https://github.com/rajdeepmondaldotcom)
-- LinkedIn: [/in/rajdeep-mondal](https://www.linkedin.com/in/rajdeep-mondal/)
+---
 
 ## License
 
-MIT License - see [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
