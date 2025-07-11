@@ -2,9 +2,9 @@
 const siteMetadata = {
   title: 'Rajdeep Mondal',
   author: 'Rajdeep Mondal',
-  headerTitle: 'Rajdeep Mondal',
+  headerTitle: 'Rajdeep',
   description:
-    'Personal website of Rajdeep Mondal - Software Engineer, Developer, and Tech Enthusiast',
+    'A personal blog and portfolio of Rajdeep Mondal, a software engineer and a lifelong learner.',
   language: 'en-us',
   theme: 'dark', // system, dark or light
   siteUrl: 'https://www.rajdeepmondal.com',

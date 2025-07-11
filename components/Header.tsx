@@ -34,13 +34,13 @@ const Header = () => {
               className="rounded-lg shadow-sm transition-shadow duration-200 hover:shadow-md"
             />
           </div>
-          {/* {typeof siteMetadata.headerTitle === 'string' ? (
+          {typeof siteMetadata.headerTitle === 'string' ? (
             <div className="hidden text-2xl font-bold tracking-tight text-gray-900 sm:block lg:text-3xl dark:text-gray-100">
               {siteMetadata.headerTitle}
             </div>
           ) : (
             siteMetadata.headerTitle
-          )} */}
+          )}
         </div>
       </Link>
       <div className="flex items-center space-x-4 leading-5 sm:space-x-6">
