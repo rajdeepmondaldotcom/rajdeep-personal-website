@@ -16,7 +16,8 @@ import SearchButton from './SearchButton'
  * @returns {JSX.Element} The rendered header component.
  */
 const Header = () => {
-  let headerClass = 'flex items-center w-full bg-white dark:bg-gray-950 justify-between py-10'
+  let headerClass =
+    'flex items-center justify-between w-full bg-white dark:bg-gray-950 px-4 py-6 sm:px-6 sm:py-8'
   if (siteMetadata.stickyNav) {
     headerClass += ' sticky top-0 z-50'
   }
@@ -29,13 +30,13 @@ const Header = () => {
             <Image
               src="/static/images/logo.png"
               alt={`${siteMetadata.title} logo`}
-              width={48}
-              height={48}
-              className="rounded-lg shadow-sm transition-shadow duration-200 hover:shadow-md"
+              width={40}
+              height={40}
+              className="rounded-lg shadow-sm transition-shadow duration-200 hover:shadow-md sm:h-12 sm:w-12"
             />
           </div>
           {typeof siteMetadata.headerTitle === 'string' ? (
-            <div className="hidden text-2xl font-bold tracking-tight text-gray-900 sm:block lg:text-3xl dark:text-gray-100">
+            <div className="hidden text-xl font-bold tracking-tight text-gray-900 sm:block sm:text-2xl lg:text-3xl dark:text-gray-100">
               {siteMetadata.headerTitle}
             </div>
           ) : (
@@ -44,7 +45,7 @@ const Header = () => {
         </div>
       </Link>
       <div className="flex items-center space-x-4 leading-5 sm:space-x-6">
-        <div className="no-scrollbar hidden max-w-40 items-center space-x-4 overflow-x-auto sm:flex md:max-w-72 lg:max-w-96 lg:space-x-6">
+        <div className="no-scrollbar hidden items-center space-x-4 overflow-x-auto sm:flex sm:space-x-6">
           {headerNavLinks
             .filter((link) => link.href !== '/')
             .map((link) => (
