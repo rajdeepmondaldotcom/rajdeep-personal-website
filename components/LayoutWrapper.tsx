@@ -26,13 +26,13 @@ const inter = Inter({
  */
 const LayoutWrapper = ({ children }: Props) => {
   return (
-    <SectionContainer>
-      <div className={`${inter.className} flex h-screen flex-col justify-between font-sans`}>
-        <Header />
-        <main className="mb-auto">{children}</main>
-        <Footer />
-      </div>
-    </SectionContainer>
+    <div className={`${inter.className} flex h-screen flex-col justify-between font-sans`}>
+      <Header />
+      <main className="mb-auto">
+        <SectionContainer>{children}</SectionContainer>
+      </main>
+      <Footer />
+    </div>
   )
 }
 
