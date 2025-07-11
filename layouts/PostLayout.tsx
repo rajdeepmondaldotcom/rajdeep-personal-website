@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { ReactNode, useRef } from 'react'
 import { CoreContent } from 'pliny/utils/contentlayer'
 import type { Blog, Authors } from 'contentlayer/generated'
 import Comments from '@/components/Comments'
@@ -9,6 +9,7 @@ import Image from '@/components/Image'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
+import HybridReadingProgress from '@/components/HybridReadingProgress'
 
 const postDateTemplate: Intl.DateTimeFormatOptions = {
   weekday: 'long',
@@ -45,13 +46,16 @@ interface LayoutProps {
  * @returns {JSX.Element} The rendered post layout.
  */
 export default function PostLayout({ content, authorDetails, next, prev, children }: LayoutProps) {
-  const { path, slug, date, title, tags } = content
+  const { path, slug, date, title, tags, readingTime } = content
   const basePath = path.split('/')[0]
+  const contentRef = useRef(null)
+  const wordCount = readingTime.words
 
   return (
     <SectionContainer>
       <ScrollTopAndComment />
-      <article>
+      <HybridReadingProgress target={contentRef} wordCount={wordCount} />
+      <article ref={contentRef}>
         <div className="xl:divide-y xl:divide-gray-200 xl:dark:divide-gray-700">
           <header className="pt-6 xl:pb-6">
             <div className="space-y-1 text-center">
