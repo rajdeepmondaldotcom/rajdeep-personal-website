@@ -33,6 +33,7 @@
     "algoliasearch": "4.25.2",
     "body-scroll-lock": "^4.0.0-beta.0",
     "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "contentlayer2": "0.5.5",
     "esbuild": "0.25.2",
     "github-slugger": "^2.0.0",
@@ -60,6 +61,7 @@
     "remark-github-blockquote-alert": "^1.2.1",
     "remark-math": "^6.0.0",
     "search-insights": "2",
+    "tailwind-merge": "^2.5.4",
     "tailwindcss": "^4.0.5",
     "unist-util-visit": "^5.0.0"
   },
