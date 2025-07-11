@@ -3,6 +3,9 @@ import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import { formatDate } from 'pliny/utils/formatDate'
 import NewsletterForm from 'pliny/ui/NewsletterForm'
+import { MDXLayoutRenderer } from 'pliny/mdx-components'
+import { Authors } from 'contentlayer/generated'
+import { coreContent } from 'pliny/utils/contentlayer'
 
 const MAX_DISPLAY = 5
 
@@ -17,27 +20,21 @@ const MAX_DISPLAY = 5
  * @param {Array<object>} props.posts - An array of blog post objects to display.
  * @returns {JSX.Element} The rendered homepage.
  */
-export default function Home({ posts }) {
+export default function Home({ posts, author }) {
+  const mainAuthor = coreContent(author) as Authors
   return (
     <>
       {/* Hero Section */}
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="space-y-2 pt-6 pb-8 md:space-y-5">
-          <h1 className="text-3xl leading-9 font-extrabold tracking-tight text-gray-900 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14 dark:text-gray-100">
+          <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14 dark:text-gray-100">
             Hi, I'm Rajdeep Mondal
           </h1>
-          <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
+          {/* <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
             {siteMetadata.description}
-          </p>
-          <div className="pt-4">
-            <p className="max-w-4xl text-base leading-7 text-gray-600 dark:text-gray-300">
-              I'm a data scientist and software engineer who enjoys building things and exploring
-              new tech. I mostly do LLMs, everything AI, and full-stack development of sorts. In my
-              free time, I contribute to open-source projects, write tech articles, or try out new
-              programming languages and tools. On this site, I share what I've learned and projects
-              I've built. If you'd like to chat, just reach out via
-              [LinkedIn](https://www.linkedin.com/in/rajdeep-mondal/) or Twitter.
-            </p>
+          </p> */}
+          <div className="prose max-w-none pt-4 pb-4 dark:prose-invert">
+            <MDXLayoutRenderer code={author.body.code} />
           </div>
           <div className="flex flex-wrap space-x-4 pt-6">
             <Link

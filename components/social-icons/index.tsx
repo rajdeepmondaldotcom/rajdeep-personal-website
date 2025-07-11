@@ -1,15 +1,53 @@
-import { Mail, Github, Youtube, Linkedin, Twitter, X, Mastodon, Instagram, Medium } from './icons'
+import {
+  Mail,
+  Github,
+  Youtube,
+  Linkedin,
+  Twitter,
+  Instagram,
+  type LucideIcon,
+} from 'lucide-react'
 
-const components = {
+const components: Record<string, LucideIcon | React.FC<React.SVGProps<SVGSVGElement>>> = {
   mail: Mail,
   github: Github,
   youtube: Youtube,
   linkedin: Linkedin,
   twitter: Twitter,
-  x: X,
-  mastodon: Mastodon,
+  x: (props) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
+      <path d="M18 6 6 18" />
+      <path d="m6 6 12 12" />
+    </svg>
+  ),
   instagram: Instagram,
-  medium: Medium,
+  medium: (props) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
+      <path d="M12 12H4a8 8 0 1 0 16 0h-2a6 6 0 1 1-12 0Z" />
+    </svg>
+  ),
 }
 
 type SocialIconProps = {
@@ -18,19 +56,6 @@ type SocialIconProps = {
   size?: number
 }
 
-/**
- * A component that renders a social media icon with a link.
- *
- * It dynamically selects the appropriate SVG icon from the `components` map
- * based on the `kind` prop. The component will not render if the `href` is
- * missing or invalid (for mail links).
- *
- * @param {SocialIconProps} props - The properties for the component.
- * @param {keyof typeof components} props.kind - The type of social icon to render.
- * @param {string | undefined} props.href - The URL the icon should link to.
- * @param {number} [props.size=8] - The size of the icon, used for Tailwind CSS height and width classes (e.g., `h-8 w-8`).
- * @returns {JSX.Element | null} The rendered social icon link, or null if href is invalid.
- */
 const SocialIcon = ({ kind, href, size = 8 }: SocialIconProps) => {
   if (
     !href ||
@@ -49,7 +74,7 @@ const SocialIcon = ({ kind, href, size = 8 }: SocialIconProps) => {
     >
       <span className="sr-only">{kind}</span>
       <SocialSvg
-        className={`hover:text-primary-500 dark:hover:text-primary-400 fill-current text-gray-700 dark:text-gray-200 h-${size} w-${size}`}
+        className={`h-6 w-6 fill-current text-gray-700 hover:text-primary-500 dark:text-gray-200 dark:hover:text-primary-400`}
       />
     </a>
   )

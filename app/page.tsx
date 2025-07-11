@@ -1,5 +1,5 @@
 import { sortPosts, allCoreContent } from 'pliny/utils/contentlayer'
-import { allBlogs } from 'contentlayer/generated'
+import { allBlogs, allAuthors } from 'contentlayer/generated'
 import Main from './Main'
 
 /**
@@ -13,5 +13,6 @@ import Main from './Main'
 export default async function Page() {
   const sortedPosts = sortPosts(allBlogs)
   const posts = allCoreContent(sortedPosts)
-  return <Main posts={posts} />
+  const author = allAuthors.find((p) => p.slug === 'default')
+  return <Main posts={posts} author={author} />
 }
