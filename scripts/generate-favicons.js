@@ -91,9 +91,9 @@ git add . && git commit -m "feat: update all logos and favicons"
 `)
 
 // Optional: If the user wants to run ImageMagick commands directly
-const { execSync } = require('child_process')
-const fs = require('fs')
-const path = require('path')
+import { execSync } from 'child_process'
+import fs from 'fs'
+import path from 'path'
 
 function generateFavicons() {
   const logoPath = path.join(__dirname, '../public/static/images/logo.png')
