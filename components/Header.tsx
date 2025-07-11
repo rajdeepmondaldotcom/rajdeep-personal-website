@@ -17,53 +17,51 @@ import SearchButton from './SearchButton'
  */
 const Header = () => {
   let headerClass =
-    'flex items-center justify-start w-full bg-white dark:bg-gray-950 px-4 py-6 sm:px-6 sm:py-8'
+    'flex items-center justify-between w-full bg-white dark:bg-gray-950 px-4 py-6 sm:px-6 sm:py-8'
   if (siteMetadata.stickyNav) {
     headerClass += ' sticky top-0 z-50'
   }
 
   return (
     <header className={headerClass}>
-      <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-6 sm:px-6 xl:max-w-5xl xl:px-0">
-        <Link href="/" aria-label={siteMetadata.headerTitle}>
-          <div className="flex items-center space-x-3">
-            <span className="flex-shrink-0">
-              <Image
-                src="/static/images/logo.png"
-                alt={`${siteMetadata.title} logo`}
-                width={40}
-                height={40}
-                className="rounded-lg shadow-sm transition-shadow duration-200 hover:shadow-md sm:h-12 sm:w-12"
-              />
+      <Link href="/" aria-label={siteMetadata.headerTitle}>
+        <div className="flex items-center space-x-3">
+          <span className="flex-shrink-0">
+            <Image
+              src="/static/images/logo.png"
+              alt={`${siteMetadata.title} logo`}
+              width={40}
+              height={40}
+              className="rounded-lg shadow-sm transition-shadow duration-200 hover:shadow-md sm:h-12 sm:w-12"
+            />
+          </span>
+          {typeof siteMetadata.headerTitle === 'string' ? (
+            <span className="hidden text-xl font-bold tracking-tight text-gray-900 sm:block sm:text-2xl lg:text-3xl dark:text-gray-100">
+              {siteMetadata.headerTitle}
             </span>
-            {typeof siteMetadata.headerTitle === 'string' ? (
-              <span className="hidden text-xl font-bold tracking-tight text-gray-900 sm:block sm:text-2xl lg:text-3xl dark:text-gray-100">
-                {siteMetadata.headerTitle}
-              </span>
-            ) : (
-              siteMetadata.headerTitle
-            )}
-          </div>
-        </Link>
-        <div className="flex items-center space-x-4 leading-5 sm:space-x-6">
-          <div className="no-scrollbar hidden items-center space-x-4 overflow-x-auto sm:flex sm:space-x-6">
-            {headerNavLinks
-              .filter((link) => link.href !== '/')
-              .map((link) => (
-                <Link
-                  key={link.title}
-                  href={link.href}
-                  className="hover:text-primary-500 dark:hover:text-primary-400 font-medium whitespace-nowrap text-gray-900 transition-colors duration-200 dark:text-gray-100"
-                >
-                  {link.title}
-                </Link>
-              ))}
-          </div>
-          <div className="flex items-center space-x-3">
-            <SearchButton />
-            <ThemeSwitch />
-            <MobileNav />
-          </div>
+          ) : (
+            siteMetadata.headerTitle
+          )}
+        </div>
+      </Link>
+      <div className="flex items-center space-x-4 leading-5 sm:space-x-6">
+        <div className="no-scrollbar hidden items-center space-x-4 overflow-x-auto sm:flex sm:space-x-6">
+          {headerNavLinks
+            .filter((link) => link.href !== '/')
+            .map((link) => (
+              <Link
+                key={link.title}
+                href={link.href}
+                className="hover:text-primary-500 dark:hover:text-primary-400 font-medium whitespace-nowrap text-gray-900 transition-colors duration-200 dark:text-gray-100"
+              >
+                {link.title}
+              </Link>
+            ))}
+        </div>
+        <div className="flex items-center space-x-3">
+          <SearchButton />
+          <ThemeSwitch />
+          <MobileNav />
         </div>
       </div>
     </header>
