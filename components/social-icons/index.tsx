@@ -1,12 +1,12 @@
-import { Mail, Github, Youtube, Linkedin, Twitter, type LucideIcon } from 'lucide-react'
+import { GrGithub, GrLinkedin, GrTwitter, GrMail } from 'react-icons/gr'
+import { IconType } from 'react-icons'
 
-const components: Record<string, LucideIcon> = {
-  mail: Mail,
-  github: Github,
-  youtube: Youtube,
-  linkedin: Linkedin,
-  twitter: Twitter,
-  x: Twitter,
+const components: Record<string, IconType> = {
+  mail: GrMail,
+  github: GrGithub,
+  linkedin: GrLinkedin,
+  twitter: GrTwitter,
+  x: GrTwitter,
 }
 
 type SocialIconProps = {
@@ -33,7 +33,7 @@ const SocialIcon = ({ kind, href, size = 8 }: SocialIconProps) => {
     >
       <span className="sr-only">{kind}</span>
       <SocialSvg
-        className={`hover:text-primary-500 dark:hover:text-primary-400 h-6 w-6 fill-current text-gray-700 dark:text-gray-200`}
+        className={`hover:text-primary-500 dark:hover:text-primary-400 h-6 w-6 text-gray-700 dark:text-gray-200`}
       />
     </a>
   )
