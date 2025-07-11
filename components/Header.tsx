@@ -25,8 +25,8 @@ const Header = () => {
   return (
     <header className={headerClass}>
       <Link href="/" aria-label={siteMetadata.headerTitle}>
-        <div className="flex items-center justify-start">
-          <div className="flex-shrink-0">
+        <div className="flex items-center space-x-3">
+          <span className="flex-shrink-0">
             <Image
               src="/static/images/logo.png"
               alt={`${siteMetadata.title} logo`}
@@ -34,16 +34,14 @@ const Header = () => {
               height={40}
               className="rounded-lg shadow-sm transition-shadow duration-200 hover:shadow-md sm:h-12 sm:w-12"
             />
-          </div>
-          <div className="ml-3">
-            {typeof siteMetadata.headerTitle === 'string' ? (
-              <div className="text-xl font-bold tracking-tight text-gray-900 sm:text-2xl lg:text-3xl dark:text-gray-100">
-                {siteMetadata.headerTitle}
-              </div>
-            ) : (
-              siteMetadata.headerTitle
-            )}
-          </div>
+          </span>
+          {typeof siteMetadata.headerTitle === 'string' ? (
+            <span className="hidden text-xl font-bold tracking-tight text-gray-900 sm:block sm:text-2xl lg:text-3xl dark:text-gray-100">
+              {siteMetadata.headerTitle}
+            </span>
+          ) : (
+            siteMetadata.headerTitle
+          )}
         </div>
       </Link>
       <div className="flex items-center space-x-4 leading-5 sm:space-x-6">
