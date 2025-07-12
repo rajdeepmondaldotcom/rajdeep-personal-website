@@ -1,68 +1,89 @@
 import Image from './Image'
-import Link from './Link'
+import AdaptiveLink from './Link'
+import { motion } from 'framer-motion'
 
-/**
- * A reusable card component that displays a preview of content, such as a blog
- * post or a project.
- *
- * @param {object} props - The properties for the component.
- * @param {string} props.title - The main title of the card.
- * @param {string} props.description - A short summary of the content.
- * @param {string} [props.imgSrc] - Optional. The URL for the image to display.
- * @param {string} [props.href] - Optional. The URL the card should link to.
- *   If provided, the image, title, and a "Learn more" link will be created.
- * @returns {JSX.Element} The rendered card component.
- */
-const Card = ({ title, description, imgSrc, href }) => (
-  <div className="md max-w-[544px] p-4 md:w-1/2">
-    <div
-      className={`${
-        imgSrc && 'h-full'
-      } overflow-hidden rounded-md border-2 border-gray-200/60 dark:border-gray-700/60`}
-    >
-      {imgSrc &&
-        (href ? (
-          <Link href={href} aria-label={`Link to ${title}`}>
-            <Image
-              alt={title}
-              src={imgSrc}
-              className="object-cover object-center md:h-36 lg:h-48"
-              width={544}
-              height={306}
-            />
-          </Link>
-        ) : (
-          <Image
-            alt={title}
-            src={imgSrc}
-            className="object-cover object-center md:h-36 lg:h-48"
-            width={544}
-            height={306}
-          />
-        ))}
-      <div className="p-6">
-        <h2 className="mb-3 text-2xl leading-8 font-bold tracking-tight">
-          {href ? (
-            <Link href={href} aria-label={`Link to ${title}`}>
-              {title}
-            </Link>
+interface CardProps {
+  title: string
+  description: string
+  imgSrc?: string
+  href?: string
+}
+
+const Card = ({ title, description, imgSrc, href }: CardProps) => (
+  <motion.div
+    className="group relative overflow-hidden rounded-2xl"
+    whileHover={{ y: -4 }}
+    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+  >
+    {/* Gradient background effect */}
+    <div className="from-primary-500/5 absolute inset-0 bg-gradient-to-br via-purple-500/5 to-pink-500/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+
+    <div className="relative h-full overflow-hidden rounded-2xl border border-gray-200/50 bg-white/80 p-1 backdrop-blur-sm transition-all duration-300 hover:border-gray-300/50 hover:shadow-2xl dark:border-gray-700/50 dark:bg-gray-900/80 dark:hover:border-gray-600/50">
+      <div className={`${imgSrc && 'h-full'} overflow-hidden rounded-xl bg-white dark:bg-gray-900`}>
+        {imgSrc &&
+          (href ? (
+            <AdaptiveLink href={href} aria-label={`Link to ${title}`}>
+              <div className="relative aspect-[2/1] overflow-hidden">
+                <Image
+                  alt={title}
+                  src={imgSrc}
+                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  width={544}
+                  height={272}
+                />
+                {/* Overlay gradient on hover */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+              </div>
+            </AdaptiveLink>
           ) : (
-            title
+            <div className="relative aspect-[2/1] overflow-hidden">
+              <Image
+                alt={title}
+                src={imgSrc}
+                className="object-cover transition-transform duration-500 group-hover:scale-110"
+                width={544}
+                height={272}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+            </div>
+          ))}
+        <div className="space-y-3 p-6">
+          <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
+            {href ? (
+              <AdaptiveLink
+                href={href}
+                aria-label={`Link to ${title}`}
+                className="hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200"
+              >
+                <span className="group-hover:from-primary-600 dark:group-hover:from-primary-400 bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent transition-all duration-300 group-hover:to-purple-600 dark:from-gray-100 dark:to-gray-300 dark:group-hover:to-purple-400">
+                  {title}
+                </span>
+              </AdaptiveLink>
+            ) : (
+              <span className="bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent dark:from-gray-100 dark:to-gray-300">
+                {title}
+              </span>
+            )}
+          </h2>
+          <p className="prose line-clamp-3 max-w-none text-gray-600 dark:text-gray-300">
+            {description}
+          </p>
+          {href && (
+            <AdaptiveLink
+              href={href}
+              aria-label={`Link to ${title}`}
+              className="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 group/link inline-flex items-center gap-2 font-medium transition-all duration-200"
+            >
+              Learn more
+              <span className="transition-transform duration-200 group-hover/link:translate-x-1">
+                →
+              </span>
+            </AdaptiveLink>
           )}
-        </h2>
-        <p className="prose mb-3 max-w-none text-gray-500 dark:text-gray-400">{description}</p>
-        {href && (
-          <Link
-            href={href}
-            className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400 text-base leading-6 font-medium"
-            aria-label={`Link to ${title}`}
-          >
-            Learn more &rarr;
-          </Link>
-        )}
+        </div>
       </div>
     </div>
-  </div>
+  </motion.div>
 )
 
 export default Card

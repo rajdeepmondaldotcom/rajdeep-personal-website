@@ -29,14 +29,14 @@ export const useReadingProgress = (
   // Transform scroll progress to colors for circular progress
   const circularProgressColor = useTransform(
     smoothScrollYProgress,
-    [0, 0.5, 1],
-    ['#3b82f6', '#10b981', '#10b981'] // blue -> green
+    [0, 0.25, 0.5, 0.75, 1],
+    ['#6366f1', '#8b5cf6', '#a855f7', '#10b981', '#10b981'] // indigo -> purple -> violet -> green
   )
 
   const circularProgressColorDark = useTransform(
     smoothScrollYProgress,
-    [0, 0.5, 1],
-    ['#60a5fa', '#34d399', '#34d399'] // light blue -> light green
+    [0, 0.25, 0.5, 0.75, 1],
+    ['#818cf8', '#a78bfa', '#c084fc', '#34d399', '#34d399'] // light indigo -> light purple -> light violet -> light green
   )
 
   // Update percentage and reading time when scroll progress changes
@@ -93,4 +93,4 @@ export const useReadingProgress = (
     circularProgressColorDark,
     scrollYProgress: smoothScrollYProgress,
   }
-} 
+}

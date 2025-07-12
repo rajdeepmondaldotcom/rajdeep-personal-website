@@ -147,6 +147,9 @@
   --z-60: 60;
   --z-70: 70;
   --z-80: 80;
+
+  /* Premium shadows */
+  --shadow-3xl: 0 35px 60px -15px rgba(0, 0, 0, 0.3);
 }
 
 @layer components {
@@ -157,7 +160,7 @@
 
   /* Premium card styles */
   .card-premium {
-    @apply shadow-soft hover:shadow-premium rounded-2xl border border-gray-200/50 bg-white/50 backdrop-blur-sm transition-all duration-300 dark:border-gray-700/50 dark:bg-gray-800/50;
+    @apply rounded-2xl border border-gray-200/50 bg-white/50 shadow-lg backdrop-blur-sm transition-all duration-300 hover:shadow-2xl dark:border-gray-700/50 dark:bg-gray-800/50;
   }
 
   /* Premium button base */
@@ -193,9 +196,27 @@
       transform: translateY(0);
     }
   }
+
+  @keyframes shimmer {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  .animate-shimmer {
+    animation: shimmer 2s infinite;
+  }
 }
 
 @layer utilities {
+  /* Custom shadow utilities */
+  .shadow-3xl {
+    box-shadow: var(--shadow-3xl);
+  }
+
   /* Enhanced prose styling */
   .prose {
     font-size: 1.125rem;

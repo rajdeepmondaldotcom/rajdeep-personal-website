@@ -1,89 +1,179 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Mail, CheckCircle, AlertCircle } from 'lucide-react'
 import { toast } from 'sonner'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { isValidEmail, sanitizeInput } from '@/lib/utils/validation'
-import { LoadingSpinner } from '@/components/ui/loading'
-import { ERROR_MESSAGES } from '@/lib/constants'
 
 interface NewsletterFormProps {
   title?: string
-  description?: string
+  apiUrl?: string
 }
 
-/**
- * Newsletter Subscription Form Component
- * Handles email collection with validation and API submission
- */
-export default function NewsletterForm({
-  title = 'Subscribe to my newsletter',
-  description = "I'll only send emails when new content is posted. No spam.",
-}: NewsletterFormProps) {
+const NewsletterForm = ({
+  title = 'Subscribe to the newsletter',
+  apiUrl = '/api/newsletter',
+}: NewsletterFormProps) => {
+  const inputEl = useRef<HTMLInputElement>(null)
   const [email, setEmail] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-
-    // Validate email
-    const sanitizedEmail = sanitizeInput(email)
-    if (!isValidEmail(sanitizedEmail)) {
-      toast.error('Please enter a valid email address')
-      return
-    }
-
+  const subscribe = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     setIsLoading(true)
 
     try {
-      const response = await fetch('/api/newsletter', {
+      const res = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email: sanitizedEmail }),
+        body: JSON.stringify({ email }),
       })
 
-      const data = await response.json()
+      const data = await res.json()
 
-      if (!response.ok) {
+      if (!res.ok) {
         throw new Error(data.error || 'Failed to subscribe')
       }
 
-      toast.success('Successfully subscribed! 🎉')
       setEmail('')
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : 'Something went wrong. Please try again.'
+      setIsSuccess(true)
+      toast.success('Successfully subscribed! 🎉')
 
-      toast.error(errorMessage)
+      // Reset success state after 5 seconds
+      setTimeout(() => setIsSuccess(false), 5000)
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Something went wrong')
     } finally {
       setIsLoading(false)
     }
   }
 
   return (
-    <div className="rounded-lg bg-gray-100 p-6 dark:bg-gray-800">
-      <h2 className="mb-2 text-lg font-semibold">{title}</h2>
-      <p className="mb-4 text-sm text-gray-600 dark:text-gray-400">{description}</p>
+    <div className="relative">
+      {/* Background gradient */}
+      <div className="from-primary-600/10 absolute inset-0 bg-gradient-to-r via-purple-600/10 to-pink-600/10 blur-3xl" />
 
-      <form onSubmit={handleSubmit} className="flex gap-2">
-        <Input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter your email"
-          required
-          disabled={isLoading}
-          aria-label="Email address"
-          className="flex-1"
-        />
+      <div className="relative rounded-2xl border border-gray-200/50 bg-white/80 p-8 shadow-xl backdrop-blur-sm dark:border-gray-700/50 dark:bg-gray-900/80">
+        <div className="space-y-6">
+          {/* Header */}
+          <div className="space-y-2 text-center">
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+              className="from-primary-600 inline-flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br to-purple-600 shadow-lg"
+            >
+              <Mail className="h-8 w-8 text-white" />
+            </motion.div>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">{title}</h2>
+            <p className="text-gray-600 dark:text-gray-400">
+              Get notified about new posts and updates
+            </p>
+          </div>
 
-        <Button type="submit" disabled={isLoading} className="min-w-[100px]">
-          {isLoading ? <LoadingSpinner size="sm" /> : 'Subscribe'}
-        </Button>
-      </form>
+          {/* Form */}
+          <form onSubmit={subscribe} className="space-y-4">
+            <div className="relative">
+              <input
+                ref={inputEl}
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                disabled={isLoading || isSuccess}
+                className={`focus:border-primary-600 focus:ring-primary-600/10 w-full rounded-xl border bg-white px-4 py-3 pl-12 text-gray-900 placeholder-gray-500 shadow-sm transition-all duration-200 focus:ring-4 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-400 ${
+                  isSuccess
+                    ? 'border-emerald-500 focus:border-emerald-500 focus:ring-emerald-500/10'
+                    : 'border-gray-300 dark:border-gray-600'
+                } `}
+              />
+              <div className="absolute top-1/2 left-3 -translate-y-1/2">
+                <AnimatePresence mode="wait">
+                  {isSuccess ? (
+                    <motion.div
+                      key="success"
+                      initial={{ scale: 0, rotate: -180 }}
+                      animate={{ scale: 1, rotate: 0 }}
+                      exit={{ scale: 0, rotate: 180 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <CheckCircle className="h-5 w-5 text-emerald-500" />
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="mail"
+                      initial={{ scale: 0, rotate: 180 }}
+                      animate={{ scale: 1, rotate: 0 }}
+                      exit={{ scale: 0, rotate: -180 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <Mail className="h-5 w-5 text-gray-400" />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </div>
+
+            <motion.button
+              type="submit"
+              disabled={isLoading || isSuccess || !email}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className={`w-full rounded-xl px-4 py-3 font-medium text-white shadow-lg transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-50 ${
+                isSuccess
+                  ? 'bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800'
+                  : 'from-primary-600 hover:from-primary-700 bg-gradient-to-r to-purple-600 hover:to-purple-700'
+              } `}
+            >
+              <AnimatePresence mode="wait">
+                {isLoading ? (
+                  <motion.div
+                    key="loading"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="flex items-center justify-center gap-2"
+                  >
+                    <div className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                    <span>Subscribing...</span>
+                  </motion.div>
+                ) : isSuccess ? (
+                  <motion.div
+                    key="success"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="flex items-center justify-center gap-2"
+                  >
+                    <CheckCircle className="h-5 w-5" />
+                    <span>Successfully subscribed!</span>
+                  </motion.div>
+                ) : (
+                  <motion.span
+                    key="subscribe"
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                  >
+                    Subscribe
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </motion.button>
+          </form>
+
+          {/* Privacy note */}
+          <p className="text-center text-xs text-gray-500 dark:text-gray-400">
+            We respect your privacy. Unsubscribe at any time.
+          </p>
+        </div>
+      </div>
     </div>
   )
 }
+
+export default NewsletterForm

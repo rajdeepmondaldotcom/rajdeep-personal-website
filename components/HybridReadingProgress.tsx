@@ -13,15 +13,31 @@ type TopProgressBarProps = {
 }
 
 const TopProgressBar = ({ scaleX, backgroundColor, ariaValueNow }: TopProgressBarProps) => (
-  <motion.div
-    className="bg-primary-500 fixed top-0 right-0 left-0 h-1 origin-[0%]"
-    style={{ scaleX, backgroundColor }}
-    role="progressbar"
-    aria-valuemin={0}
-    aria-valuemax={100}
-    aria-valuenow={ariaValueNow}
-    aria-label="Reading Progress"
-  />
+  <>
+    {/* Progress bar background */}
+    <div className="fixed top-20 right-0 left-0 z-40 h-1 bg-gray-200/30 backdrop-blur-sm dark:bg-gray-700/30" />
+
+    {/* Animated progress bar */}
+    <motion.div
+      className="fixed top-20 left-0 z-40 h-1 origin-[0%] shadow-lg"
+      style={{
+        scaleX,
+        backgroundColor,
+        boxShadow: '0 2px 8px rgba(99, 102, 241, 0.3)',
+      }}
+      role="progressbar"
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-valuenow={ariaValueNow}
+      aria-label="Reading Progress"
+    >
+      {/* Glow effect */}
+      <div
+        className="absolute inset-0 blur-sm"
+        style={{ backgroundColor: backgroundColor.get() }}
+      />
+    </motion.div>
+  </>
 )
 
 type CircularProgressProps = {
@@ -42,46 +58,60 @@ const CircularProgress = ({
   <motion.button
     aria-label="Scroll to Top"
     onClick={onScrollTop}
-    className="fixed right-6 bottom-6 z-50 hidden rounded-full sm:block"
-    whileHover={{ scale: 1.1 }}
-    whileFocus={{ scale: 1.1 }}
-    transition={{ type: 'spring', stiffness: 300 }}
+    className="hover:shadow-3xl fixed right-6 bottom-6 z-50 hidden rounded-full bg-white/80 shadow-2xl backdrop-blur-md transition-shadow duration-300 sm:block dark:bg-gray-900/80"
+    whileHover={{ scale: 1.05 }}
+    whileFocus={{ scale: 1.05 }}
+    whileTap={{ scale: 0.95 }}
+    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
   >
-    <div className="relative h-24 w-24">
+    <div className="relative h-20 w-20">
       <svg className="h-full w-full -rotate-90" viewBox="0 0 100 100" fill="none">
         <circle
           cx="50"
           cy="50"
-          r="45"
-          className="stroke-gray-800/20 dark:stroke-gray-200/20"
-          strokeWidth="10"
+          r="40"
+          className="stroke-gray-200 dark:stroke-gray-700"
+          strokeWidth="8"
           pathLength="1"
         />
         {percentageRead < 100 ? (
           <motion.circle
             cx="50"
             cy="50"
-            r="45"
-            strokeWidth="10"
+            r="40"
+            strokeWidth="8"
             strokeLinecap="round"
-            style={{ pathLength: scrollYProgress, stroke: strokeColor }}
+            style={{
+              pathLength: scrollYProgress,
+              stroke: strokeColor,
+              filter: 'drop-shadow(0 0 8px rgba(99, 102, 241, 0.3))',
+            }}
           />
         ) : (
-          <motion.circle cx="50" cy="50" r="45" strokeWidth="10" style={{ stroke: strokeColor }} />
+          <motion.circle
+            cx="50"
+            cy="50"
+            r="40"
+            strokeWidth="8"
+            style={{
+              stroke: strokeColor,
+              filter: 'drop-shadow(0 0 8px rgba(16, 185, 129, 0.3))',
+            }}
+          />
         )}
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         {percentageRead < 100 ? (
           <>
-            <span className="text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
+            <span className="text-xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
               {percentageRead}%
             </span>
             <span className="text-xs text-gray-500 dark:text-gray-400">
-              {estimatedMinutesLeft} min left
+              {estimatedMinutesLeft} min
             </span>
           </>
         ) : (
-          <Check className="h-10 w-10 text-emerald-500" />
+          <Check className="h-8 w-8 animate-bounce text-emerald-500" />
         )}
       </div>
     </div>
