@@ -64,59 +64,10 @@ const TableWrapper = ({ children }: TableWrapperProps) => {
           />
 
           {/* Enhanced table styling */}
-          <div className="min-w-full">
-            <style jsx global>{`
-              table {
-                width: 100%;
-                border-collapse: separate;
-                border-spacing: 0;
-              }
-              
-              thead {
-                background: linear-gradient(to right, #f9fafb, #f3f4f6);
-                dark:background: linear-gradient(to right, #1f2937, #111827);
-              }
-              
-              th {
-                padding: 1rem 1.5rem;
-                font-weight: 600;
-                font-size: 0.875rem;
-                letter-spacing: 0.025em;
-                text-transform: uppercase;
-                color: #6b7280;
-                dark:color: #9ca3af;
-                text-align: left;
-                border-bottom: 2px solid #e5e7eb;
-                dark:border-bottom-color: #374151;
-                position: sticky;
-                top: 0;
-                background: inherit;
-                z-index: 1;
-              }
-              
-              td {
-                padding: 1rem 1.5rem;
-                font-size: 0.9375rem;
-                color: #374151;
-                dark:color: #d1d5db;
-                border-bottom: 1px solid #f3f4f6;
-                dark:border-bottom-color: #1f2937;
-              }
-              
-              tbody tr {
-                transition: all 0.2s ease;
-              }
-              
-              tbody tr:hover {
-                background-color: #fafbfc;
-                dark:background-color: #1a202c;
-              }
-              
-              tbody tr:last-child td {
-                border-bottom: none;
-              }
-            `}</style>
-            {children}
+          <div className="min-w-full [&_table]:w-full [&_table]:border-collapse [&_table]:border-spacing-0">
+            <div className="[&_tbody_tr]:transition-colors [&_tbody_tr]:duration-200 [&_tbody_tr:hover]:bg-gray-50 dark:[&_tbody_tr:hover]:bg-gray-800/50 [&_tbody_tr:last-child_td]:border-b-0 [&_td]:border-b [&_td]:border-gray-100 [&_td]:px-6 [&_td]:py-4 [&_td]:text-sm [&_td]:text-gray-700 dark:[&_td]:border-gray-800 dark:[&_td]:text-gray-300 [&_th]:sticky [&_th]:top-0 [&_th]:z-10 [&_th]:border-b-2 [&_th]:border-gray-200 [&_th]:bg-inherit [&_th]:px-6 [&_th]:py-3 [&_th]:text-left [&_th]:text-xs [&_th]:font-semibold [&_th]:tracking-wider [&_th]:text-gray-600 [&_th]:uppercase dark:[&_th]:border-gray-700 dark:[&_th]:text-gray-400 [&_thead]:bg-gradient-to-r [&_thead]:from-gray-50 [&_thead]:to-gray-100 dark:[&_thead]:from-gray-900 dark:[&_thead]:to-gray-800">
+              {children}
+            </div>
           </div>
         </div>
 
