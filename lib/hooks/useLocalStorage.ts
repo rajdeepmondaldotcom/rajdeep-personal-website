@@ -8,7 +8,6 @@ export const useLocalStorage = <T>(
   key: string,
   initialValue: T
 ): [T, (value: T | ((val: T) => T)) => void, () => void] => {
-  // Get initial value from localStorage or use provided initial value
   const getStoredValue = useCallback((): T => {
     if (typeof window === 'undefined') {
       return initialValue
@@ -16,7 +15,7 @@ export const useLocalStorage = <T>(
 
     try {
       const item = window.localStorage.getItem(key)
-      return item ? JSON.parse(item) : initialValue
+      return item ? (JSON.parse(item) as T) : initialValue
     } catch (error) {
       console.error(`Error reading localStorage key "${key}":`, error)
       return initialValue
@@ -25,7 +24,6 @@ export const useLocalStorage = <T>(
 
   const [storedValue, setStoredValue] = useState<T>(getStoredValue)
 
-  // Update localStorage when value changes
   const setValue = useCallback(
     (value: T | ((val: T) => T)) => {
       try {
@@ -42,7 +40,6 @@ export const useLocalStorage = <T>(
     [key, storedValue]
   )
 
-  // Remove value from localStorage
   const removeValue = useCallback(() => {
     try {
       setStoredValue(initialValue)

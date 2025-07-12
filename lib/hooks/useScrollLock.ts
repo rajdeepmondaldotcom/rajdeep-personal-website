@@ -22,7 +22,6 @@ export const useScrollLock = (): UseScrollLockReturn => {
     }
   }
 
-  // Cleanup on unmount
   useEffect(() => {
     return () => {
       clearAllBodyScrollLocks()

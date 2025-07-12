@@ -37,7 +37,6 @@ const isProduction = process.env.NODE_ENV === 'production'
  * from an SVG string, designed to be used with `rehype-autolink-headings`.
  * @type {import('hast').Root}
  */
-// heroicon mini link
 const icon = fromHtmlIsomorphic(
   `
   <span class="content-header-link">
@@ -86,6 +85,37 @@ const computedFields: ComputedFields = {
 }
 
 /**
+ * Check if a blog post should be included in tag count
+ */
+function shouldIncludePost(post: BlogType): boolean {
+  return Boolean(post.tags && (!isProduction || post.draft !== true))
+}
+
+/**
+ * Count occurrences of each tag in the given blog posts
+ */
+function countTags(posts: BlogType[]): Record<string, number> {
+  const tagCount: Record<string, number> = {}
+
+  posts.filter(shouldIncludePost).forEach((post) => {
+    post.tags.forEach((tag: string) => {
+      const formattedTag = slug(tag)
+      tagCount[formattedTag] = (tagCount[formattedTag] || 0) + 1
+    })
+  })
+
+  return tagCount
+}
+
+/**
+ * Write tag count data to JSON file
+ */
+async function writeTagCountFile(tagCount: Record<string, number>): Promise<void> {
+  const formatted = await prettier.format(JSON.stringify(tagCount, null, 2), { parser: 'json' })
+  writeFileSync('./app/tag-data.json', formatted)
+}
+
+/**
  * Counts the occurrences of all tags across all blog posts and writes the
  * result to a JSON file.
  *
@@ -95,22 +125,9 @@ const computedFields: ComputedFields = {
  * @param {import('contentlayer/generated').Blog[]} allBlogs - An array of all blog documents.
  * @returns {Promise<void>} A promise that resolves when the file has been written.
  */
-async function createTagCount(allBlogs: BlogType[]) {
-  const tagCount: Record<string, number> = {}
-  allBlogs.forEach((blogPost) => {
-    if (blogPost.tags && (!isProduction || blogPost.draft !== true)) {
-      blogPost.tags.forEach((tag: string) => {
-        const formattedTag = slug(tag)
-        if (formattedTag in tagCount) {
-          tagCount[formattedTag] += 1
-        } else {
-          tagCount[formattedTag] = 1
-        }
-      })
-    }
-  })
-  const formatted = await prettier.format(JSON.stringify(tagCount, null, 2), { parser: 'json' })
-  writeFileSync('./app/tag-data.json', formatted)
+async function createTagCount(allBlogs: BlogType[]): Promise<void> {
+  const tagCount = countTags(allBlogs)
+  await writeTagCountFile(tagCount)
 }
 
 /**
@@ -244,7 +261,7 @@ export default makeSource({
   },
   onSuccess: async (importData) => {
     const { allBlogs } = await importData()
-    createTagCount(allBlogs)
+    await createTagCount(allBlogs)
     createSearchIndex(allBlogs)
   },
 })

@@ -4,6 +4,7 @@ import { useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Mail, CheckCircle, AlertCircle } from 'lucide-react'
 import { toast } from 'sonner'
+import { UI } from '@/lib/constants'
 
 interface NewsletterFormProps {
   title?: string
@@ -19,12 +20,12 @@ const NewsletterForm = ({
   const [isLoading, setIsLoading] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
 
-  const subscribe = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const subscribe = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
     setIsLoading(true)
 
     try {
-      const res = await fetch(apiUrl, {
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -32,18 +33,18 @@ const NewsletterForm = ({
         body: JSON.stringify({ email }),
       })
 
-      const data = await res.json()
+      const responseData = await response.json()
 
-      if (!res.ok) {
-        throw new Error(data.error || 'Failed to subscribe')
+      if (!response.ok) {
+        throw new Error(responseData.error || 'Failed to subscribe')
       }
 
       setEmail('')
       setIsSuccess(true)
       toast.success('Successfully subscribed! 🎉')
 
-      // Reset success state after 5 seconds
-      setTimeout(() => setIsSuccess(false), 5000)
+      // Reset success state after timeout
+      setTimeout(() => setIsSuccess(false), UI.NEWSLETTER_SUCCESS_TIMEOUT)
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Something went wrong')
     } finally {

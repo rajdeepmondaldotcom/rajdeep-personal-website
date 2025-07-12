@@ -50,6 +50,17 @@ export const UI = {
   ANIMATION_DURATION: 300,
   DEBOUNCE_DELAY: 300,
   WORDS_PER_MINUTE: 200,
+  NEWSLETTER_SUCCESS_TIMEOUT: 5000,
+  TOAST_DURATION: 4000,
+  MIN_HEIGHT_ERROR: 400,
+  IMAGE_QUALITY: 95,
+  SPRING_ANIMATION: {
+    stiffness: 400,
+    damping: 25,
+  },
+  HOVER_SCALE: 1.05,
+  TAP_SCALE: 0.95,
+  FOCUS_SCALE: 1.05,
 } as const
 
 // Date Formats
@@ -78,6 +89,63 @@ export const ERROR_MESSAGES = {
 // Validation
 export const VALIDATION = {
   MIN_PAGE_NUMBER: 1,
+} as const
+
+// Dimensions
+export const DIMENSIONS = {
+  ICON: {
+    XS: 'h-4 w-4',
+    SM: 'h-5 w-5',
+    MD: 'h-6 w-6',
+    LG: 'h-8 w-8',
+    XL: 'h-10 w-10',
+    XXL: 'h-12 w-12',
+  },
+  BUTTON: {
+    SM: 'h-8 px-3 py-1',
+    MD: 'h-10 px-4 py-2',
+    LG: 'h-12 px-6 py-3',
+    XL: 'h-16 px-8 py-4',
+  },
+  LOGO: {
+    WIDTH: 48,
+    HEIGHT: 48,
+  },
+  HEADER: {
+    HEIGHT: 'h-20',
+  },
+  MAX_WIDTH: {
+    SM: 'max-w-2xl',
+    MD: 'max-w-4xl',
+    LG: 'max-w-6xl',
+    XL: 'max-w-7xl',
+  },
+} as const
+
+// Colors
+export const COLORS = {
+  BRAND: {
+    PRIMARY: '#1E90FF',
+    SECONDARY: '#6366f1',
+    ACCENT: '#8b5cf6',
+  },
+  THEME: {
+    LIGHT: {
+      BG: 'from-gray-50 to-gray-100',
+      TEXT: 'text-gray-900',
+    },
+    DARK: {
+      BG: 'from-gray-950 to-gray-900',
+      TEXT: 'text-gray-50',
+    },
+  },
+  GRADIENT: {
+    HERO: 'from-gray-900 to-gray-700 dark:from-gray-50 dark:to-gray-300',
+    BUTTON_PRIMARY: 'from-primary-600 to-purple-600',
+    BUTTON_DESTRUCTIVE: 'from-red-600 to-red-700',
+    BUTTON_SUCCESS: 'from-emerald-600 to-emerald-700',
+    PREMIUM: 'from-yellow-400 via-orange-500 to-red-500',
+  },
 } as const
 
 // CSS Classes

@@ -6,6 +6,7 @@ import Link from './Link'
 import MobileNav from './MobileNav'
 import ThemeSwitch from './ThemeSwitch'
 import SearchButton from './SearchButton'
+import { DIMENSIONS } from '@/lib/constants'
 
 /**
  * The main header for the website.
@@ -27,8 +28,8 @@ const Header = () => {
                 <Image
                   src="/static/images/logo.png"
                   alt={`${siteMetadata.title} logo`}
-                  width={48}
-                  height={48}
+                  width={DIMENSIONS.LOGO.WIDTH}
+                  height={DIMENSIONS.LOGO.HEIGHT}
                   className="rounded-xl shadow-md"
                 />
               </span>

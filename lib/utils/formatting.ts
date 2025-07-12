@@ -114,21 +114,38 @@ export const toTitleCase = (str: string): string => {
 }
 
 /**
+ * Remove HTML tags from text
+ */
+const stripHtmlTags = (text: string): string => {
+  return text.replace(/<[^>]*>/g, '')
+}
+
+/**
+ * Find the last sentence ending within the given text
+ */
+const findLastSentenceEnd = (text: string): number => {
+  const sentenceEndings = ['.', '!', '?']
+  const positions = sentenceEndings.map((ending) => text.lastIndexOf(ending))
+  return Math.max(...positions)
+}
+
+/**
+ * Check if position is at a reasonable point for excerpt
+ */
+const isReasonableExcerptPoint = (position: number, maxLength: number): boolean => {
+  const REASONABLE_THRESHOLD = 0.7
+  return position > maxLength * REASONABLE_THRESHOLD
+}
+
+/**
  * Create excerpt from text
  */
 export const createExcerpt = (text: string, maxLength: number = 160): string => {
-  // Remove HTML tags if any
-  const cleanText = text.replace(/<[^>]*>/g, '')
-
-  // Find the last complete sentence within maxLength
+  const cleanText = stripHtmlTags(text)
   const truncated = cleanText.slice(0, maxLength)
-  const lastPeriod = truncated.lastIndexOf('.')
-  const lastExclamation = truncated.lastIndexOf('!')
-  const lastQuestion = truncated.lastIndexOf('?')
+  const lastSentenceEnd = findLastSentenceEnd(truncated)
 
-  const lastSentenceEnd = Math.max(lastPeriod, lastExclamation, lastQuestion)
-
-  if (lastSentenceEnd > maxLength * 0.7) {
+  if (isReasonableExcerptPoint(lastSentenceEnd, maxLength)) {
     return cleanText.slice(0, lastSentenceEnd + 1)
   }
 

@@ -16,5 +16,5 @@ export function mergeClassNames(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-// Alias for convenience
+// Alias for shorter imports while maintaining clarity in codebase
 export const cn = mergeClassNames

@@ -5,6 +5,7 @@ import { Blog } from 'contentlayer/generated'
 import { slug } from 'github-slugger'
 import { PostFilters, ServiceResponse } from '@/lib/types'
 import { PAGINATION, ERROR_MESSAGES } from '@/lib/constants'
+import { NotFoundError, ValidationError, withErrorBoundary } from '@/lib/errors'
 
 /**
  * Service layer for blog post operations
@@ -23,28 +24,14 @@ export const getAllPosts = (): CoreContent<Blog>[] => {
 /**
  * Get a single blog post by slug
  */
-export const getPostBySlug = (slugParam: string): ServiceResponse<Blog> => {
-  try {
-    const post = allBlogs.find((post) => post.slug === slugParam)
+export const getPostBySlug = (slugParam: string): Blog => {
+  const post = allBlogs.find((post) => post.slug === slugParam)
 
-    if (!post) {
-      return {
-        error: {
-          message: ERROR_MESSAGES.POST_NOT_FOUND,
-          code: 'POST_NOT_FOUND',
-        },
-      }
-    }
-
-    return { data: post }
-  } catch (error) {
-    return {
-      error: {
-        message: error instanceof Error ? error.message : 'Unknown error',
-        stack: error instanceof Error ? error.stack : undefined,
-      },
-    }
+  if (!post) {
+    throw new NotFoundError('Blog post', slugParam)
   }
+
+  return post
 }
 
 /**
@@ -85,6 +72,32 @@ export const getPostsByAuthor = (authorSlug: string): CoreContent<Blog>[] => {
 }
 
 /**
+ * Calculate shared tags between two posts
+ */
+const calculateSharedTags = (post1: CoreContent<Blog>, post2: CoreContent<Blog>): number => {
+  if (!post1.tags || !post2.tags) {
+    return 0
+  }
+  return post1.tags.filter((tag) => post2.tags?.includes(tag)).length
+}
+
+/**
+ * Score posts by relevance to current post
+ */
+const scorePostsByRelevance = (
+  posts: CoreContent<Blog>[],
+  currentPost: CoreContent<Blog>
+): Array<{ post: CoreContent<Blog>; score: number }> => {
+  return posts
+    .filter((post) => post.slug !== currentPost.slug)
+    .map((post) => ({
+      post,
+      score: calculateSharedTags(post, currentPost),
+    }))
+    .filter((item) => item.score > 0)
+}
+
+/**
  * Get related posts based on tags
  */
 export const getRelatedPosts = (
@@ -96,19 +109,12 @@ export const getRelatedPosts = (
   }
 
   const posts = getAllPosts()
+  const scoredPosts = scorePostsByRelevance(posts, currentPost)
 
-  // Calculate relevance score based on shared tags
-  const scoredPosts = posts
-    .filter((post) => post.slug !== currentPost.slug)
-    .map((post) => {
-      const sharedTags = post.tags?.filter((tag) => currentPost.tags?.includes(tag)).length || 0
-
-      return { post, score: sharedTags }
-    })
-    .filter((item) => item.score > 0)
+  return scoredPosts
     .sort((a, b) => b.score - a.score)
-
-  return scoredPosts.slice(0, limit).map((item) => item.post)
+    .slice(0, limit)
+    .map((item) => item.post)
 }
 
 /**

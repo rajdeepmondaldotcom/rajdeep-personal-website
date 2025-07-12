@@ -4,6 +4,7 @@ import { Authors } from 'contentlayer/generated'
 import { ServiceResponse, AuthorData } from '@/lib/types'
 import { AUTHOR, ERROR_MESSAGES } from '@/lib/constants'
 import { getPostsByAuthor } from './postService'
+import { NotFoundError } from '@/lib/errors'
 
 /**
  * Service layer for author operations
@@ -20,56 +21,34 @@ export const getAllAuthors = () => {
 /**
  * Get author by slug
  */
-export const getAuthorBySlug = (slug: string): ServiceResponse<Authors> => {
-  try {
-    const author = allAuthors.find((a) => a.slug === slug)
+export const getAuthorBySlug = (slug: string): Authors => {
+  const author = allAuthors.find((author) => author.slug === slug)
 
-    if (!author) {
-      return {
-        error: {
-          message: `Author with slug '${slug}' not found`,
-          code: 'AUTHOR_NOT_FOUND',
-        },
-      }
-    }
-
-    return { data: author }
-  } catch (error) {
-    return {
-      error: {
-        message: error instanceof Error ? error.message : 'Unknown error',
-        stack: error instanceof Error ? error.stack : undefined,
-      },
-    }
+  if (!author) {
+    throw new NotFoundError('Author', slug)
   }
+
+  return author
 }
 
 /**
  * Get the default author
  */
-export const getDefaultAuthor = (): ServiceResponse<Authors> => {
+export const getDefaultAuthor = (): Authors => {
   return getAuthorBySlug(AUTHOR.DEFAULT_SLUG)
 }
 
 /**
  * Get author with their posts
  */
-export const getAuthorWithPosts = (slug: string): ServiceResponse<AuthorData> => {
-  const authorResponse = getAuthorBySlug(slug)
-
-  if (authorResponse.error) {
-    return authorResponse
-  }
-
-  const author = authorResponse.data!
+export const getAuthorWithPosts = (slug: string): AuthorData => {
+  const author = getAuthorBySlug(slug)
   const posts = getPostsByAuthor(slug)
 
   return {
-    data: {
-      ...coreContent(author),
-      posts,
-    },
-  }
+    ...coreContent(author),
+    posts,
+  } as AuthorData
 }
 
 /**
@@ -77,9 +56,14 @@ export const getAuthorWithPosts = (slug: string): ServiceResponse<AuthorData> =>
  */
 export const getAuthorsBySlugList = (slugs: string[]): Authors[] => {
   return slugs
-    .map((slug) => getAuthorBySlug(slug))
-    .filter((response) => response.data)
-    .map((response) => response.data!)
+    .map((slug) => {
+      try {
+        return getAuthorBySlug(slug)
+      } catch {
+        return null
+      }
+    })
+    .filter((author): author is Authors => author !== null)
 }
 
 /**

@@ -1,6 +1,6 @@
 import HomePage from './HomePage'
 import { getAllPosts, getDefaultAuthor } from '@/lib/services'
-import { ERROR_MESSAGES } from '@/lib/constants'
+import { NotFoundError } from '@/lib/errors'
 
 /**
  * Homepage Route Handler
@@ -8,11 +8,13 @@ import { ERROR_MESSAGES } from '@/lib/constants'
  */
 export default async function Page() {
   const posts = getAllPosts()
-  const authorResponse = getDefaultAuthor()
 
-  if (authorResponse.error) {
-    throw new Error(ERROR_MESSAGES.AUTHOR_NOT_FOUND)
+  let author
+  try {
+    author = getDefaultAuthor()
+  } catch (_error) {
+    throw new NotFoundError('Default author')
   }
 
-  return <HomePage posts={posts} author={authorResponse.data!} />
+  return <HomePage posts={posts} author={author} />
 }

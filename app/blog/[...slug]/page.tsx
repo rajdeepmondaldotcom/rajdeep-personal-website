@@ -33,15 +33,14 @@ export async function generateMetadata(props: {
 }): Promise<Metadata | undefined> {
   const params = await props.params
   const slug = decodeURI(params.slug.join('/'))
-  const postResponse = getPostBySlug(slug)
-
-  if (postResponse.error || !postResponse.data) {
+  let post: Blog
+  try {
+    post = getPostBySlug(slug)
+  } catch (_error) {
     return undefined
   }
-
-  const post = postResponse.data
   const authorDetails = getAuthorDetailsForPost(post.authors)
-  const authors = authorDetails.filter((author) => author !== null).map((author) => author!.name)
+  const authors = authorDetails.filter((author) => author !== null).map((author) => author.name)
 
   const publishedAt = formatISODate(post.date)
   const modifiedAt = formatISODate(post.lastmod || post.date)
@@ -78,7 +77,7 @@ export async function generateMetadata(props: {
  * Generate static params for all blog posts
  */
 export async function generateStaticParams() {
-  const paths = (allBlogs as Blog[]).map((post) => ({
+  const paths = allBlogs.map((post) => ({
     slug: post.slug.split('/').map((name) => decodeURI(name)),
   }))
 
@@ -93,12 +92,12 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
   const slug = decodeURI(params.slug.join('/'))
 
   // Get post data
-  const postResponse = getPostBySlug(slug)
-  if (postResponse.error || !postResponse.data) {
+  let post: Blog
+  try {
+    post = getPostBySlug(slug)
+  } catch (_error) {
     return notFound()
   }
-
-  const post = postResponse.data
 
   // Get navigation
   const { previousPost, nextPost } = getPostNavigation(slug)
