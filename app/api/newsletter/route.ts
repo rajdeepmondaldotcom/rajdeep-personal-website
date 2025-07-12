@@ -11,9 +11,18 @@ import siteMetadata from '@/data/siteMetadata'
 
 export const dynamic = 'force-static'
 
-const handler = NewsletterAPI({
-  // @ts-ignore
-  provider: siteMetadata.newsletter.provider,
-})
+const newsletterProvider = siteMetadata.newsletter?.provider
+
+const handler = newsletterProvider 
+  ? NewsletterAPI({
+      provider: newsletterProvider as 
+        | 'buttondown' 
+        | 'convertkit' 
+        | 'klaviyo' 
+        | 'mailchimp' 
+        | 'emailoctopus' 
+        | 'beehiiv',
+    })
+  : NewsletterAPI({ provider: 'mailchimp' }) // Default provider
 
 export { handler as GET, handler as POST }

@@ -39,8 +39,9 @@ interface LayoutProps {
  */
 export default function PostMinimal({ content, nextPost, previousPost, children }: LayoutProps) {
   const { slug, title, images, readingTime } = content
+  const imageArray = images as string[] | undefined
   const displayImage =
-    images && images.length > 0 ? images[0] : 'https://picsum.photos/seed/picsum/800/400'
+    imageArray && imageArray.length > 0 ? imageArray[0] : 'https://picsum.photos/seed/picsum/800/400'
   const contentRef = useRef(null)
 
   return (

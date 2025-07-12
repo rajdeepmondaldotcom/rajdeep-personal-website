@@ -19,12 +19,12 @@ const outputFolder = process.env.EXPORT ? 'out' : 'public'
 const generateRssItem = (config, post) => `
   <item>
     <guid>${config.siteUrl}/blog/${post.slug}</guid>
-    <title>${escape(post.title)}</title>
+    <title>${escape(post.title || '')}</title>
     <link>${config.siteUrl}/blog/${post.slug}</link>
-    ${post.summary && `<description>${escape(post.summary)}</description>`}
-    <pubDate>${new Date(post.date).toUTCString()}</pubDate>
+    ${post.summary ? `<description>${escape(post.summary)}</description>` : ''}
+    <pubDate>${new Date(post.date || new Date()).toUTCString()}</pubDate>
     <author>${config.email} (${config.author})</author>
-    ${post.tags && post.tags.map((tag) => `<category>${tag}</category>`).join('')}
+    ${post.tags ? post.tags.map((tag) => `<category>${tag}</category>`).join('') : ''}
   </item>
 `
 
@@ -45,7 +45,7 @@ const generateRss = (config, posts, page = 'feed.xml') => `
       <language>${config.language}</language>
       <managingEditor>${config.email} (${config.author})</managingEditor>
       <webMaster>${config.email} (${config.author})</webMaster>
-      <lastBuildDate>${new Date(posts[0].date).toUTCString()}</lastBuildDate>
+      <lastBuildDate>${posts[0] && posts[0].date ? new Date(posts[0].date).toUTCString() : new Date().toUTCString()}</lastBuildDate>
       <atom:link href="${config.siteUrl}/${page}" rel="self" type="application/rss+xml"/>
       ${posts.map((post) => generateRssItem(config, post)).join('')}
     </channel>
@@ -75,7 +75,7 @@ async function generateRSS(config, allBlogs, page = 'feed.xml') {
   if (publishPosts.length > 0) {
     for (const tag of Object.keys(tagData)) {
       const filteredPosts = allBlogs.filter((post) =>
-        post.tags.map((postTag) => slug(postTag)).includes(tag)
+        post.tags && post.tags.map((postTag) => slug(postTag)).includes(tag)
       )
       const rss = generateRss(config, filteredPosts, `tags/${tag}/${page}`)
       const rssPath = path.join(outputFolder, 'tags', tag)
@@ -92,7 +92,7 @@ async function generateRSS(config, allBlogs, page = 'feed.xml') {
  * a message to the console upon completion.
  */
 const rss = () => {
-  generateRSS(siteMetadata, allBlogs)
+  void generateRSS(siteMetadata, allBlogs)
   console.log('RSS feed generated...')
 }
 export default rss

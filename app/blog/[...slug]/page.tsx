@@ -113,7 +113,7 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
   // Prepare content
   const mainContent = coreContent(post)
   const jsonLd = {
-    ...post.structuredData,
+    ...(post.structuredData as Record<string, unknown>),
     author: validAuthorDetails.map((author) => ({
       '@type': 'Person',
       name: author.name,
@@ -136,7 +136,7 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
         nextPost={nextPost}
         previousPost={previousPost}
       >
-        <MDXLayoutRenderer code={post.body.code} components={components} toc={post.toc} />
+        <MDXLayoutRenderer code={post.body.code} components={components} toc={post.toc as unknown} />
       </Layout>
     </>
   )

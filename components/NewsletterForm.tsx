@@ -76,7 +76,7 @@ const NewsletterForm = ({
           </div>
 
           {/* Form */}
-          <form onSubmit={subscribe} className="space-y-4">
+          <form onSubmit={(e) => void subscribe(e)} className="space-y-4">
             <div className="relative">
               <input
                 ref={inputEl}

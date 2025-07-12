@@ -66,7 +66,7 @@ const Image = ({ src, className, shouldOpenLightbox = true, ...rest }: CustomIma
         onClick={handleClick}
       >
         <NextImage
-          src={`${basePath || ''}${src}`}
+          src={typeof src === 'string' ? `${basePath || ''}${src}` : src}
           className={cn('object-cover', isError && 'opacity-0', className)}
           onLoad={() => setIsLoading(false)}
           onError={() => {
