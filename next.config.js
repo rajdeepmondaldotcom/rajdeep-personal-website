@@ -64,7 +64,7 @@ const securityHeaders = [
 ]
 
 // Build configuration
-const output = process.env.EXPORT ? 'export' : undefined
+const output = process.env.EXPORT ? 'export' : process.env.DOCKER ? 'standalone' : undefined
 const basePath = process.env.BASE_PATH || undefined
 const unoptimized = process.env.UNOPTIMIZED ? true : undefined
 
@@ -91,6 +91,22 @@ module.exports = () => {
         },
       ],
       unoptimized,
+      formats: ['image/avif', 'image/webp'],
+    },
+    experimental: {
+      // Optimize package imports
+      optimizePackageImports: [
+        'lucide-react',
+        'framer-motion',
+        '@radix-ui/react-slot',
+        'clsx',
+        'tailwind-merge',
+      ],
+    },
+    logging: {
+      fetches: {
+        fullUrl: true,
+      },
     },
     async headers() {
       return [
@@ -100,11 +116,53 @@ module.exports = () => {
         },
       ]
     },
-    webpack: (config) => {
+    async rewrites() {
+      return []
+    },
+    async redirects() {
+      return []
+    },
+    webpack: (config, { isServer }) => {
+      // SVG handling
       config.module.rules.push({
         test: /\.svg$/,
         use: ['@svgr/webpack'],
       })
+
+      // Optimize for client-side bundle
+      if (!isServer) {
+        config.optimization.splitChunks = {
+          chunks: 'all',
+          cacheGroups: {
+            default: false,
+            vendors: false,
+            framework: {
+              name: 'framework',
+              chunks: 'all',
+              test: /[\\/]node_modules[\\/](react|react-dom|scheduler|prop-types|use-subscription)[\\/]/,
+              priority: 40,
+              enforce: true,
+            },
+            lib: {
+              test: /[\\/]node_modules[\\/]/,
+              name(module) {
+                const packageName = module.context.match(
+                  /[\\/]node_modules[\\/](.*?)([\\/]|$)/
+                )?.[1]
+                return `lib-${packageName?.replace('@', '')}`
+              },
+              priority: 30,
+              minChunks: 1,
+              reuseExistingChunk: true,
+            },
+            commons: {
+              name: 'commons',
+              minChunks: 2,
+              priority: 20,
+            },
+          },
+        }
+      }
 
       return config
     },

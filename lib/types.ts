@@ -90,7 +90,30 @@ export interface PageSEOProps {
   title: string
   description?: string
   image?: string
-  [key: string]: any
+  canonical?: string
+  noindex?: boolean
+  nofollow?: boolean
+  openGraph?: {
+    title?: string
+    description?: string
+    images?: Array<{
+      url: string
+      width?: number
+      height?: number
+      alt?: string
+    }>
+    locale?: string
+    type?: string
+    siteName?: string
+  }
+  twitter?: {
+    card?: 'summary' | 'summary_large_image' | 'app' | 'player'
+    site?: string
+    creator?: string
+    title?: string
+    description?: string
+    images?: string[]
+  }
 }
 
 // Form Types
@@ -149,10 +172,10 @@ export interface UIState {
 export interface UseReadingProgressReturn {
   percentageRead: number
   estimatedMinutesLeft: number
-  topBarScaleX: any // MotionValue<number>
-  circularProgressColor: any // MotionValue<string>
-  circularProgressColorDark: any // MotionValue<string>
-  scrollYProgress: any // MotionValue<number>
+  topBarScaleX: import('framer-motion').MotionValue<number>
+  circularProgressColor: import('framer-motion').MotionValue<string>
+  circularProgressColorDark: import('framer-motion').MotionValue<string>
+  scrollYProgress: import('framer-motion').MotionValue<number>
 }
 
 export interface UseScrollLockReturn {

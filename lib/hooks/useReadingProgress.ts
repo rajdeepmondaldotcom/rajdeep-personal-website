@@ -8,7 +8,7 @@ import { UI } from '@/lib/constants'
  * Returns motion values for progress indicators
  */
 export const useReadingProgress = (
-  target: React.RefObject<HTMLElement>,
+  target: React.RefObject<HTMLElement | null>,
   wordCount: number
 ): UseReadingProgressReturn => {
   const [percentageRead, setPercentageRead] = useState(0)

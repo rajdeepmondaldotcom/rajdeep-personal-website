@@ -14,12 +14,16 @@ import { notFound } from 'next/navigation'
 import { getPostBySlug, getPostNavigation, getAuthorDetailsForPost } from '@/lib/services'
 import { LAYOUT_TYPES, SEO } from '@/lib/constants'
 import { formatISODate } from '@/lib/utils/formatting'
+import { Authors } from 'contentlayer/generated'
+import { CoreContent } from 'pliny/utils/contentlayer'
 
 const layouts = {
   [LAYOUT_TYPES.POST_SIMPLE]: PostSimple,
   [LAYOUT_TYPES.POST_LAYOUT]: PostLayout,
   [LAYOUT_TYPES.POST_BANNER]: PostBanner,
 }
+
+type LayoutType = keyof typeof layouts
 
 /**
  * Generate metadata for blog post pages
@@ -42,7 +46,7 @@ export async function generateMetadata(props: {
   const publishedAt = formatISODate(post.date)
   const modifiedAt = formatISODate(post.lastmod || post.date)
   const imageList = post.images?.length ? post.images : [siteMetadata.socialBanner]
-  const ogImages = imageList.map((img) => ({
+  const ogImages = imageList.map((img: string) => ({
     url: img.includes('http') ? img : siteMetadata.siteUrl + img,
   }))
 
@@ -101,21 +105,23 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
 
   // Get author details
   const authorDetails = getAuthorDetailsForPost(post.authors)
+  const validAuthorDetails = authorDetails.filter(
+    (author): author is CoreContent<Authors> => author !== null
+  )
 
   // Prepare content
   const mainContent = coreContent(post)
   const jsonLd = {
     ...post.structuredData,
-    author: authorDetails
-      .filter((author) => author !== null)
-      .map((author) => ({
-        '@type': 'Person',
-        name: author!.name,
-      })),
+    author: validAuthorDetails.map((author) => ({
+      '@type': 'Person',
+      name: author.name,
+    })),
   }
 
   // Select layout
-  const Layout = layouts[post.layout || LAYOUT_TYPES.DEFAULT]
+  const layoutKey = (post.layout || LAYOUT_TYPES.DEFAULT) as LayoutType
+  const Layout = layouts[layoutKey] || layouts[LAYOUT_TYPES.POST_LAYOUT]
 
   return (
     <>
@@ -125,7 +131,7 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
       />
       <Layout
         content={mainContent}
-        authorDetails={authorDetails}
+        authorDetails={validAuthorDetails}
         nextPost={nextPost}
         previousPost={previousPost}
       >

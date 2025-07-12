@@ -49,7 +49,7 @@ export const isValidDateString = (dateStr: string): boolean => {
 /**
  * Validate non-empty string
  */
-export const isNonEmptyString = (str: any): str is string => {
+export const isNonEmptyString = (str: unknown): str is string => {
   return typeof str === 'string' && str.trim().length > 0
 }
 
@@ -63,8 +63,8 @@ export const hasItems = <T>(arr: T[] | null | undefined): arr is T[] => {
 /**
  * Validate object has keys
  */
-export const hasKeys = (obj: any): boolean => {
-  return obj && typeof obj === 'object' && Object.keys(obj).length > 0
+export const hasKeys = (obj: unknown): boolean => {
+  return obj !== null && typeof obj === 'object' && Object.keys(obj).length > 0
 }
 
 /**
@@ -77,19 +77,19 @@ export const isInRange = (value: number, min: number, max: number): boolean => {
 /**
  * Validate positive integer
  */
-export const isPositiveInteger = (value: any): value is number => {
-  return Number.isInteger(value) && value > 0
+export const isPositiveInteger = (value: unknown): value is number => {
+  return Number.isInteger(value) && (value as number) > 0
 }
 
 /**
  * Validate required fields in object
  */
-export const validateRequiredFields = <T extends Record<string, any>>(
+export const validateRequiredFields = <T extends Record<string, unknown>>(
   obj: T,
   requiredFields: (keyof T)[]
 ): { isValid: boolean; missingFields: string[] } => {
   const missingFields = requiredFields.filter(
-    (field) => !obj[field] || (typeof obj[field] === 'string' && !obj[field].trim())
+    (field) => !obj[field] || (typeof obj[field] === 'string' && !(obj[field] as string).trim())
   )
 
   return {

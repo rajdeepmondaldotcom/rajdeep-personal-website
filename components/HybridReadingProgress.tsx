@@ -119,7 +119,7 @@ const CircularProgress = ({
 )
 
 type HybridReadingProgressProps = {
-  target: RefObject<HTMLElement>
+  target: RefObject<HTMLElement | null>
   wordCount: number
 }
 

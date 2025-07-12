@@ -25,6 +25,7 @@ import rehypePresetMinify from 'rehype-preset-minify'
 import siteMetadata from './data/siteMetadata'
 import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer.js'
 import prettier from 'prettier'
+import type { Blog as BlogType } from './.contentlayer/generated'
 
 const root = process.cwd()
 const isProduction = process.env.NODE_ENV === 'production'
@@ -94,11 +95,11 @@ const computedFields: ComputedFields = {
  * @param {import('contentlayer/generated').Blog[]} allBlogs - An array of all blog documents.
  * @returns {Promise<void>} A promise that resolves when the file has been written.
  */
-async function createTagCount(allBlogs) {
+async function createTagCount(allBlogs: BlogType[]) {
   const tagCount: Record<string, number> = {}
   allBlogs.forEach((blogPost) => {
     if (blogPost.tags && (!isProduction || blogPost.draft !== true)) {
-      blogPost.tags.forEach((tag) => {
+      blogPost.tags.forEach((tag: string) => {
         const formattedTag = slug(tag)
         if (formattedTag in tagCount) {
           tagCount[formattedTag] += 1
@@ -121,7 +122,7 @@ async function createTagCount(allBlogs) {
  *
  * @param {import('contentlayer/generated').Blog[]} allBlogs - An array of all blog documents.
  */
-function createSearchIndex(allBlogs) {
+function createSearchIndex(allBlogs: BlogType[]) {
   if (
     siteMetadata?.search?.provider === 'kbar' &&
     siteMetadata.search.kbarConfig.searchDocumentsPath
