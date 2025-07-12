@@ -16,7 +16,7 @@ interface PageTitleProps {
  */
 export default function PageTitle({ children }: PageTitleProps) {
   return (
-    <h1 className="text-3xl leading-9 font-extrabold tracking-tight text-gray-900 sm:text-4xl sm:leading-10 md:text-5xl md:leading-14 dark:text-gray-100">
+    <h1 className="bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-4xl font-black tracking-tighter text-transparent sm:text-5xl md:text-6xl dark:from-gray-50 dark:to-gray-300">
       {children}
     </h1>
   )

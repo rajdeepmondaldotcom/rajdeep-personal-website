@@ -21,7 +21,9 @@ const SearchButton = () => {
 
     return (
       <SearchButtonWrapper aria-label="Search">
-        <Search className="hover:text-primary-500 dark:hover:text-primary-400 h-6 w-6 text-gray-900 dark:text-gray-100" />
+        <div className="group flex h-10 w-10 items-center justify-center rounded-xl bg-gray-100 shadow-sm transition-all duration-200 hover:bg-gray-200 hover:shadow-md dark:bg-gray-800 dark:hover:bg-gray-700">
+          <Search className="h-5 w-5 text-gray-700 transition-transform duration-200 group-hover:scale-110 dark:text-gray-200" />
+        </div>
       </SearchButtonWrapper>
     )
   }
