@@ -1,59 +1,49 @@
 import ListLayout from '@/layouts/ListLayoutWithTags'
-import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer'
-import { allBlogs } from 'contentlayer/generated'
+import { getPaginatedPosts, getAllPosts } from '@/lib/services'
+import { isValidPageNumber, calculateTotalPages } from '@/lib/utils/pagination'
 import { notFound } from 'next/navigation'
-
-const POSTS_PER_PAGE = 5
+import { PAGINATION } from '@/lib/constants'
 
 /**
- * Generates static parameters for all paginated blog pages.
- *
- * This function calculates the total number of pages and returns an array of
- * all possible page number parameters for static site generation.
- *
- * @returns {Promise<{ page: string }[]>} A promise that resolves to an array of page parameter objects.
+ * Generate static params for all blog page numbers
  */
 export const generateStaticParams = async () => {
-  const totalPages = Math.ceil(allBlogs.length / POSTS_PER_PAGE)
-  const paths = Array.from({ length: totalPages }, (_, i) => ({ page: (i + 1).toString() }))
+  const allPosts = getAllPosts()
+  const totalPages = calculateTotalPages(allPosts.length)
 
-  return paths
+  return Array.from({ length: totalPages }, (_, i) => ({
+    page: (i + 1).toString(),
+  }))
 }
 
 /**
- * The page component for a specific page in the paginated blog list.
- *
- * It calculates the posts to display for the given page number and renders
- * them using the `ListLayout`. It also handles invalid page numbers by
- * returning a 404 error.
- *
- * @param {object} props - The properties for the component.
- * @param {Promise<{ page: string }>} props.params - The route parameters, containing the page number.
- * @returns {Promise<JSX.Element>} A promise that resolves to the rendered paginated blog page.
+ * Paginated Blog Posts Page
+ * Displays blog posts for a specific page number
  */
-export default async function Page(props: { params: Promise<{ page: string }> }) {
+export default async function BlogPagePaginated(props: { params: Promise<{ page: string }> }) {
   const params = await props.params
-  const posts = allCoreContent(sortPosts(allBlogs))
-  const pageNumber = parseInt(params.page as string)
-  const totalPages = Math.ceil(posts.length / POSTS_PER_PAGE)
+  const pageNumber = parseInt(params.page)
 
-  // Return 404 for invalid page numbers or empty pages
-  if (pageNumber <= 0 || pageNumber > totalPages || isNaN(pageNumber)) {
+  // Validate page number
+  const allPosts = getAllPosts()
+  const totalPages = calculateTotalPages(allPosts.length)
+
+  if (!isValidPageNumber(pageNumber, totalPages)) {
     return notFound()
   }
-  const initialDisplayPosts = posts.slice(
-    POSTS_PER_PAGE * (pageNumber - 1),
-    POSTS_PER_PAGE * pageNumber
-  )
+
+  // Get paginated posts
+  const { posts } = getPaginatedPosts(pageNumber)
+
   const pagination = {
     currentPage: pageNumber,
-    totalPages: totalPages,
+    totalPages,
   }
 
   return (
     <ListLayout
-      posts={posts}
-      initialDisplayPosts={initialDisplayPosts}
+      posts={allPosts}
+      initialDisplayPosts={posts}
       pagination={pagination}
       title="All Posts"
     />

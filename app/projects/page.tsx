@@ -1,8 +1,8 @@
 import projectsData from '@/data/projectsData'
 import Card from '@/components/Card'
-import { genPageMetadata } from 'app/seo'
+import { generatePageMetadata } from 'app/seo'
 
-export const metadata = genPageMetadata({ title: 'Projects' })
+export const metadata = generatePageMetadata({ title: 'Projects' })
 
 /**
  * The page component for showcasing projects.

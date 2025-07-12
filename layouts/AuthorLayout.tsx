@@ -3,7 +3,7 @@ import type { Authors } from 'contentlayer/generated'
 import SocialIcon from '@/components/social-icons'
 import Image from '@/components/Image'
 
-interface Props {
+interface AuthorLayoutProps {
   children: ReactNode
   content: Omit<Authors, '_id' | '_raw' | 'body'>
 }
@@ -15,14 +15,14 @@ interface Props {
  * links. The main content, passed as children, is displayed alongside this
  * information.
  *
- * @param {Props} props - The properties for the component.
+ * @param {AuthorLayoutProps} props - The properties for the component.
  * @param {React.ReactNode} props.children - The main content to be rendered,
  *   typically the author's biography from an MDX file.
  * @param {Omit<Authors, '_id' | '_raw' | 'body'>} props.content - The metadata
  *   for the author, sourced from Contentlayer.
  * @returns {JSX.Element} The rendered author profile layout.
  */
-export default function AuthorLayout({ children, content }: Props) {
+export default function AuthorLayout({ children, content }: AuthorLayoutProps) {
   const { name, avatar, occupation, company, email, twitter, linkedin, github } = content
 
   return (

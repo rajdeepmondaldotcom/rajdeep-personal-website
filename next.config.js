@@ -5,83 +5,75 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 })
 
 /**
- * A Content Security Policy (CSP) to mitigate cross-site scripting (XSS)
- * and other code injection attacks.
- * @type {string}
+ * Build Content Security Policy string from directives
  */
-// You might need to insert additional domains in script-src if you are using external services
-const ContentSecurityPolicy = `
-  default-src 'self';
-  script-src 'self' 'unsafe-eval' 'unsafe-inline' giscus.app analytics.umami.is;
-  style-src 'self' 'unsafe-inline';
-  img-src * blob: data:;
-  media-src *.s3.amazonaws.com;
-  connect-src *;
-  font-src 'self';
-  frame-src giscus.app
-`
+const buildCSP = () => {
+  const CSP_DIRECTIVES = {
+    DEFAULT_SRC: ["'self'"],
+    SCRIPT_SRC: ["'self'", "'unsafe-eval'", "'unsafe-inline'", 'giscus.app', 'analytics.umami.is'],
+    STYLE_SRC: ["'self'", "'unsafe-inline'"],
+    IMG_SRC: ['*', 'blob:', 'data:'],
+    MEDIA_SRC: ['*.s3.amazonaws.com'],
+    CONNECT_SRC: ['*'],
+    FONT_SRC: ["'self'"],
+    FRAME_SRC: ['giscus.app'],
+  }
+
+  const directives = Object.entries(CSP_DIRECTIVES)
+    .map(([key, values]) => {
+      const directive = key.replace(/_/g, '-').toLowerCase()
+      return `${directive} ${values.join(' ')}`
+    })
+    .join('; ')
+
+  return directives
+}
 
 /**
- * An array of security-related HTTP headers to be applied to all responses.
- *
- * These headers help to enhance the security of the application by enabling
- * features like CSP, preventing clickjacking, and enforcing secure transport.
- * @type {Array<{key: string, value: string}>}
+ * Security headers configuration
  */
 const securityHeaders = [
-  // https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
   {
     key: 'Content-Security-Policy',
-    value: ContentSecurityPolicy.replace(/\n/g, ''),
+    value: buildCSP().replace(/\n/g, ''),
   },
-  // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
   {
     key: 'Referrer-Policy',
     value: 'strict-origin-when-cross-origin',
   },
-  // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
   {
     key: 'X-Frame-Options',
     value: 'DENY',
   },
-  // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
   {
     key: 'X-Content-Type-Options',
     value: 'nosniff',
   },
-  // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-DNS-Prefetch-Control
   {
     key: 'X-DNS-Prefetch-Control',
     value: 'on',
   },
-  // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security
   {
     key: 'Strict-Transport-Security',
     value: 'max-age=31536000; includeSubDomains',
   },
-  // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Feature-Policy
   {
     key: 'Permissions-Policy',
     value: 'camera=(), microphone=(), geolocation=()',
   },
 ]
 
+// Build configuration
 const output = process.env.EXPORT ? 'export' : undefined
 const basePath = process.env.BASE_PATH || undefined
 const unoptimized = process.env.UNOPTIMIZED ? true : undefined
 
 /**
- * The main Next.js configuration object.
- *
- * This function constructs the final Next.js configuration by applying a series
- * of plugins (`withContentlayer`, `withBundleAnalyzer`). It sets up page extensions,
- * ESLint directories, image remote patterns, security headers, and custom
- * webpack configurations.
- *
- * @type {import('next/dist/next-server/server/config').NextConfig}
- **/
+ * Next.js configuration
+ */
 module.exports = () => {
   const plugins = [withContentlayer, withBundleAnalyzer]
+
   return plugins.reduce((acc, next) => next(acc), {
     output,
     basePath,
@@ -108,7 +100,7 @@ module.exports = () => {
         },
       ]
     },
-    webpack: (config, options) => {
+    webpack: (config) => {
       config.module.rules.push({
         test: /\.svg$/,
         use: ['@svgr/webpack'],

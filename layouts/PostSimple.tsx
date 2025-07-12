@@ -14,8 +14,8 @@ import HybridReadingProgress from '@/components/HybridReadingProgress'
 interface LayoutProps {
   content: CoreContent<Blog>
   children: ReactNode
-  next?: { path: string; title: string }
-  prev?: { path: string; title: string }
+  nextPost?: { path: string; title: string }
+  previousPost?: { path: string; title: string }
 }
 
 /**
@@ -27,15 +27,15 @@ interface LayoutProps {
  * @param {LayoutProps} props - The properties for the component.
  * @param {CoreContent<Blog>} props.content - The core content of the blog post.
  * @param {React.ReactNode} props.children - The main content of the post (the body).
- * @param {object} [props.next] - Optional. The next post in the series.
- * @param {string} props.next.path - The path to the next post.
- * @param {string} props.next.title - The title of the next post.
- * @param {object} [props.prev] - Optional. The previous post in the series.
- * @param {string} props.prev.path - The path to the previous post.
- * @param {string} props.prev.title - The title of the previous post.
+ * @param {object} [props.nextPost] - Optional. The next post in the series.
+ * @param {string} props.nextPost.path - The path to the next post.
+ * @param {string} props.nextPost.title - The title of the next post.
+ * @param {object} [props.previousPost] - Optional. The previous post in the series.
+ * @param {string} props.previousPost.path - The path to the previous post.
+ * @param {string} props.previousPost.title - The title of the previous post.
  * @returns {JSX.Element} The rendered post layout.
  */
-export default function PostLayout({ content, next, prev, children }: LayoutProps) {
+export default function PostLayout({ content, nextPost, previousPost, children }: LayoutProps) {
   const { slug, date, title, readingTime } = content
   const contentRef = useRef(null)
 
@@ -72,25 +72,25 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
             )}
             <footer>
               <div className="flex flex-col text-sm font-medium sm:flex-row sm:justify-between sm:text-base">
-                {prev && prev.path && (
+                {previousPost && previousPost.path && (
                   <div className="pt-4 xl:pt-8">
                     <Link
-                      href={`/${prev.path}`}
+                      href={`/${previousPost.path}`}
                       className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-                      aria-label={`Previous post: ${prev.title}`}
+                      aria-label={`Previous post: ${previousPost.title}`}
                     >
-                      &larr; {prev.title}
+                      &larr; {previousPost.title}
                     </Link>
                   </div>
                 )}
-                {next && next.path && (
+                {nextPost && nextPost.path && (
                   <div className="pt-4 xl:pt-8">
                     <Link
-                      href={`/${next.path}`}
+                      href={`/${nextPost.path}`}
                       className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-                      aria-label={`Next post: ${next.title}`}
+                      aria-label={`Next post: ${nextPost.title}`}
                     >
-                      {next.title} &rarr;
+                      {nextPost.title} &rarr;
                     </Link>
                   </div>
                 )}

@@ -103,7 +103,9 @@ export default function ListLayoutWithTags({
   const pathname = usePathname()
   const tagCounts = tagData as Record<string, number>
   const tagKeys = Object.keys(tagCounts)
-  const sortedTags = tagKeys.sort((a, b) => tagCounts[b] - tagCounts[a])
+  const sortedTags = tagKeys.sort(
+    (firstTag, secondTag) => tagCounts[secondTag] - tagCounts[firstTag]
+  )
 
   const displayPosts = initialDisplayPosts.length > 0 ? initialDisplayPosts : posts
 
@@ -129,20 +131,20 @@ export default function ListLayoutWithTags({
                 </Link>
               )}
               <ul>
-                {sortedTags.map((t) => {
+                {sortedTags.map((tag) => {
                   return (
-                    <li key={t} className="my-3">
-                      {decodeURI(pathname.split('/tags/')[1]) === slug(t) ? (
+                    <li key={tag} className="my-3">
+                      {pathname.split('/tags/')[1]?.split('/')[0] === tag ? (
                         <h3 className="text-primary-500 inline px-3 py-2 text-sm font-bold uppercase">
-                          {`${t} (${tagCounts[t]})`}
+                          {tag} ({tagCounts[tag]})
                         </h3>
                       ) : (
                         <Link
-                          href={`/tags/${slug(t)}`}
-                          className="hover:text-primary-500 dark:hover:text-primary-500 px-3 py-2 text-sm font-medium text-gray-500 uppercase dark:text-gray-300"
-                          aria-label={`View posts tagged ${t}`}
+                          href={`/tags/${slug(tag)}`}
+                          className="text-muted-foreground hover:text-foreground dark:hover:text-primary-500 px-3 py-2 text-sm font-medium uppercase"
+                          aria-label={`View posts tagged ${tag}`}
                         >
-                          {`${t} (${tagCounts[t]})`}
+                          {tag} ({tagCounts[tag]})
                         </Link>
                       )}
                     </li>

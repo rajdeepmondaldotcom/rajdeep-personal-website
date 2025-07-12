@@ -1,18 +1,18 @@
-import { sortPosts, allCoreContent } from 'pliny/utils/contentlayer'
-import { allBlogs, allAuthors } from 'contentlayer/generated'
-import Main from './Main'
+import HomePage from './HomePage'
+import { getAllPosts, getDefaultAuthor } from '@/lib/services'
+import { ERROR_MESSAGES } from '@/lib/constants'
 
 /**
- * The main entry point for the homepage.
- *
- * This server component fetches and sorts all blog posts, then passes them
- * to the `Main` client component to be rendered.
- *
- * @returns {Promise<JSX.Element>} A promise that resolves to the rendered homepage component.
+ * Homepage Route Handler
+ * Server component that fetches data and renders the homepage
  */
 export default async function Page() {
-  const sortedPosts = sortPosts(allBlogs)
-  const posts = allCoreContent(sortedPosts)
-  const author = allAuthors.find((p) => p.slug === 'default')
-  return <Main posts={posts} author={author} />
+  const posts = getAllPosts()
+  const authorResponse = getDefaultAuthor()
+
+  if (authorResponse.error) {
+    throw new Error(ERROR_MESSAGES.AUTHOR_NOT_FOUND)
+  }
+
+  return <HomePage posts={posts} author={authorResponse.data!} />
 }

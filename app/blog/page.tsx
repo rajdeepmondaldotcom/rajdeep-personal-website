@@ -1,36 +1,26 @@
-import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer'
-import { allBlogs } from 'contentlayer/generated'
-import { genPageMetadata } from 'app/seo'
-import ListLayout from '@/layouts/ListLayoutWithTags'
+import ListLayout from '@/layouts/ListLayout'
+import { getPaginatedPosts } from '@/lib/services'
+import { generatePageMetadata } from 'app/seo'
+import { PAGINATION } from '@/lib/constants'
 
-const POSTS_PER_PAGE = 5
-
-export const metadata = genPageMetadata({ title: 'Blog' })
+export const metadata = generatePageMetadata({ title: 'Blog' })
 
 /**
- * The main page for the blog, displaying a paginated list of all posts.
- *
- * This component fetches all blog posts, calculates the necessary pagination,
- * and renders the initial list of posts using the `ListLayout`.
- *
- * @param {object} props - The properties for the component.
- * @param {Promise<{ page: string }>} props.searchParams - The search parameters, used for pagination.
- * @returns {Promise<JSX.Element>} A promise that resolves to the rendered blog page.
+ * Blog Listing Page
+ * Displays all blog posts with pagination
  */
-export default async function BlogPage(props: { searchParams: Promise<{ page: string }> }) {
-  const posts = allCoreContent(sortPosts(allBlogs))
-  const pageNumber = 1
-  const totalPages = Math.ceil(posts.length / POSTS_PER_PAGE)
-  const initialDisplayPosts = posts.slice(0, POSTS_PER_PAGE * pageNumber)
+export default function BlogPage() {
+  const { posts, totalPages } = getPaginatedPosts(PAGINATION.DEFAULT_PAGE)
+
   const pagination = {
-    currentPage: pageNumber,
-    totalPages: totalPages,
+    currentPage: PAGINATION.DEFAULT_PAGE,
+    totalPages,
   }
 
   return (
     <ListLayout
       posts={posts}
-      initialDisplayPosts={initialDisplayPosts}
+      initialDisplayPosts={posts}
       pagination={pagination}
       title="All Posts"
     />

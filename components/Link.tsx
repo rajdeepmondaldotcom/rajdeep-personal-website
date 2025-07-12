@@ -4,7 +4,7 @@ import type { LinkProps } from 'next/link'
 import { AnchorHTMLAttributes } from 'react'
 
 /**
- * A custom link component that intelligently handles internal, external, and
+ * An adaptive link component that intelligently handles internal, external, and
  * anchor links.
  *
  * - For internal links (starting with '/'), it uses `next/link` for optimized
@@ -19,7 +19,7 @@ import { AnchorHTMLAttributes } from 'react'
  * @param {string} props.href - The URL for the link.
  * @returns {JSX.Element} The rendered link component.
  */
-const CustomLink = ({ href, ...rest }: LinkProps & AnchorHTMLAttributes<HTMLAnchorElement>) => {
+const AdaptiveLink = ({ href, ...rest }: LinkProps & AnchorHTMLAttributes<HTMLAnchorElement>) => {
   const isInternalLink = href && href.startsWith('/')
   const isAnchorLink = href && href.startsWith('#')
 
@@ -36,4 +36,4 @@ const CustomLink = ({ href, ...rest }: LinkProps & AnchorHTMLAttributes<HTMLAnch
   )
 }
 
-export default CustomLink
+export default AdaptiveLink

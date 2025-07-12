@@ -23,7 +23,12 @@ interface PageSEOProps {
  * @param {object} [props.rest] - Additional metadata properties to be spread into the object.
  * @returns {Metadata} The generated metadata object for the page.
  */
-export function genPageMetadata({ title, description, image, ...rest }: PageSEOProps): Metadata {
+export function generatePageMetadata({
+  title,
+  description,
+  image,
+  ...rest
+}: PageSEOProps): Metadata {
   return {
     title,
     description: description || siteMetadata.description,

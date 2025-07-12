@@ -1,20 +1,20 @@
 import { ReactNode } from 'react'
 
-interface Props {
+interface PageTitleProps {
   children: ReactNode
 }
 
 /**
- * A component for rendering a consistent, styled page title.
+ * A component for rendering page titles with consistent styling.
  *
- * It applies standard heading styles for page titles across the site,
- * ensuring a uniform look and feel.
+ * Displays the title with large, bold text and responsive sizing across
+ * different screen sizes. Used as the main heading for pages and blog posts.
  *
- * @param {object} props - The properties for the component.
- * @param {React.ReactNode} props.children - The content to be displayed as the page title.
- * @returns {JSX.Element} The rendered h1 element with styling.
+ * @param {PageTitleProps} props - The component properties
+ * @param {React.ReactNode} props.children - The title text or elements to display
+ * @returns {JSX.Element} The rendered page title
  */
-export default function PageTitle({ children }: Props) {
+export default function PageTitle({ children }: PageTitleProps) {
   return (
     <h1 className="text-3xl leading-9 font-extrabold tracking-tight text-gray-900 sm:text-4xl sm:leading-10 md:text-5xl md:leading-14 dark:text-gray-100">
       {children}

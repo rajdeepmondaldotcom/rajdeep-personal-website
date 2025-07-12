@@ -4,7 +4,7 @@ import Footer from './Footer'
 import { ReactNode } from 'react'
 import Header from './Header'
 
-interface Props {
+interface LayoutWrapperProps {
   children: ReactNode
 }
 
@@ -19,12 +19,12 @@ const inter = Inter({
  * footer, and sets the primary font for the site using `next/font`. It ensures
  * a consistent layout across all pages.
  *
- * @param {object} props - The properties for the component.
+ * @param {LayoutWrapperProps} props - The properties for the component.
  * @param {React.ReactNode} props.children - The child elements to be rendered
  *   within the main content area of the layout.
  * @returns {JSX.Element} The rendered page layout with header, content, and footer.
  */
-const LayoutWrapper = ({ children }: Props) => {
+const LayoutWrapper = ({ children }: LayoutWrapperProps) => {
   return (
     <div className={`${inter.className} flex h-screen flex-col justify-between font-sans`}>
       <Header />

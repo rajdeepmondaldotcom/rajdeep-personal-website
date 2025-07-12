@@ -1,11 +1,12 @@
 import { slug } from 'github-slugger'
 import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer'
+import siteMetadata from '@/data/siteMetadata'
 import ListLayout from '@/layouts/ListLayoutWithTags'
 import { allBlogs } from 'contentlayer/generated'
 import tagData from 'app/tag-data.json'
 import { notFound } from 'next/navigation'
 
-const POSTS_PER_PAGE = 5
+const POSTS_PER_PAGE_LIMIT = 5
 
 /**
  * Generates static parameters for paginated tag pages.
@@ -19,7 +20,7 @@ export const generateStaticParams = async () => {
   const tagCounts = tagData as Record<string, number>
   return Object.keys(tagCounts).flatMap((tag) => {
     const postCount = tagCounts[tag]
-    const totalPages = Math.max(1, Math.ceil(postCount / POSTS_PER_PAGE))
+    const totalPages = Math.max(1, Math.ceil(postCount / POSTS_PER_PAGE_LIMIT))
     return Array.from({ length: totalPages }, (_, i) => ({
       tag: encodeURI(tag),
       page: (i + 1).toString(),
@@ -43,17 +44,21 @@ export default async function TagPage(props: { params: Promise<{ tag: string; pa
   const title = tag[0].toUpperCase() + tag.split(' ').join('-').slice(1)
   const pageNumber = parseInt(params.page)
   const filteredPosts = allCoreContent(
-    sortPosts(allBlogs.filter((post) => post.tags && post.tags.map((t) => slug(t)).includes(tag)))
+    sortPosts(
+      allBlogs.filter(
+        (post) => post.tags && post.tags.map((tagItem) => slug(tagItem)).includes(tag)
+      )
+    )
   )
-  const totalPages = Math.ceil(filteredPosts.length / POSTS_PER_PAGE)
+  const totalPages = Math.ceil(filteredPosts.length / POSTS_PER_PAGE_LIMIT)
 
   // Return 404 for invalid page numbers or empty pages
   if (pageNumber <= 0 || pageNumber > totalPages || isNaN(pageNumber)) {
     return notFound()
   }
   const initialDisplayPosts = filteredPosts.slice(
-    POSTS_PER_PAGE * (pageNumber - 1),
-    POSTS_PER_PAGE * pageNumber
+    POSTS_PER_PAGE_LIMIT * (pageNumber - 1),
+    POSTS_PER_PAGE_LIMIT * pageNumber
   )
   const pagination = {
     currentPage: pageNumber,

@@ -1,76 +1,89 @@
 'use client'
 
 import { useState } from 'react'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
-import siteMetadata from '@/data/siteMetadata'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { isValidEmail, sanitizeInput } from '@/lib/utils/validation'
+import { LoadingSpinner } from '@/components/ui/loading'
+import { ERROR_MESSAGES } from '@/lib/constants'
+
+interface NewsletterFormProps {
+  title?: string
+  description?: string
+}
 
 /**
- * A newsletter signup form that captures user emails and provides feedback
- * using toast notifications.
- *
- * It features a clean, modern design using `shadcn/ui` components and sends
- * subscription requests to a serverless function.
- *
- * @returns {JSX.Element} The rendered newsletter form.
+ * Newsletter Subscription Form Component
+ * Handles email collection with validation and API submission
  */
-const NewsletterForm = () => {
+export default function NewsletterForm({
+  title = 'Subscribe to my newsletter',
+  description = "I'll only send emails when new content is posted. No spam.",
+}: NewsletterFormProps) {
   const [email, setEmail] = useState('')
-  const [error, setError] = useState('')
-  const [subscribed, setSubscribed] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
-  const handleSubscribe = async (e) => {
-    e.preventDefault()
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
 
-    if (!siteMetadata.newsletter?.provider) {
+    // Validate email
+    const sanitizedEmail = sanitizeInput(email)
+    if (!isValidEmail(sanitizedEmail)) {
+      toast.error('Please enter a valid email address')
       return
     }
 
-    const res = await fetch(siteMetadata.newsletter.provider, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email }),
-    })
+    setIsLoading(true)
 
-    const data = await res.json()
+    try {
+      const response = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: sanitizedEmail }),
+      })
 
-    if (!res.ok) {
-      setError(data.error || 'There was an error subscribing to the newsletter.')
-      toast.error('Failed to subscribe. Please try again.')
-      return
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to subscribe')
+      }
+
+      toast.success('Successfully subscribed! 🎉')
+      setEmail('')
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : 'Something went wrong. Please try again.'
+
+      toast.error(errorMessage)
+    } finally {
+      setIsLoading(false)
     }
-
-    setEmail('')
-    setError('')
-    setSubscribed(true)
-    toast.success('Successfully subscribed!')
   }
 
   return (
-    <div className="w-full max-w-md">
-      <h2 className="text-center text-2xl font-bold tracking-tight">Subscribe to my newsletter</h2>
-      <p className="mt-2 text-center text-gray-600 dark:text-gray-400">
-        Get the latest updates and articles delivered straight to your inbox.
-      </p>
-      <form className="mt-4 flex flex-col gap-2 sm:flex-row" onSubmit={handleSubscribe}>
+    <div className="rounded-lg bg-gray-100 p-6 dark:bg-gray-800">
+      <h2 className="mb-2 text-lg font-semibold">{title}</h2>
+      <p className="mb-4 text-sm text-gray-600 dark:text-gray-400">{description}</p>
+
+      <form onSubmit={handleSubmit} className="flex gap-2">
         <Input
           type="email"
-          placeholder="Enter your email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          placeholder="Enter your email"
           required
-          aria-label="Email for newsletter"
+          disabled={isLoading}
+          aria-label="Email address"
+          className="flex-1"
         />
-        <Button type="submit" disabled={subscribed}>
-          {subscribed ? 'Subscribed!' : 'Subscribe'}
+
+        <Button type="submit" disabled={isLoading} className="min-w-[100px]">
+          {isLoading ? <LoadingSpinner size="sm" /> : 'Subscribe'}
         </Button>
       </form>
-      {error && <p className="mt-2 text-sm text-red-500">{error}</p>}
     </div>
   )
 }
-
-export default NewsletterForm

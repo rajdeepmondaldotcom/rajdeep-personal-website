@@ -1,21 +1,21 @@
 import { ReactNode } from 'react'
 
-interface Props {
+interface SectionContainerProps {
   children: ReactNode
 }
 
 /**
- * A container component for creating consistent, centered content sections.
+ * A container component that provides consistent horizontal padding and centering
+ * for page sections.
  *
- * It wraps its children in a `<section>` element with predefined horizontal
- * padding and a maximum width, ensuring content is centered and constrained
- * within the layout.
+ * This component wraps its children in a div with responsive padding and max-width
+ * constraints to maintain proper content alignment across different screen sizes.
  *
- * @param {object} props - The properties for the component.
- * @param {React.ReactNode} props.children - The content to be rendered within the section.
- * @returns {JSX.Element} The rendered section container.
+ * @param {SectionContainerProps} props - The component properties
+ * @param {React.ReactNode} props.children - The child elements to be rendered within the container
+ * @returns {JSX.Element} The rendered section container
  */
-export default function SectionContainer({ children }: Props) {
+export default function SectionContainer({ children }: SectionContainerProps) {
   return (
     <section className="mx-auto max-w-3xl px-4 sm:px-6 xl:max-w-5xl xl:px-0">{children}</section>
   )

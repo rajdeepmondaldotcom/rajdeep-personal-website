@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { slug } from 'github-slugger'
-interface Props {
+
+interface TagProps {
   text: string
 }
 
@@ -10,11 +11,11 @@ interface Props {
  * It takes a tag string, slugifies it for the URL, and displays it.
  * The link points to the corresponding tag page.
  *
- * @param {Props} props - The properties for the component.
+ * @param {TagProps} props - The properties for the component.
  * @param {string} props.text - The text of the tag to display.
  * @returns {JSX.Element} The rendered tag link.
  */
-const Tag = ({ text }: Props) => {
+const Tag = ({ text }: TagProps) => {
   return (
     <Link
       href={`/tags/${slug(text)}`}
