@@ -41,7 +41,7 @@ const AuthorDetails = ({ authorDetails }: { authorDetails: CoreContent<Authors>[
                   <dt className="sr-only">LinkedIn</dt>
                   <dd>
                     <Link href={author.linkedin} className={COMMON_STYLES.TEXT.PRIMARY}>
-                      @{author.linkedin.split('/').pop()}
+                      @{author.linkedin.split('/').filter(Boolean).pop() || 'rajdeep-mondal'}
                     </Link>
                   </dd>
                 </>

@@ -4,7 +4,7 @@ import { useState, useEffect, RefObject } from 'react'
 import { motion, MotionValue } from 'framer-motion'
 import { Check } from 'lucide-react'
 import { useTheme } from 'next-themes'
-import { useReadingProgress } from '@/lib/hooks/useReadingProgress'
+import { useReadingProgress } from '@/lib/hooks'
 
 type TopProgressBarProps = {
   scaleX: MotionValue<number>
