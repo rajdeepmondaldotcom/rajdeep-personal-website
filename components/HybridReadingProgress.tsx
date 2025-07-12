@@ -26,16 +26,16 @@ const TopProgressBar = ({ scaleX, backgroundColor, ariaValueNow }: TopProgressBa
 
 type CircularProgressProps = {
   onScrollTop: () => void
-  percentRead: number
-  minutesLeft: number
+  percentageRead: number
+  estimatedMinutesLeft: number
   scrollYProgress: MotionValue<number>
   strokeColor: MotionValue<string>
 }
 
 const CircularProgress = ({
   onScrollTop,
-  percentRead,
-  minutesLeft,
+  percentageRead,
+  estimatedMinutesLeft,
   scrollYProgress,
   strokeColor,
 }: CircularProgressProps) => (
@@ -57,7 +57,7 @@ const CircularProgress = ({
           strokeWidth="10"
           pathLength="1"
         />
-        {percentRead < 100 ? (
+        {percentageRead < 100 ? (
           <motion.circle
             cx="50"
             cy="50"
@@ -71,12 +71,14 @@ const CircularProgress = ({
         )}
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        {percentRead < 100 ? (
+        {percentageRead < 100 ? (
           <>
             <span className="text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
-              {percentRead}%
+              {percentageRead}%
             </span>
-            <span className="text-xs text-gray-500 dark:text-gray-400">{minutesLeft} min left</span>
+            <span className="text-xs text-gray-500 dark:text-gray-400">
+              {estimatedMinutesLeft} min left
+            </span>
           </>
         ) : (
           <Check className="h-10 w-10 text-emerald-500" />
@@ -99,8 +101,14 @@ export const HybridReadingProgress = ({ target, wordCount }: HybridReadingProgre
     setMounted(true)
   }, [])
 
-  const { percentRead, minutesLeft, scaleX, strokeColor, strokeColorDark, scrollYProgress } =
-    useReadingProgress(target, wordCount)
+  const {
+    percentageRead,
+    estimatedMinutesLeft,
+    topBarScaleX,
+    circularProgressColor,
+    circularProgressColorDark,
+    scrollYProgress,
+  } = useReadingProgress(target, wordCount)
 
   const handleScrollTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -110,19 +118,20 @@ export const HybridReadingProgress = ({ target, wordCount }: HybridReadingProgre
     return null
   }
 
-  const finalStrokeColor = resolvedTheme === 'dark' ? strokeColorDark : strokeColor
+  const finalStrokeColor =
+    resolvedTheme === 'dark' ? circularProgressColorDark : circularProgressColor
 
   return (
     <>
       <TopProgressBar
-        scaleX={scaleX}
+        scaleX={topBarScaleX}
         backgroundColor={finalStrokeColor}
-        ariaValueNow={percentRead}
+        ariaValueNow={percentageRead}
       />
       <CircularProgress
         onScrollTop={handleScrollTop}
-        percentRead={percentRead}
-        minutesLeft={minutesLeft}
+        percentageRead={percentageRead}
+        estimatedMinutesLeft={estimatedMinutesLeft}
         scrollYProgress={scrollYProgress}
         strokeColor={finalStrokeColor}
       />

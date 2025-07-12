@@ -17,20 +17,23 @@ const socialIconLabels: Record<string, string> = {
   x: 'X (formerly Twitter)',
 }
 
-type SocialIconProps = {
+type SocialLinkProps = {
   kind: keyof typeof components
-  href: string | undefined
+  href?: string | undefined
   size?: number
 }
 
-const SocialIcon = ({ kind, href, size = 8 }: SocialIconProps) => {
-  if (
-    !href ||
-    (kind === 'mail' && !/^mailto:[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(href))
-  )
+const SocialLink = ({ kind, href, size = 8 }: SocialLinkProps) => {
+  if (!href) {
     return null
+  }
 
-  const SocialSvg = components[kind]
+  // Special handling for mailto links to ensure they are valid
+  if (kind === 'mail' && !/^mailto:.+@.+\..+/.test(href)) {
+    return null
+  }
+
+  const IconComponent = components[kind]
 
   return (
     <a
@@ -41,11 +44,11 @@ const SocialIcon = ({ kind, href, size = 8 }: SocialIconProps) => {
       aria-label={`My ${socialIconLabels[kind]} profile`}
     >
       <span className="sr-only">{`My ${socialIconLabels[kind]} profile`}</span>
-      <SocialSvg
+      <IconComponent
         className={`hover:text-primary-500 dark:hover:text-primary-400 h-6 w-6 text-gray-700 dark:text-gray-200`}
       />
     </a>
   )
 }
 
-export default SocialIcon
+export default SocialLink

@@ -11,7 +11,7 @@ const ThemeSwitch = () => {
 
   useEffect(() => setMounted(true), [])
 
-  const toggleTheme = () => {
+  const switchTheme = () => {
     setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
   }
 
@@ -24,7 +24,7 @@ const ThemeSwitch = () => {
       aria-label={`Switch to ${resolvedTheme === 'dark' ? 'light' : 'dark'} mode`}
       type="button"
       className="flex items-center justify-center rounded-lg p-2 transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-700"
-      onClick={toggleTheme}
+      onClick={switchTheme}
       whileHover={{ scale: 1.1, rotate: resolvedTheme === 'dark' ? 90 : -90 }}
       whileFocus={{ scale: 1.1, rotate: resolvedTheme === 'dark' ? 90 : -90 }}
       transition={{ type: 'spring', stiffness: 300, damping: 20 }}
