@@ -136,7 +136,11 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
         nextPost={nextPost}
         previousPost={previousPost}
       >
-        <MDXLayoutRenderer code={post.body.code} components={components} toc={post.toc as unknown} />
+        <MDXLayoutRenderer
+          code={post.body.code}
+          components={components}
+          toc={post.toc as unknown}
+        />
       </Layout>
     </>
   )

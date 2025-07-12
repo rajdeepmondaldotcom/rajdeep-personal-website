@@ -15,10 +15,10 @@ export default function Footer() {
       <div className="py-12">
         <div className="flex flex-col items-center gap-6">
           <div className="flex items-center gap-4">
-            <SocialLink kind="mail" href={`mailto:${siteMetadata.email as string}`} size={6} />
-            <SocialLink kind="github" href={siteMetadata.github as string} size={6} />
-            <SocialLink kind="linkedin" href={siteMetadata.linkedin as string} size={6} />
-            <SocialLink kind="x" href={siteMetadata.x as string} size={6} />
+            <SocialLink kind="mail" href={`mailto:${siteMetadata.email}`} size={6} />
+            <SocialLink kind="github" href={siteMetadata.github} size={6} />
+            <SocialLink kind="linkedin" href={siteMetadata.linkedin} size={6} />
+            <SocialLink kind="x" href={siteMetadata.x} size={6} />
             {/* <SocialIcon kind="instagram" href={siteMetadata.instagram} size={6} /> */}
           </div>
           <div className="flex items-center gap-2 text-base text-gray-600 dark:text-gray-400">

@@ -13,15 +13,9 @@ export const dynamic = 'force-static'
 
 const newsletterProvider = siteMetadata.newsletter?.provider
 
-const handler = newsletterProvider 
+const handler = newsletterProvider
   ? NewsletterAPI({
-      provider: newsletterProvider as 
-        | 'buttondown' 
-        | 'convertkit' 
-        | 'klaviyo' 
-        | 'mailchimp' 
-        | 'emailoctopus' 
-        | 'beehiiv',
+      provider: newsletterProvider,
     })
   : NewsletterAPI({ provider: 'mailchimp' }) // Default provider
 
