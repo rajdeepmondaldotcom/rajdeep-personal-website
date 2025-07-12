@@ -3,7 +3,7 @@ const siteMetadata = {
   title: 'Rajdeep Mondal',
   author: 'Rajdeep Mondal',
   headerTitle: 'Rajdeep Mondal',
-  description: 'I build AI agents that are useful.',
+  description: 'I build AI agents that are useful. Powered by Next.js 15 & React 19.',
   language: 'en-us',
   theme: 'dark', // system, dark or light
   siteUrl: 'https://rajdeepmondal.com',
