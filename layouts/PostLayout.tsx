@@ -1,8 +1,8 @@
 'use client'
 
-import { ReactNode, useRef } from 'react'
+import { useRef } from 'react'
 import { CoreContent } from 'pliny/utils/contentlayer'
-import type { Blog, Authors } from 'contentlayer/generated'
+import type { Authors } from 'contentlayer/generated'
 import Comments from '@/components/Comments'
 import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
@@ -12,7 +12,7 @@ import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import HybridReadingProgress from '@/components/HybridReadingProgress'
 import { PostLayoutProps } from '@/lib/types'
-import { DATE_FORMATS, COMMON_STYLES, ROUTES } from '@/lib/constants'
+import { DATE_FORMATS, COMMON_STYLES } from '@/lib/constants'
 
 /**
  * Author Details Component
@@ -122,7 +122,7 @@ export default function PostLayout({
   const { path, slug, date, title, tags, readingTime } = content
   const basePath = path.split('/')[0]
   const contentRef = useRef<HTMLDivElement>(null)
-  const wordCount = readingTime.words
+  const wordCount = (readingTime as { words: number }).words
 
   return (
     <SectionContainer>

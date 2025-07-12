@@ -45,7 +45,10 @@ export default function PostMinimal({ content, nextPost, previousPost, children 
 
   return (
     <SectionContainer>
-      <HybridReadingProgress target={contentRef} wordCount={readingTime.words} />
+      <HybridReadingProgress
+        target={contentRef}
+        wordCount={(readingTime as { words: number }).words}
+      />
       <article ref={contentRef}>
         <div>
           <div className="space-y-1 pb-10 text-center dark:border-gray-700">

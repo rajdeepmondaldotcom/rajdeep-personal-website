@@ -6,7 +6,7 @@ import { useTheme } from 'next-themes'
 import { useMemo, useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-const Comments = ({ slug }: { slug: string }) => {
+const Comments = ({ slug: _slug }: { slug: string }) => {
   const { theme, resolvedTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const [isLoading, setIsLoading] = useState(true)

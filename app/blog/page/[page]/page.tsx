@@ -2,7 +2,6 @@ import ListLayout from '@/layouts/ListLayoutWithTags'
 import { getPaginatedPosts, getAllPosts } from '@/lib/services'
 import { isValidPageNumber, calculateTotalPages } from '@/lib/utils/pagination'
 import { notFound } from 'next/navigation'
-import { PAGINATION } from '@/lib/constants'
 
 /**
  * Generate static params for all blog page numbers

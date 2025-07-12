@@ -36,7 +36,7 @@ export async function generateMetadata(props: {
   let post: Blog
   try {
     post = getPostBySlug(slug)
-  } catch (_error) {
+  } catch {
     return undefined
   }
   const authorDetails = getAuthorDetailsForPost(post.authors)
@@ -44,8 +44,10 @@ export async function generateMetadata(props: {
 
   const publishedAt = formatISODate(post.date)
   const modifiedAt = formatISODate(post.lastmod || post.date)
-  const imageList = post.images?.length ? post.images : [siteMetadata.socialBanner]
-  const ogImages = imageList.map((img: string) => ({
+  const imageList = (post.images as string[] | undefined)?.length
+    ? (post.images as string[])
+    : [siteMetadata.socialBanner]
+  const ogImages = imageList.map((img) => ({
     url: img.includes('http') ? img : siteMetadata.siteUrl + img,
   }))
 
@@ -95,7 +97,7 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
   let post: Blog
   try {
     post = getPostBySlug(slug)
-  } catch (_error) {
+  } catch {
     return notFound()
   }
 

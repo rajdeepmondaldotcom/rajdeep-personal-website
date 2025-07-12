@@ -2,7 +2,7 @@
 
 import { useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Mail, CheckCircle, AlertCircle } from 'lucide-react'
+import { Mail, CheckCircle } from 'lucide-react'
 import { toast } from 'sonner'
 import { UI } from '@/lib/constants'
 
@@ -33,7 +33,7 @@ const NewsletterForm = ({
         body: JSON.stringify({ email }),
       })
 
-      const responseData = await response.json()
+      const responseData = (await response.json()) as { error?: string }
 
       if (!response.ok) {
         throw new Error(responseData.error || 'Failed to subscribe')

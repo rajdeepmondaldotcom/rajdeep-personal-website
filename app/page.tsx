@@ -12,7 +12,7 @@ export default async function Page() {
   let author
   try {
     author = getDefaultAuthor()
-  } catch (_error) {
+  } catch {
     throw new NotFoundError('Default author')
   }
 

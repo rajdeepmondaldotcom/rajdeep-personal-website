@@ -23,7 +23,7 @@ type SocialLinkProps = {
   size?: number
 }
 
-const SocialLink = ({ kind, href, size = 8 }: SocialLinkProps) => {
+const SocialLink = ({ kind, href }: SocialLinkProps) => {
   if (!href) {
     return null
   }

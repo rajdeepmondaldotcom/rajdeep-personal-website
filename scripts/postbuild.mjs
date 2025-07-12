@@ -9,7 +9,7 @@ import rss from './rss.mjs'
  * @returns {Promise<void>} A promise that resolves when all post-build tasks are complete.
  */
 async function postbuild() {
-  await rss()
+  rss()
 }
 
-postbuild()
+void postbuild()

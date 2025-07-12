@@ -1,7 +1,7 @@
 'use client'
 
 import { ReactNode, useRef } from 'react'
-import { formatDate } from 'pliny/utils/formatDate'
+// import { formatDate } from 'pliny/utils/formatDate'
 import { CoreContent } from 'pliny/utils/contentlayer'
 import type { Blog } from 'contentlayer/generated'
 import Comments from '@/components/Comments'
@@ -41,7 +41,10 @@ export default function PostLayout({ content, nextPost, previousPost, children }
 
   return (
     <SectionContainer>
-      <HybridReadingProgress target={contentRef} wordCount={readingTime.words} />
+      <HybridReadingProgress
+        target={contentRef}
+        wordCount={(readingTime as { words: number }).words}
+      />
       <article ref={contentRef}>
         <div>
           <header>

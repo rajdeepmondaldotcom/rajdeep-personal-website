@@ -95,7 +95,7 @@ import { execSync } from 'child_process'
 import fs from 'fs'
 import path from 'path'
 
-function generateFavicons() {
+function _generateFavicons() {
   const logoPath = path.join(__dirname, '../public/static/images/logo.png')
   const faviconDir = path.join(__dirname, '../public/static/favicons')
 
@@ -136,7 +136,7 @@ function generateFavicons() {
     console.log('\n🎉 All favicons generated successfully!')
     console.log("📝 Don't forget to commit the changes:")
     console.log('git add . && git commit -m "feat: update all logos and favicons"')
-  } catch (error) {
+  } catch {
     console.log('\n⚠️  ImageMagick not found or error occurred.')
     console.log('Please use the online method instead: https://realfavicongenerator.net/')
   }
