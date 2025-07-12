@@ -9,9 +9,27 @@
 @tailwind utilities;
 
 @layer base {
+  /* Premium typography and spacing */
+  :root {
+    --premium-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --text-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --shadow-premium: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+
+  html {
+    font-size: 18px; /* Larger base font size for premium feel */
+  }
+
   body {
     font-family: var(--font-inter);
+    letter-spacing: -0.025em;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
+
+  /* Premium heading styles */
   h1,
   h2,
   h3,
@@ -19,10 +37,40 @@
   h5,
   h6 {
     font-family: var(--font-space-grotesk);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    text-rendering: optimizeLegibility;
   }
+
+  /* Enhanced spacing scale */
+  * {
+    line-height: 1.7;
+  }
+
+  h1 {
+    line-height: 1.2;
+  }
+  h2 {
+    line-height: 1.3;
+  }
+  h3 {
+    line-height: 1.4;
+  }
+
+  /* Premium monospace font */
   pre,
   code {
     font-family: var(--font-fira-code);
+    font-variant-ligatures: normal;
+  }
+
+  /* Smooth transitions globally */
+  * {
+    transition-property:
+      color, background-color, border-color, text-decoration-color, fill, stroke, opacity,
+      box-shadow, transform, filter, backdrop-filter;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
   }
 
   *,
@@ -33,6 +81,7 @@
     border-color: var(--color-gray-200, currentColor);
   }
 
+  /* Premium focus states */
   a,
   button {
     outline-color: var(--color-primary-500);
@@ -41,8 +90,16 @@
   a:focus-visible,
   button:focus-visible {
     outline: 2px solid;
+    outline-offset: 2px;
     border-radius: var(--radius-sm);
     outline-color: var(--color-primary-500);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+  }
+
+  /* Premium selection */
+  ::selection {
+    background-color: var(--color-primary-500);
+    color: white;
   }
 }
 
@@ -53,37 +110,38 @@
     var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
     'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
-  /* Colors */
-  /* Copied from https://tailwindcss.com/docs/theme#default-theme-variable-reference */
-  --color-primary-50: oklch(0.971 0.014 343.198);
-  --color-primary-100: oklch(0.948 0.028 342.258);
-  --color-primary-200: oklch(0.899 0.061 343.231);
-  --color-primary-300: oklch(0.823 0.12 346.018);
-  --color-primary-400: oklch(0.718 0.202 349.761);
-  --color-primary-500: oklch(0.656 0.241 354.308);
-  --color-primary-600: oklch(0.592 0.249 0.584);
-  --color-primary-700: oklch(0.525 0.223 3.958);
-  --color-primary-800: oklch(0.459 0.187 3.815);
-  --color-primary-900: oklch(0.408 0.153 2.432);
-  --color-primary-950: oklch(0.284 0.109 3.907);
+  /* Enhanced color palette for premium feel */
+  /* Primary colors with better vibrancy */
+  --color-primary-50: oklch(0.98 0.02 270);
+  --color-primary-100: oklch(0.96 0.04 270);
+  --color-primary-200: oklch(0.92 0.08 270);
+  --color-primary-300: oklch(0.85 0.15 270);
+  --color-primary-400: oklch(0.75 0.25 270);
+  --color-primary-500: oklch(0.65 0.3 270);
+  --color-primary-600: oklch(0.58 0.28 270);
+  --color-primary-700: oklch(0.52 0.25 270);
+  --color-primary-800: oklch(0.46 0.22 270);
+  --color-primary-900: oklch(0.4 0.18 270);
+  --color-primary-950: oklch(0.28 0.15 270);
 
-  --color-gray-50: oklch(0.985 0.002 247.839);
-  --color-gray-100: oklch(0.967 0.003 264.542);
-  --color-gray-200: oklch(0.928 0.006 264.531);
-  --color-gray-300: oklch(0.872 0.01 258.338);
-  --color-gray-400: oklch(0.707 0.022 261.325);
-  --color-gray-500: oklch(0.551 0.027 264.364);
-  --color-gray-600: oklch(0.446 0.03 256.802);
-  --color-gray-700: oklch(0.373 0.034 259.733);
-  --color-gray-800: oklch(0.278 0.033 256.848);
-  --color-gray-900: oklch(0.21 0.034 264.665);
-  --color-gray-950: oklch(0.13 0.028 261.692);
+  /* Premium gray scale */
+  --color-gray-50: oklch(0.99 0.001 264);
+  --color-gray-100: oklch(0.98 0.002 264);
+  --color-gray-200: oklch(0.94 0.004 264);
+  --color-gray-300: oklch(0.88 0.008 264);
+  --color-gray-400: oklch(0.72 0.015 264);
+  --color-gray-500: oklch(0.58 0.02 264);
+  --color-gray-600: oklch(0.46 0.025 264);
+  --color-gray-700: oklch(0.38 0.03 264);
+  --color-gray-800: oklch(0.28 0.035 264);
+  --color-gray-900: oklch(0.18 0.04 264);
+  --color-gray-950: oklch(0.1 0.042 264);
 
-  /* Line heights */
-  --line-height-11: 2.75rem;
-  --line-height-12: 3rem;
-  --line-height-13: 3.25rem;
-  --line-height-14: 3.5rem;
+  /* Enhanced line heights */
+  --line-height-11: 3rem;
+  --line-height-12: 3.5rem;
+  --line-height-13: 4rem;
+  --line-height-14: 4.5rem;
 
   /* Z-index values */
   --z-60: 60;
@@ -91,43 +149,195 @@
   --z-80: 80;
 }
 
+@layer components {
+  /* Premium gradient text */
+  .text-gradient {
+    @apply from-primary-600 bg-gradient-to-r to-purple-600 bg-clip-text text-transparent;
+  }
+
+  /* Premium card styles */
+  .card-premium {
+    @apply shadow-soft hover:shadow-premium rounded-2xl border border-gray-200/50 bg-white/50 backdrop-blur-sm transition-all duration-300 dark:border-gray-700/50 dark:bg-gray-800/50;
+  }
+
+  /* Premium button base */
+  .btn-premium {
+    @apply focus:ring-primary-500/20 inline-flex items-center justify-center rounded-xl font-medium transition-all duration-200 hover:scale-[1.02] focus:ring-4 focus:outline-none active:scale-[0.98];
+  }
+
+  /* Subtle animations */
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.5s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
 @layer utilities {
+  /* Enhanced prose styling */
   .prose {
+    font-size: 1.125rem;
+    line-height: 1.8;
+
+    & p {
+      margin-top: 1.5em;
+      margin-bottom: 1.5em;
+    }
+
     & a {
-      color: var(--color-primary-500);
-      &:hover {
-        color: var(--color-primary-600);
+      color: var(--color-primary-600);
+      text-decoration: none;
+      position: relative;
+      font-weight: 500;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: currentColor;
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform 0.3s ease;
       }
+
+      &:hover::after {
+        transform: scaleX(1);
+        transform-origin: left;
+      }
+
       & code {
-        color: var(--color-primary-400);
+        color: var(--color-primary-500);
       }
     }
+
     & :where(h1, h2) {
-      font-weight: 700;
-      letter-spacing: var(--tracking-tight);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      margin-top: 2em;
+      margin-bottom: 1em;
     }
+
+    & h1 {
+      font-size: 2.5em;
+      line-height: 1.2;
+    }
+
+    & h2 {
+      font-size: 2em;
+      line-height: 1.3;
+    }
+
     & h3 {
-      font-weight: 600;
+      font-weight: 700;
+      font-size: 1.5em;
+      line-height: 1.4;
+      margin-top: 1.75em;
+      margin-bottom: 0.75em;
     }
+
     & :where(code):not(pre code) {
-      color: var(--color-indigo-500);
+      color: var(--color-primary-600);
+      font-weight: 500;
+      background: var(--color-primary-50);
+      padding: 0.125em 0.375em;
+      border-radius: 0.375rem;
+      font-size: 0.875em;
+    }
+
+    & blockquote {
+      border-left-width: 4px;
+      border-left-color: var(--color-primary-500);
+      padding-left: 1.5em;
+      font-style: italic;
+      margin: 2em 0;
+    }
+
+    & ul,
+    & ol {
+      padding-left: 1.5em;
+      margin: 1.5em 0;
+    }
+
+    & li {
+      margin: 0.5em 0;
     }
   }
 
   .prose-invert {
     & a {
-      color: var(--color-primary-500);
+      color: var(--color-primary-400);
+
       &:hover {
-        color: var(--color-primary-400);
+        color: var(--color-primary-300);
       }
+
       & code {
         color: var(--color-primary-400);
       }
     }
+
     & :where(h1, h2, h3, h4, h5, h6) {
-      color: var(--color-gray-100);
+      color: var(--color-gray-50);
+    }
+
+    & :where(code):not(pre code) {
+      background: var(--color-primary-950);
+      color: var(--color-primary-400);
     }
   }
+}
+
+/* Premium scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100 dark:bg-gray-900;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply rounded-full bg-gray-400 dark:bg-gray-600;
+
+  &:hover {
+    @apply bg-gray-500 dark:bg-gray-500;
+  }
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: theme('colors.gray.400') theme('colors.gray.100');
+}
+
+.dark * {
+  scrollbar-color: theme('colors.gray.600') theme('colors.gray.900');
 }
 
 .task-list-item::before {
@@ -139,7 +349,7 @@
 }
 
 .footnotes {
-  @apply mt-12 border-t border-gray-200 pt-8 dark:border-gray-700;
+  @apply mt-16 border-t-2 border-gray-200 pt-12 dark:border-gray-700;
 }
 
 .data-footnote-backref {
@@ -147,39 +357,43 @@
 }
 
 .csl-entry {
-  @apply my-5;
+  @apply my-6;
 }
 
+/* Hide scrollbar for specific elements */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
 
 .no-scrollbar {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-/* https://stackoverflow.com/questions/61083813/how-to-avoid-internal-autofill-selected-style-to-be-applied */
+/* Premium autofill styles */
 input:-webkit-autofill,
 input:-webkit-autofill:focus {
   transition:
     background-color 600000s 0s,
     color 600000s 0s;
+  -webkit-text-fill-color: inherit;
 }
 
 .katex-display {
   overflow: auto hidden;
 }
 
+/* Premium anchor link styling */
 .content-header-link {
   opacity: 0;
-  margin-left: -24px;
-  padding-right: 4px;
+  margin-left: -28px;
+  padding-right: 8px;
+  transition: opacity 0.2s ease;
 }
 
 .content-header:hover .content-header-link,
 .content-header-link:hover {
-  opacity: 1;
+  opacity: 0.7;
 }
 
 .linkicon {

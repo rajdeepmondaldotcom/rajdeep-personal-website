@@ -19,8 +19,9 @@ const Tag = ({ text }: TagProps) => {
   return (
     <Link
       href={`/tags/${slug(text)}`}
-      className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400 mr-3 text-sm font-medium uppercase"
+      className="bg-primary-50 text-primary-700 hover:bg-primary-100 hover:text-primary-800 dark:bg-primary-900/20 dark:text-primary-400 dark:hover:bg-primary-900/30 dark:hover:text-primary-300 inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-sm font-medium transition-all duration-200 hover:shadow-md"
     >
+      <span className="text-xs">#</span>
       {text.split(' ').join('-')}
     </Link>
   )

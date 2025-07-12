@@ -84,17 +84,18 @@ export const VALIDATION = {
 export const COMMON_STYLES = {
   PROSE: 'prose dark:prose-invert max-w-none',
   HEADING: {
-    H1: 'text-3xl leading-9 font-extrabold tracking-tight text-gray-900 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14 dark:text-gray-100',
-    H2: 'text-2xl leading-8 font-bold tracking-tight text-gray-900 dark:text-gray-100',
-    H3: 'text-xl leading-7 font-bold tracking-tight',
+    H1: 'text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-gray-700 dark:from-gray-50 dark:to-gray-300',
+    H2: 'text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-gray-900 dark:text-gray-50',
+    H3: 'text-2xl sm:text-3xl font-bold tracking-tight text-gray-800 dark:text-gray-100',
   },
   TEXT: {
-    MUTED: 'text-gray-500 dark:text-gray-400',
-    PRIMARY: 'text-primary-500 hover:text-primary-600 dark:hover:text-primary-400',
+    MUTED: 'text-gray-600 dark:text-gray-400 text-lg',
+    PRIMARY:
+      'text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium transition-colors',
   },
   LAYOUT: {
-    SECTION_PADDING: 'pt-6 pb-8 md:pt-8 md:pb-12',
-    CARD_SPACING: 'space-y-2 xl:space-y-0',
+    SECTION_PADDING: 'pt-12 pb-16 md:pt-16 md:pb-20 lg:pt-20 lg:pb-24',
+    CARD_SPACING: 'space-y-4 xl:space-y-0',
   },
 } as const
 

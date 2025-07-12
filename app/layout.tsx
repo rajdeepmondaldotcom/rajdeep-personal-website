@@ -66,16 +66,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <meta name="theme-color" media="(prefers-color-scheme: light)" content="#0096FF" />
       <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0096FF" />
       <link rel="alternate" type="application/rss+xml" href={`${basePath}/feed.xml`} />
-      <body className="bg-white text-black antialiased dark:bg-gray-950 dark:text-white">
+      <body className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 text-gray-900 antialiased dark:from-gray-950 dark:to-gray-900 dark:text-gray-50">
         <ThemeProviders>
           <Analytics analyticsConfig={siteMetadata.analytics as AnalyticsConfig} />
           <SpeedInsights />
           <ErrorBoundary>
             <SectionContainer>
-              <div className="flex h-screen flex-col justify-between font-sans">
+              <div className="flex min-h-screen flex-col justify-between font-sans">
                 <SearchProvider searchConfig={siteMetadata.search as SearchConfig}>
                   <Header />
-                  <main className="mb-auto">{children}</main>
+                  <main className="mb-auto flex-grow">{children}</main>
                 </SearchProvider>
                 <Footer />
               </div>
