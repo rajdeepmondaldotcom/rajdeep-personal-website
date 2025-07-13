@@ -1,23 +1,31 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from './Link'
 import headerNavLinks from '@/data/headerNavLinks'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
+import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 
 const MobileNav = () => {
   const [navShow, setNavShow] = useState(false)
+  const menuRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const menu = menuRef.current
+    if (navShow && menu) {
+      disableBodyScroll(menu)
+    } else if (menu) {
+      enableBodyScroll(menu)
+    }
+    return () => {
+      if (menu) enableBodyScroll(menu)
+      clearAllBodyScrollLocks()
+    }
+  }, [navShow])
 
   const onToggleNav = () => {
-    setNavShow((status) => {
-      if (status) {
-        document.body.style.overflow = 'auto'
-      } else {
-        document.body.style.overflow = 'hidden'
-      }
-      return !status
-    })
+    setNavShow((status) => !status)
   }
 
   const menuVariants = {
@@ -95,6 +103,7 @@ const MobileNav = () => {
 
             {/* Menu panel */}
             <motion.nav
+              ref={menuRef}
               variants={menuVariants}
               initial="closed"
               animate="open"
@@ -155,4 +164,4 @@ const MobileNav = () => {
   )
 }
 
-// export default MobileNav // REMOVE EXPORT to disable usage
+export default MobileNav
