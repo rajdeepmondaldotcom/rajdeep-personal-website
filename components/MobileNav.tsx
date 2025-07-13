@@ -35,9 +35,11 @@ const MobileNav = () => {
           >
             {/* Header */}
             <div className="flex items-center justify-between border-b border-gray-200/50 p-6 dark:border-gray-700/50">
-              <h2 className="text-xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
-                Navigation
-              </h2>
+              <Dialog.Title asChild>
+                <h2 className="text-xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
+                  Navigation
+                </h2>
+              </Dialog.Title>
               <Dialog.Close asChild>
                 <button
                   aria-label="Close Menu"
