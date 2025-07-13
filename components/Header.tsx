@@ -60,7 +60,7 @@ const Header = () => {
             </nav>
             <SearchButton />
             <ThemeSwitch />
-            <MobileNav />
+            {/* <MobileNav /> Removed hamburger menu */}
           </div>
         </div>
       </SectionContainer>
