@@ -35,7 +35,9 @@ export default function ReactionsBar({ slug, maxPerReaction = DEFAULT_MAX }: Pro
   // -------------------- hydrate localStorage --------------------------------
   useEffect(() => {
     if (typeof window === 'undefined') return
-    const saved = JSON.parse(localStorage.getItem(`react-${slug}`) || '{}') as Record<string, number>
+    const saved = JSON.parse(
+      localStorage.getItem(`react-${slug}`) || '{}',
+    ) as Record<string, number>
     setLocal(saved)
   }, [slug])
 
@@ -92,12 +94,11 @@ export default function ReactionsBar({ slug, maxPerReaction = DEFAULT_MAX }: Pro
               key={id}
               onClick={() => react(id)}
               disabled={disabled}
-              {/* prettier-ignore */}
-            className="relative flex flex-col items-center text-gray-400 hover:text-primary-400 disabled:opacity-30 group"
+              className="relative group flex flex-col items-center text-gray-400 hover:text-primary-400 disabled:opacity-30"
               aria-label={label}
             >
               <span className="text-2xl leading-none">{emoji}</span>
-              <span className="mt-0.5 text-xs tabular-nums font-medium">{totals[id] ?? 0}</span>
+              <span className="mt-0.5 text-xs font-medium tabular-nums">{totals[id] ?? 0}</span>
               <AnimatePresence>
                 {burst === id && (
                   <motion.span
