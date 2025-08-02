@@ -155,7 +155,7 @@ export default function PostLayout({
             <AuthorDetails authorDetails={authorDetails} />
 
             <div className="xl:col-span-3 xl:row-span-2 xl:pb-0">
-              <div className={`${COMMON_STYLES.PROSE} pt-10 pb-8`}>{children}</div>
+              <div className={`${COMMON_STYLES.PROSE} pt-6 pb-4`}>{children}</div>
 
               {/* Reactions Bar */}
               <div className="border-t border-gray-200/60 pt-8 dark:border-gray-700/60">

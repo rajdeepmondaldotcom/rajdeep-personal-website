@@ -66,7 +66,7 @@ export default function PostLayout({ content, nextPost, previousPost, children }
           </header>
           <div className="grid-rows-[auto_1fr] pb-8">
             <div className="xl:col-span-3 xl:row-span-2 xl:pb-0">
-              <div className="prose dark:prose-invert max-w-none pt-10 pb-8">{children}</div>
+              <div className="prose dark:prose-invert max-w-none pt-6 pb-4">{children}</div>
             </div>
             {siteMetadata.comments && (
               <div className="pt-6 pb-6 text-center text-gray-700 dark:text-gray-300" id="comment">
