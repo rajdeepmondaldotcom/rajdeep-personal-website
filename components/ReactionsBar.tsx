@@ -11,11 +11,11 @@ interface Props {
 
 // prettier-ignore
 const REACTIONS = [
-  { id: 'clap', emoji: '👏', label: 'Clap' },
-  { id: 'heart', emoji: '❤️', label: 'Love' },
-  { id: 'party', emoji: '🎉', label: 'Celebrate' },
-  { id: 'laugh', emoji: '😄', label: 'Funny' },
-  { id: 'think', emoji: '💡', label: 'Insightful' },
+  { id: 'think', emoji: '🧠', label: 'Deep Thinking' },
+  { id: 'growth', emoji: '🌱', label: 'Growth' },
+  { id: 'focus', emoji: '🎯', label: 'Focus' },
+  { id: 'valuable', emoji: '💎', label: 'Valuable' },
+  { id: 'breakthrough', emoji: '⚡', label: 'Breakthrough' },
 ]
 
 const DEFAULT_MAX = 2000
