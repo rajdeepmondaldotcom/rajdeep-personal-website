@@ -101,7 +101,7 @@ export default function ClapButton({ slug, maxClaps = MAX_CLAPS_DEFAULT }: ClapB
       onMouseLeave={onMouseUp}
       disabled={localClaps >= maxClaps}
       aria-label="Clap for this post"
-      className="group relative flex select-none items-center gap-2 text-gray-600 transition-colors hover:text-rose-600 disabled:opacity-40 dark:text-gray-400 dark:hover:text-rose-500"
+      className="group relative flex items-center gap-2 text-gray-600 transition-colors select-none hover:text-rose-600 disabled:opacity-40 dark:text-gray-400 dark:hover:text-rose-500"
     >
       {/* Hand clap emoji for simplicity; replace with custom SVG if desired */}
       <span className="text-xl">👏</span>
