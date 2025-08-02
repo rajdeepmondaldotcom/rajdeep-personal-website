@@ -49,7 +49,7 @@ const memIncr = (k: string, inc: number) => {
 // Helpers
 // ---------------------------------------------------------------------------
 const PREFIX = 'react:'
-const VALID = ['clap', 'heart', 'party', 'laugh', 'think']
+const VALID = ['think', 'growth', 'focus', 'valuable', 'breakthrough']
 
 async function get(key: string) {
   const rest = await restGet(key)

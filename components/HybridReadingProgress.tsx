@@ -23,7 +23,7 @@ const TopProgressBar = ({ scaleX, backgroundColor, ariaValueNow }: TopProgressBa
       style={{
         scaleX,
         backgroundColor,
-        boxShadow: '0 2px 8px rgba(99, 102, 241, 0.3)',
+        boxShadow: '0 2px 8px rgba(0, 150, 255, 0.3)',
       }}
       role="progressbar"
       aria-valuemin={0}

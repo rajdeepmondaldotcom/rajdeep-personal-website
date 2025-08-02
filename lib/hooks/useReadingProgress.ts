@@ -26,17 +26,17 @@ export const useReadingProgress = (
   // Transform scroll progress to scale for top bar
   const topBarScaleX = useTransform(smoothScrollYProgress, [0, 1], [0, 1])
 
-  // Transform scroll progress to colors for circular progress
+  // Transform scroll progress to colors for circular progress - using site's blue theme
   const circularProgressColor = useTransform(
     smoothScrollYProgress,
     [0, 0.25, 0.5, 0.75, 1],
-    ['#6366f1', '#8b5cf6', '#a855f7', '#10b981', '#10b981'] // indigo -> purple -> violet -> green
+    ['#0096FF', '#0EA5E9', '#06B6D4', '#10B981', '#10B981'] // site blue -> sky -> cyan -> green
   )
 
   const circularProgressColorDark = useTransform(
     smoothScrollYProgress,
     [0, 0.25, 0.5, 0.75, 1],
-    ['#818cf8', '#a78bfa', '#c084fc', '#34d399', '#34d399'] // light indigo -> light purple -> light violet -> light green
+    ['#38BDF8', '#0EA5E9', '#22D3EE', '#34D399', '#34D399'] // light blue -> sky -> cyan -> green
   )
 
   // Update percentage and reading time when scroll progress changes

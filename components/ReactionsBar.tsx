@@ -18,13 +18,15 @@ const REACTIONS = [
   { id: 'breakthrough', emoji: '⚡', label: 'Breakthrough' },
 ]
 
-const DEFAULT_MAX = 2000
+const DEFAULT_MAX = 10 // More reasonable per-user limit
 
 export default function ReactionsBar({ slug, maxPerReaction = DEFAULT_MAX }: Props) {
   const [totals, setTotals] = useState<Record<string, number>>({})
   const [local, setLocal] = useState<Record<string, number>>({})
   const [queue, setQueue] = useState<Record<string, number>>({})
   const [burst, setBurst] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   // -------------------- initial fetch ---------------------------------------
   useEffect(() => {
@@ -47,22 +49,49 @@ export default function ReactionsBar({ slug, maxPerReaction = DEFAULT_MAX }: Pro
   useEffect(() => {
     const keys = Object.keys(queue)
     if (keys.length === 0) return
-    const timer = setTimeout(() => {
-      keys.forEach((k) => {
-        const inc = queue[k]
-        if (!inc) return
-        fetch('/api/reactions', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ slug, reaction: k, count: inc }),
-        })
-          .then((r) => r.json())
-          .then(({ total }) =>
+    
+    setIsLoading(true)
+    setError(null)
+    
+    const timer = setTimeout(async () => {
+      try {
+        await Promise.all(
+          keys.map(async (k) => {
+            const inc = queue[k]
+            if (!inc) return
+            
+            const response = await fetch('/api/reactions', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ slug, reaction: k, count: inc }),
+            })
+            
+            if (!response.ok) {
+              throw new Error(`Failed to update ${k} reactions`)
+            }
+            
+            const { total } = await response.json()
             setTotals((t) => ({ ...t, [k]: typeof total === 'number' ? total : t[k] }))
-          )
-      })
-      setQueue({})
-    }, 400)
+          })
+        )
+      } catch (err) {
+        setError('Failed to save reactions. Please try again.')
+        console.error('Reactions error:', err)
+        // Revert optimistic updates on error
+        setTotals((t) => {
+          const reverted = { ...t }
+          keys.forEach((k) => {
+            const inc = queue[k]
+            if (inc) reverted[k] = Math.max(0, (reverted[k] || 0) - inc)
+          })
+          return reverted
+        })
+      } finally {
+        setIsLoading(false)
+        setQueue({})
+      }
+    }, 800) // Slightly longer debounce for better batching
+    
     return () => clearTimeout(timer)
   }, [queue, slug])
 
@@ -87,35 +116,95 @@ export default function ReactionsBar({ slug, maxPerReaction = DEFAULT_MAX }: Pro
 
   // -------------------- render ---------------------------------------------
   return (
-    <div className="mt-12 border-t border-gray-200/50 pt-6 dark:border-gray-700/50">
-      <div className="mx-auto flex max-w-xs justify-between">
+    <div className="mt-12 border-t border-gray-200/50 pt-8 dark:border-gray-700/50">
+      <div className="text-center mb-6">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
+          How did this post make you feel?
+        </h3>
+        <p className="text-sm text-gray-500 dark:text-gray-400">
+          You can react up to {maxPerReaction} times per emotion
+        </p>
+      </div>
+      
+      {error && (
+        <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+          <p className="text-sm text-red-600 dark:text-red-400 text-center">{error}</p>
+        </div>
+      )}
+      
+      <div className="flex justify-center items-center gap-4 max-w-md mx-auto">
         {REACTIONS.map(({ id, emoji, label }) => {
-          const disabled = (local[id] || 0) >= maxPerReaction
+          const localCount = local[id] || 0
+          const totalCount = totals[id] ?? 0
+          const disabled = localCount >= maxPerReaction
+          const hasReacted = localCount > 0
+          
           return (
-            <button
-              key={id}
-              onClick={() => react(id)}
-              disabled={disabled}
-              className="group hover:text-primary-400 relative flex flex-col items-center text-gray-400 disabled:opacity-30"
-              aria-label={label}
-            >
-              <span className="text-2xl leading-none">{emoji}</span>
-              <span className="mt-0.5 text-xs font-medium tabular-nums">{totals[id] ?? 0}</span>
-              <AnimatePresence>
-                {burst === id && (
-                  <motion.span
-                    key="b"
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 1.4, opacity: 0 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.45 }}
-                    className="bg-primary-500/10 absolute inset-0 rounded-full"
+            <div key={id} className="flex flex-col items-center">
+              <button
+                onClick={() => react(id)}
+                disabled={disabled || isLoading}
+                className={`group relative flex flex-col items-center p-2 rounded-xl transition-all duration-200 ${
+                  hasReacted 
+                    ? 'text-primary-500 bg-primary-50 dark:bg-primary-900/20' 
+                    : 'text-gray-400 hover:text-primary-500 hover:bg-gray-50 dark:hover:bg-gray-800'
+                } disabled:opacity-40 disabled:cursor-not-allowed`}
+                aria-label={`${label} (${localCount}/${maxPerReaction} used)`}
+                title={`${label} - You've reacted ${localCount} times`}
+              >
+                <span className={`text-3xl leading-none transition-transform duration-200 ${
+                  hasReacted ? 'scale-110' : 'group-hover:scale-105'
+                }`}>
+                  {emoji}
+                </span>
+                
+                <div className="mt-1 flex flex-col items-center">
+                  <span className="text-sm font-bold tabular-nums">
+                    {totalCount}
+                  </span>
+                  {hasReacted && (
+                    <span className="text-xs text-primary-500 font-medium">
+                      +{localCount}
+                    </span>
+                  )}
+                </div>
+                
+                <AnimatePresence>
+                  {burst === id && (
+                    <motion.span
+                      key="burst"
+                      initial={{ scale: 0, opacity: 0.8 }}
+                      animate={{ scale: 2, opacity: 0 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.6, ease: 'easeOut' }}
+                      className="absolute inset-0 rounded-xl bg-primary-500/20 border-2 border-primary-500/40"
+                    />
+                  )}
+                </AnimatePresence>
+                
+                {isLoading && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="absolute -top-1 -right-1 w-3 h-3 bg-primary-500 rounded-full animate-pulse"
                   />
                 )}
-              </AnimatePresence>
-            </button>
+              </button>
+              
+              {disabled && (
+                <span className="text-xs text-gray-400 mt-1">
+                  Max reached
+                </span>
+              )}
+            </div>
           )
         })}
+      </div>
+      
+      <div className="mt-6 text-center">
+        <p className="text-xs text-gray-400 dark:text-gray-500">
+          {Object.values(totals).reduce((sum, count) => sum + count, 0)} total reactions across all posts
+        </p>
       </div>
     </div>
   )

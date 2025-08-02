@@ -151,18 +151,20 @@ export default function PostLayout({
             </div>
           </header>
 
-          <div className="grid-rows-[auto_1fr] divide-y divide-gray-200 pb-8 xl:grid xl:grid-cols-4 xl:gap-x-6 xl:divide-y-0 dark:divide-gray-700">
+          <div className="grid-rows-[auto_1fr] pb-8 xl:grid xl:grid-cols-4 xl:gap-x-6">
             <AuthorDetails authorDetails={authorDetails} />
 
-            <div className="divide-y divide-gray-200 xl:col-span-3 xl:row-span-2 xl:pb-0 dark:divide-gray-700">
+            <div className="xl:col-span-3 xl:row-span-2 xl:pb-0">
               <div className={`${COMMON_STYLES.PROSE} pt-10 pb-8`}>{children}</div>
 
               {/* Reactions Bar */}
-              <ReactionsBar slug={slug} />
+              <div className="border-t border-gray-200/60 dark:border-gray-700/60 pt-8">
+                <ReactionsBar slug={slug} />
+              </div>
 
               {siteMetadata.comments && (
                 <div
-                  className="pt-6 pb-6 text-center text-gray-700 dark:text-gray-300"
+                  className="border-t border-gray-200/60 dark:border-gray-700/60 pt-8 pb-6 text-center text-gray-700 dark:text-gray-300"
                   id="comment"
                 >
                   <Comments slug={slug} />
@@ -171,18 +173,27 @@ export default function PostLayout({
             </div>
 
             <footer>
-              <div className="divide-gray-200 text-sm leading-5 font-medium xl:col-start-1 xl:row-start-2 xl:divide-y dark:divide-gray-700">
-                {tags && <TagsSection tags={tags} />}
-                <PostNavigation previousPost={previousPost} nextPost={nextPost} />
+              <div className="space-y-6 text-sm leading-5 font-medium xl:col-start-1 xl:row-start-2">
+                {tags && (
+                  <div className="border-t border-gray-200/60 dark:border-gray-700/60 pt-6">
+                    <TagsSection tags={tags} />
+                  </div>
+                )}
+                <div className={tags ? "" : "border-t border-gray-200/60 dark:border-gray-700/60 pt-6"}>
+                  <PostNavigation previousPost={previousPost} nextPost={nextPost} />
+                </div>
               </div>
 
-              <div className="pt-4 xl:pt-8">
+              <div className="border-t border-gray-200/60 dark:border-gray-700/60 pt-6 mt-6">
                 <Link
                   href={`/${basePath}`}
-                  className={COMMON_STYLES.TEXT.PRIMARY}
+                  className={`${COMMON_STYLES.TEXT.PRIMARY} inline-flex items-center gap-2 font-medium transition-colors hover:text-primary-600 dark:hover:text-primary-400`}
                   aria-label="Navigate back to the main blog page"
                 >
-                  &larr; Back to the blog
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                  </svg>
+                  Back to the blog
                 </Link>
               </div>
             </footer>
