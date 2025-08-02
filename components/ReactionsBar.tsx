@@ -117,7 +117,7 @@ export default function ReactionsBar({ slug, maxPerReaction = DEFAULT_MAX }: Pro
   return (
     <div className="mt-8 border-b border-gray-200/50 pt-8 dark:border-gray-700/50">
       <div className="mb-4 text-center">
-        <h3 className="mb-2 text-xl sm:text-2xl font-semibold text-gray-900 dark:text-gray-100">
+        <h3 className="mb-2 text-xl font-semibold text-gray-900 dark:text-gray-100 sm:text-2xl">
           How did this post make you feel?
         </h3>
       </div>
