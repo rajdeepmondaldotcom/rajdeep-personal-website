@@ -120,7 +120,6 @@ export default function ReactionsBar({ slug, maxPerReaction = DEFAULT_MAX }: Pro
         <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-gray-100">
           How did this post make you feel?
         </h3>
-
       </div>
 
       {error && (
@@ -194,7 +193,6 @@ export default function ReactionsBar({ slug, maxPerReaction = DEFAULT_MAX }: Pro
 
 
 
-      </div>
     </div>
   )
 }
