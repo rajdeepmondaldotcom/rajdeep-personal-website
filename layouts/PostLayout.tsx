@@ -157,11 +157,6 @@ export default function PostLayout({
             <div className="xl:col-span-3 xl:row-span-2 xl:pb-0">
               <div className={`${COMMON_STYLES.PROSE} pt-6 pb-4`}>{children}</div>
 
-              {/* Reactions Bar */}
-              <div className="border-t border-gray-200/60 pt-8 dark:border-gray-700/60">
-                <ReactionsBar slug={slug} />
-              </div>
-
               {siteMetadata.comments && (
                 <div
                   className="pt-8 pb-6 text-center text-gray-700 dark:text-gray-300"
@@ -170,6 +165,11 @@ export default function PostLayout({
                   <Comments slug={slug} />
                 </div>
               )}
+            </div>
+
+            {/* Reactions Bar - Full Width Centered */}
+            <div className="xl:col-span-4 border-t border-gray-200/60 pt-8 dark:border-gray-700/60">
+              <ReactionsBar slug={slug} />
             </div>
 
             <footer>
