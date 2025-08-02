@@ -1,1 +1,5 @@
-npx --no-install lint-staged
+#!/usr/bin/env sh
+. "$(dirname "$0")/_/husky.sh"
+
+# Automatically fix lint, formatting & type errors on staged files
+npm run lint && npx lint-staged
