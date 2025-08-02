@@ -156,11 +156,8 @@ export default function ReactionsBar({ slug, maxPerReaction = DEFAULT_MAX }: Pro
                   {emoji}
                 </span>
 
-                <div className="mt-1 flex flex-col items-center">
+                <div className="mt-1 flex items-center justify-center">
                   <span className="text-sm font-bold tabular-nums">{totalCount}</span>
-                  {hasReacted && (
-                    <span className="text-primary-500 text-xs font-medium">+{localCount}</span>
-                  )}
                 </div>
 
                 <AnimatePresence>
