@@ -8,6 +8,7 @@ interface Props {
   maxPerReaction?: number
 }
 
+// prettier-ignore
 const REACTIONS = [
   { id: 'clap', emoji: '👏', label: 'Clap' },
   { id: 'heart', emoji: '❤️', label: 'Love' },
@@ -91,7 +92,8 @@ export default function ReactionsBar({ slug, maxPerReaction = DEFAULT_MAX }: Pro
               key={id}
               onClick={() => react(id)}
               disabled={disabled}
-              className="group relative flex flex-col items-center text-gray-400 hover:text-primary-400 disabled:opacity-30"
+              {/* prettier-ignore */}
+            className="relative flex flex-col items-center text-gray-400 hover:text-primary-400 disabled:opacity-30 group"
               aria-label={label}
             >
               <span className="text-2xl leading-none">{emoji}</span>

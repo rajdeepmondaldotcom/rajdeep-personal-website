@@ -3,11 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 // ---------------------------------------------------------------------------
 // REST credentials (works for Upstash Redis, Vercel KV, etc.)
 // ---------------------------------------------------------------------------
-const REST_URL =
-  process.env.KV_REST_API_URL ||
-  process.env.UPSTASH_REDIS_REST_URL ||
-  process.env.KV_URL ||
-  ''
+const REST_URL = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL || process.env.KV_URL || ''
 const REST_TOKEN =
   process.env.KV_REST_API_TOKEN ||
   process.env.UPSTASH_REDIS_REST_TOKEN ||
