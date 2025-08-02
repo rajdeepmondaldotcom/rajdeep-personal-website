@@ -116,8 +116,8 @@ export default function ReactionsBar({ slug, maxPerReaction = DEFAULT_MAX }: Pro
   // -------------------- render ---------------------------------------------
   return (
     <div className="mt-8 border-b border-gray-200/50 pt-8 dark:border-gray-700/50">
-      <div className="mb-6 text-center">
-        <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-gray-100">
+      <div className="mb-4 text-center">
+        <h3 className="mb-2 text-xl sm:text-2xl font-semibold text-gray-900 dark:text-gray-100">
           How did this post make you feel?
         </h3>
       </div>
@@ -128,7 +128,7 @@ export default function ReactionsBar({ slug, maxPerReaction = DEFAULT_MAX }: Pro
         </div>
       )}
 
-      <div className="mx-auto flex max-w-md items-center justify-center gap-4">
+      <div className="mx-auto flex max-w-md flex-wrap items-center justify-center gap-4 sm:gap-6">
         {REACTIONS.map(({ id, emoji, label }) => {
           const localCount = local[id] || 0
           const totalCount = totals[id] ?? 0
