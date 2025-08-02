@@ -168,7 +168,7 @@ export default function PostLayout({
             </div>
 
             {/* Reactions Bar - Full Width Centered */}
-            <div className="xl:col-span-4 border-t border-gray-200/60 pt-8 dark:border-gray-700/60">
+            <div className="border-t border-gray-200/60 pt-8 xl:col-span-4 dark:border-gray-700/60">
               <ReactionsBar slug={slug} />
             </div>
 
