@@ -29,6 +29,7 @@
     "@tailwindcss/postcss": "^4.1.11",
     "@tailwindcss/typography": "^0.5.16",
     "@vercel/analytics": "^1.5.0",
+    "@vercel/kv": "^3.0.0",
     "@vercel/speed-insights": "^1.2.0",
     "body-scroll-lock": "^4.0.0-beta.0",
     "class-variance-authority": "^0.7.1",

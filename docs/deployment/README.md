@@ -474,7 +474,6 @@ export const inter = Inter({
 ```tsx
 // Use Next.js Image component
 import Image from 'next/image'
-
 ;<Image
   src="/image.jpg"
   alt="Description"

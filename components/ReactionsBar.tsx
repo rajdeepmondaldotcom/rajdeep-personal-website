@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 'use client'
 
 import { useEffect, useState } from 'react'
@@ -49,27 +48,27 @@ export default function ReactionsBar({ slug, maxPerReaction = DEFAULT_MAX }: Pro
   useEffect(() => {
     const keys = Object.keys(queue)
     if (keys.length === 0) return
-    
+
     setIsLoading(true)
     setError(null)
-    
+
     const timer = setTimeout(async () => {
       try {
         await Promise.all(
           keys.map(async (k) => {
             const inc = queue[k]
             if (!inc) return
-            
+
             const response = await fetch('/api/reactions', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ slug, reaction: k, count: inc }),
             })
-            
+
             if (!response.ok) {
               throw new Error(`Failed to update ${k} reactions`)
             }
-            
+
             const { total } = await response.json()
             setTotals((t) => ({ ...t, [k]: typeof total === 'number' ? total : t[k] }))
           })
@@ -91,7 +90,7 @@ export default function ReactionsBar({ slug, maxPerReaction = DEFAULT_MAX }: Pro
         setQueue({})
       }
     }, 800) // Slightly longer debounce for better batching
-    
+
     return () => clearTimeout(timer)
   }, [queue, slug])
 
@@ -117,58 +116,56 @@ export default function ReactionsBar({ slug, maxPerReaction = DEFAULT_MAX }: Pro
   // -------------------- render ---------------------------------------------
   return (
     <div className="mt-12 border-t border-gray-200/50 pt-8 dark:border-gray-700/50">
-      <div className="text-center mb-6">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
+      <div className="mb-6 text-center">
+        <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-gray-100">
           How did this post make you feel?
         </h3>
         <p className="text-sm text-gray-500 dark:text-gray-400">
           You can react up to {maxPerReaction} times per emotion
         </p>
       </div>
-      
+
       {error && (
-        <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
-          <p className="text-sm text-red-600 dark:text-red-400 text-center">{error}</p>
+        <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-3 dark:border-red-800 dark:bg-red-900/20">
+          <p className="text-center text-sm text-red-600 dark:text-red-400">{error}</p>
         </div>
       )}
-      
-      <div className="flex justify-center items-center gap-4 max-w-md mx-auto">
+
+      <div className="mx-auto flex max-w-md items-center justify-center gap-4">
         {REACTIONS.map(({ id, emoji, label }) => {
           const localCount = local[id] || 0
           const totalCount = totals[id] ?? 0
           const disabled = localCount >= maxPerReaction
           const hasReacted = localCount > 0
-          
+
           return (
             <div key={id} className="flex flex-col items-center">
               <button
                 onClick={() => react(id)}
                 disabled={disabled || isLoading}
-                className={`group relative flex flex-col items-center p-2 rounded-xl transition-all duration-200 ${
-                  hasReacted 
-                    ? 'text-primary-500 bg-primary-50 dark:bg-primary-900/20' 
-                    : 'text-gray-400 hover:text-primary-500 hover:bg-gray-50 dark:hover:bg-gray-800'
-                } disabled:opacity-40 disabled:cursor-not-allowed`}
+                className={`group relative flex flex-col items-center rounded-xl p-2 transition-all duration-200 ${
+                  hasReacted
+                    ? 'text-primary-500 bg-primary-50 dark:bg-primary-900/20'
+                    : 'hover:text-primary-500 text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800'
+                } disabled:cursor-not-allowed disabled:opacity-40`}
                 aria-label={`${label} (${localCount}/${maxPerReaction} used)`}
                 title={`${label} - You've reacted ${localCount} times`}
               >
-                <span className={`text-3xl leading-none transition-transform duration-200 ${
-                  hasReacted ? 'scale-110' : 'group-hover:scale-105'
-                }`}>
+                <span
+                  className={`text-3xl leading-none transition-transform duration-200 ${
+                    hasReacted ? 'scale-110' : 'group-hover:scale-105'
+                  }`}
+                >
                   {emoji}
                 </span>
-                
+
                 <div className="mt-1 flex flex-col items-center">
-                  <span className="text-sm font-bold tabular-nums">
-                    {totalCount}
-                  </span>
+                  <span className="text-sm font-bold tabular-nums">{totalCount}</span>
                   {hasReacted && (
-                    <span className="text-xs text-primary-500 font-medium">
-                      +{localCount}
-                    </span>
+                    <span className="text-primary-500 text-xs font-medium">+{localCount}</span>
                   )}
                 </div>
-                
+
                 <AnimatePresence>
                   {burst === id && (
                     <motion.span
@@ -177,33 +174,30 @@ export default function ReactionsBar({ slug, maxPerReaction = DEFAULT_MAX }: Pro
                       animate={{ scale: 2, opacity: 0 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.6, ease: 'easeOut' }}
-                      className="absolute inset-0 rounded-xl bg-primary-500/20 border-2 border-primary-500/40"
+                      className="bg-primary-500/20 border-primary-500/40 absolute inset-0 rounded-xl border-2"
                     />
                   )}
                 </AnimatePresence>
-                
+
                 {isLoading && (
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="absolute -top-1 -right-1 w-3 h-3 bg-primary-500 rounded-full animate-pulse"
+                    className="bg-primary-500 absolute -top-1 -right-1 h-3 w-3 animate-pulse rounded-full"
                   />
                 )}
               </button>
-              
-              {disabled && (
-                <span className="text-xs text-gray-400 mt-1">
-                  Max reached
-                </span>
-              )}
+
+              {disabled && <span className="mt-1 text-xs text-gray-400">Max reached</span>}
             </div>
           )
         })}
       </div>
-      
+
       <div className="mt-6 text-center">
         <p className="text-xs text-gray-400 dark:text-gray-500">
-          {Object.values(totals).reduce((sum, count) => sum + count, 0)} total reactions across all posts
+          {Object.values(totals).reduce((sum, count) => sum + count, 0)} total reactions across all
+          posts
         </p>
       </div>
     </div>

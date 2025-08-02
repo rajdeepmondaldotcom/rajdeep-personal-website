@@ -424,7 +424,6 @@ Error: Page with dynamic server usage cannot be exported
 
    ```tsx
    import Image from 'next/image'
-
    ;<Image
      src="/image.jpg"
      alt="Description"

@@ -149,7 +149,7 @@ export default function ListLayout({
             const { path, date, title, summary, tags } = post
             return (
               <li key={path} className="group">
-                <article className="space-y-2 xl:grid xl:grid-cols-4 xl:items-baseline xl:space-y-0 transition-all duration-200 hover:bg-gray-50/50 dark:hover:bg-gray-900/50 rounded-lg p-4 -m-4">
+                <article className="-m-4 space-y-2 rounded-lg p-4 transition-all duration-200 hover:bg-gray-50/50 xl:grid xl:grid-cols-4 xl:items-baseline xl:space-y-0 dark:hover:bg-gray-900/50">
                   <dl>
                     <dt className="sr-only">Published on</dt>
                     <dd className="text-base leading-6 font-medium text-gray-500 dark:text-gray-400">
@@ -159,7 +159,10 @@ export default function ListLayout({
                   <div className="space-y-3 xl:col-span-3">
                     <div>
                       <h3 className="text-2xl leading-8 font-bold tracking-tight">
-                        <Link href={`/${path}`} className="text-gray-900 dark:text-gray-100 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                        <Link
+                          href={`/${path}`}
+                          className="group-hover:text-primary-600 dark:group-hover:text-primary-400 text-gray-900 transition-colors dark:text-gray-100"
+                        >
                           {title}
                         </Link>
                       </h3>

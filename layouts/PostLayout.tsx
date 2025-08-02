@@ -158,13 +158,13 @@ export default function PostLayout({
               <div className={`${COMMON_STYLES.PROSE} pt-10 pb-8`}>{children}</div>
 
               {/* Reactions Bar */}
-              <div className="border-t border-gray-200/60 dark:border-gray-700/60 pt-8">
+              <div className="border-t border-gray-200/60 pt-8 dark:border-gray-700/60">
                 <ReactionsBar slug={slug} />
               </div>
 
               {siteMetadata.comments && (
                 <div
-                  className="border-t border-gray-200/60 dark:border-gray-700/60 pt-8 pb-6 text-center text-gray-700 dark:text-gray-300"
+                  className="border-t border-gray-200/60 pt-8 pb-6 text-center text-gray-700 dark:border-gray-700/60 dark:text-gray-300"
                   id="comment"
                 >
                   <Comments slug={slug} />
@@ -175,23 +175,30 @@ export default function PostLayout({
             <footer>
               <div className="space-y-6 text-sm leading-5 font-medium xl:col-start-1 xl:row-start-2">
                 {tags && (
-                  <div className="border-t border-gray-200/60 dark:border-gray-700/60 pt-6">
+                  <div className="border-t border-gray-200/60 pt-6 dark:border-gray-700/60">
                     <TagsSection tags={tags} />
                   </div>
                 )}
-                <div className={tags ? "" : "border-t border-gray-200/60 dark:border-gray-700/60 pt-6"}>
+                <div
+                  className={tags ? '' : 'border-t border-gray-200/60 pt-6 dark:border-gray-700/60'}
+                >
                   <PostNavigation previousPost={previousPost} nextPost={nextPost} />
                 </div>
               </div>
 
-              <div className="border-t border-gray-200/60 dark:border-gray-700/60 pt-6 mt-6">
+              <div className="mt-6 border-t border-gray-200/60 pt-6 dark:border-gray-700/60">
                 <Link
                   href={`/${basePath}`}
-                  className={`${COMMON_STYLES.TEXT.PRIMARY} inline-flex items-center gap-2 font-medium transition-colors hover:text-primary-600 dark:hover:text-primary-400`}
+                  className={`${COMMON_STYLES.TEXT.PRIMARY} hover:text-primary-600 dark:hover:text-primary-400 inline-flex items-center gap-2 font-medium transition-colors`}
                   aria-label="Navigate back to the main blog page"
                 >
                   <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                    />
                   </svg>
                   Back to the blog
                 </Link>
