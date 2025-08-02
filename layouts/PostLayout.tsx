@@ -147,7 +147,6 @@ export default function PostLayout({
               </dl>
               <div>
                 <PageTitle>{title}</PageTitle>
-                
               </div>
             </div>
           </header>
