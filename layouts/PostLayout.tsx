@@ -164,7 +164,7 @@ export default function PostLayout({
 
               {siteMetadata.comments && (
                 <div
-                  className="border-t border-gray-200/60 pt-8 pb-6 text-center text-gray-700 dark:border-gray-700/60 dark:text-gray-300"
+                  className="pt-8 pb-6 text-center text-gray-700 dark:text-gray-300"
                   id="comment"
                 >
                   <Comments slug={slug} />
