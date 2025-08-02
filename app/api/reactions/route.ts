@@ -1,13 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-// Shared util to obtain a KV client or suitable fallbacks ---------------------
-let kv: { get: Function; incrby: Function } | null = null
-try {
-  // eslint-disable-next-line import/no-extraneous-dependencies
-  const mod = await import('@vercel/kv')
-  kv = mod?.kv ? mod : null
-} catch {}
-
+// ---------------------------------------------------------------------------
+// REST credentials (works for Upstash Redis, Vercel KV, etc.)
+// ---------------------------------------------------------------------------
 const REST_URL =
   process.env.KV_REST_API_URL ||
   process.env.UPSTASH_REDIS_REST_URL ||
@@ -19,7 +14,7 @@ const REST_TOKEN =
   process.env.KV_REST_API_READ_ONLY_TOKEN ||
   ''
 
-async function restGet(key: string) {
+async function restGet(key: string): Promise<number | null> {
   if (!REST_URL || !REST_TOKEN) return null
   const res = await fetch(`${REST_URL}/get/${encodeURIComponent(key)}`, {
     headers: { Authorization: `Bearer ${REST_TOKEN}` },
@@ -27,68 +22,77 @@ async function restGet(key: string) {
   })
   if (!res.ok) return null
   const json = (await res.json()) as { result: number | null }
-  return json.result
+  return json.result ?? 0
 }
 
-async function restIncrBy(key: string, inc: number) {
+async function restIncr(key: string, inc: number): Promise<number | null> {
   if (!REST_URL || !REST_TOKEN) return null
-  const res = await fetch(
-    `${REST_URL}/incrby/${encodeURIComponent(key)}/${inc}`,
-    { headers: { Authorization: `Bearer ${REST_TOKEN}` }, cache: 'no-store' }
-  )
+  const res = await fetch(`${REST_URL}/incrby/${encodeURIComponent(key)}/${inc}`, {
+    headers: { Authorization: `Bearer ${REST_TOKEN}` },
+    cache: 'no-store',
+  })
   if (!res.ok) return null
   const json = (await res.json()) as { result: number }
   return json.result
 }
 
-// In-memory fallback -----------------------------------------------------------
+// ---------------------------------------------------------------------------
+// In-memory fallback for local dev
+// ---------------------------------------------------------------------------
 const mem = new Map<string, number>()
 const memGet = (k: string) => mem.get(k) ?? 0
 const memIncr = (k: string, inc: number) => {
-  const v = memGet(k) + inc
-  mem.set(k, v)
-  return v
+  const val = memGet(k) + inc
+  mem.set(k, val)
+  return val
 }
 
-// Helpers ----------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
 const PREFIX = 'react:'
-const CAP = 2000 // max per single increment safeguard
+const VALID = ['clap', 'heart', 'party', 'laugh', 'think']
 
 async function get(key: string) {
-  if (kv) return (await kv.get<number>(key)) ?? 0
-  const r = await restGet(key)
-  if (r !== null) return r
+  const rest = await restGet(key)
+  if (rest !== null) return rest
   return memGet(key)
 }
+
 async function incr(key: string, inc: number) {
-  inc = Math.max(1, Math.min(inc, CAP))
-  if (kv) return (await kv.incrby<number>(key, inc))
-  const r = await restIncrBy(key, inc)
-  if (r !== null) return r
+  const rest = await restIncr(key, inc)
+  if (rest !== null) return rest
   return memIncr(key, inc)
 }
 
-// GET: /api/reactions?slug=...  => { clap: 3, heart: 1, ... }
+// ---------------------------------------------------------------------------
+// GET: /api/reactions?slug=...
+// ---------------------------------------------------------------------------
 export async function GET(req: NextRequest) {
   const slug = req.nextUrl.searchParams.get('slug')
   if (!slug) return NextResponse.json({ error: 'slug missing' }, { status: 400 })
-  const keys = ['clap', 'heart', 'laugh', 'party', 'think']
-  const result: Record<string, number> = {}
-  for (const k of keys) {
-    result[k] = await get(`${PREFIX}${slug}:${k}`)
-  }
-  return NextResponse.json(result)
+
+  const totals: Record<string, number> = {}
+  await Promise.all(
+    VALID.map(async (r) => {
+      totals[r] = await get(`${PREFIX}${slug}:${r}`)
+    })
+  )
+  return NextResponse.json(totals)
 }
 
+// ---------------------------------------------------------------------------
 // POST body: { slug, reaction, count }
+// ---------------------------------------------------------------------------
 export async function POST(req: NextRequest) {
   const { slug, reaction, count = 1 } = (await req.json()) as {
     slug?: string
     reaction?: string
     count?: number
   }
-  if (!slug || !reaction)
-    return NextResponse.json({ error: 'slug/reaction missing' }, { status: 400 })
-  const total = await incr(`${PREFIX}${slug}:${reaction}`, count)
+  if (!slug || !reaction || !VALID.includes(reaction))
+    return NextResponse.json({ error: 'bad request' }, { status: 400 })
+
+  const total = await incr(`${PREFIX}${slug}:${reaction}`, Math.max(1, Math.min(count, 2000)))
   return NextResponse.json({ total })
 }
