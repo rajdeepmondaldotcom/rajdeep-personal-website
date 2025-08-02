@@ -1,9 +1,11 @@
+/* eslint-disable prettier/prettier */
 import { NextRequest, NextResponse } from 'next/server'
 
 // ---------------------------------------------------------------------------
 // REST credentials (works for Upstash Redis, Vercel KV, etc.)
 // ---------------------------------------------------------------------------
-const REST_URL = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL || process.env.KV_URL || ''
+const REST_URL =
+  process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL || process.env.KV_URL || ''
 const REST_TOKEN =
   process.env.KV_REST_API_TOKEN ||
   process.env.UPSTASH_REDIS_REST_TOKEN ||
@@ -81,7 +83,11 @@ export async function GET(req: NextRequest) {
 // POST body: { slug, reaction, count }
 // ---------------------------------------------------------------------------
 export async function POST(req: NextRequest) {
-  const { slug, reaction, count = 1 } = (await req.json()) as {
+  const {
+    slug,
+    reaction,
+    count = 1,
+  } = (await req.json()) as {
     slug?: string
     reaction?: string
     count?: number

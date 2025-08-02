@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { NextRequest, NextResponse } from 'next/server'
 
 /**
@@ -13,7 +14,8 @@ import { NextRequest, NextResponse } from 'next/server'
 // ---------------------------------------------------------------------------
 // 1. Env-provided REST credentials
 // ---------------------------------------------------------------------------
-const REST_URL = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL || process.env.KV_URL || ''
+const REST_URL =
+  process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL || process.env.KV_URL || ''
 const REST_TOKEN =
   process.env.KV_REST_API_TOKEN ||
   process.env.UPSTASH_REDIS_REST_TOKEN ||

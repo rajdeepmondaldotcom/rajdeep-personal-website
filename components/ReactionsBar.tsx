@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 'use client'
 
 import { useEffect, useState } from 'react'
@@ -35,9 +36,10 @@ export default function ReactionsBar({ slug, maxPerReaction = DEFAULT_MAX }: Pro
   // -------------------- hydrate localStorage --------------------------------
   useEffect(() => {
     if (typeof window === 'undefined') return
-    const saved = JSON.parse(
-      localStorage.getItem(`react-${slug}`) || '{}',
-    ) as Record<string, number>
+    const saved = JSON.parse(localStorage.getItem(`react-${slug}`) || '{}') as Record<
+      string,
+      number
+    >
     setLocal(saved)
   }, [slug])
 
@@ -94,7 +96,7 @@ export default function ReactionsBar({ slug, maxPerReaction = DEFAULT_MAX }: Pro
               key={id}
               onClick={() => react(id)}
               disabled={disabled}
-              className="relative group flex flex-col items-center text-gray-400 hover:text-primary-400 disabled:opacity-30"
+              className="group hover:text-primary-400 relative flex flex-col items-center text-gray-400 disabled:opacity-30"
               aria-label={label}
             >
               <span className="text-2xl leading-none">{emoji}</span>
@@ -107,7 +109,7 @@ export default function ReactionsBar({ slug, maxPerReaction = DEFAULT_MAX }: Pro
                     animate={{ scale: 1.4, opacity: 0 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.45 }}
-                    className="absolute inset-0 rounded-full bg-primary-500/10"
+                    className="bg-primary-500/10 absolute inset-0 rounded-full"
                   />
                 )}
               </AnimatePresence>
