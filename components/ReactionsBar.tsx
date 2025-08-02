@@ -115,14 +115,12 @@ export default function ReactionsBar({ slug, maxPerReaction = DEFAULT_MAX }: Pro
 
   // -------------------- render ---------------------------------------------
   return (
-    <div className="mt-12 border-t border-gray-200/50 pt-8 dark:border-gray-700/50">
+    <div className="mt-12 pt-8 border-b border-gray-200/50 dark:border-gray-700/50">
       <div className="mb-6 text-center">
         <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-gray-100">
           How did this post make you feel?
         </h3>
-        <p className="text-sm text-gray-500 dark:text-gray-400">
-          You can react up to {maxPerReaction} times per emotion
-        </p>
+
       </div>
 
       {error && (
@@ -194,11 +192,8 @@ export default function ReactionsBar({ slug, maxPerReaction = DEFAULT_MAX }: Pro
         })}
       </div>
 
-      <div className="mt-6 text-center">
-        <p className="text-xs text-gray-400 dark:text-gray-500">
-          {Object.values(totals).reduce((sum, count) => sum + count, 0)} total reactions across all
-          posts
-        </p>
+
+
       </div>
     </div>
   )
