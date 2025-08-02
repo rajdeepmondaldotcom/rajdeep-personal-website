@@ -11,6 +11,7 @@ import Image from '@/components/Image'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import HybridReadingProgress from '@/components/HybridReadingProgress'
+import ClapButton from '@/components/ClapButton'
 import { PostLayoutProps } from '@/lib/types'
 import { DATE_FORMATS, COMMON_STYLES } from '@/lib/constants'
 
@@ -146,6 +147,7 @@ export default function PostLayout({
               </dl>
               <div>
                 <PageTitle>{title}</PageTitle>
+                <div className="mt-4 flex justify-center"><ClapButton slug={slug} /></div>
               </div>
             </div>
           </header>
