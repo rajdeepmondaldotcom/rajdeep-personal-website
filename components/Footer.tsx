@@ -26,9 +26,6 @@ export default function Footer() {
             <span className="text-gray-400 dark:text-gray-600">•</span>
             <span className="font-medium">{siteMetadata.author}</span>
           </div>
-          <p className="text-sm text-gray-500 dark:text-gray-500">
-            Built with Next.js, Tailwind CSS, and TypeScript
-          </p>
         </div>
       </div>
     </footer>
