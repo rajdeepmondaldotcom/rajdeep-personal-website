@@ -12,8 +12,8 @@ const REACTIONS = [
   { id: 'clap', emoji: '👏', label: 'Clap' },
   { id: 'heart', emoji: '❤️', label: 'Love' },
   { id: 'party', emoji: '🎉', label: 'Celebrate' },
-  { id: 'laugh', emoji: '😂', label: 'Funny' },
-  { id: 'think', emoji: '🤔', label: 'Thought-provoking' },
+  { id: 'laugh', emoji: '😄', label: 'Funny' },
+  { id: 'think', emoji: '💡', label: 'Insightful' },
 ]
 
 const DEFAULT_MAX = 2000
@@ -67,7 +67,7 @@ export default function ReactionsBar({ slug, maxPerReaction = DEFAULT_MAX }: Pro
     if (already >= maxPerReaction) return
 
     setBurst(id)
-    setTimeout(() => setBurst(null), 500)
+    setTimeout(() => setBurst(null), 400)
 
     setLocal((l) => {
       const next = { ...l, [id]: (l[id] || 0) + 1 }
@@ -82,31 +82,36 @@ export default function ReactionsBar({ slug, maxPerReaction = DEFAULT_MAX }: Pro
 
   // -------------------- render ---------------------------------------------
   return (
-    <div className="mt-8 flex flex-wrap justify-center gap-6">
-      {REACTIONS.map(({ id, emoji, label }) => (
-        <button
-          key={id}
-          onClick={() => react(id)}
-          disabled={(local[id] || 0) >= maxPerReaction}
-          className="group relative flex flex-col items-center text-gray-600 hover:text-rose-600 disabled:opacity-40 dark:text-gray-400 dark:hover:text-rose-500"
-          aria-label={label}
-        >
-          <span className="text-3xl leading-none">{emoji}</span>
-          <span className="mt-1 text-sm tabular-nums">{totals[id] ?? 0}</span>
-          <AnimatePresence>
-            {burst === id && (
-              <motion.span
-                key="b"
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: 1.8, opacity: 0 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.6 }}
-                className="absolute inset-0 rounded-full bg-rose-600/10"
-              />
-            )}
-          </AnimatePresence>
-        </button>
-      ))}
+    <div className="mt-12 border-t border-gray-200/50 pt-6 dark:border-gray-700/50">
+      <div className="mx-auto flex max-w-xs justify-between">
+        {REACTIONS.map(({ id, emoji, label }) => {
+          const disabled = (local[id] || 0) >= maxPerReaction
+          return (
+            <button
+              key={id}
+              onClick={() => react(id)}
+              disabled={disabled}
+              className="group relative flex flex-col items-center text-gray-400 hover:text-primary-400 disabled:opacity-30"
+              aria-label={label}
+            >
+              <span className="text-2xl leading-none">{emoji}</span>
+              <span className="mt-0.5 text-xs tabular-nums font-medium">{totals[id] ?? 0}</span>
+              <AnimatePresence>
+                {burst === id && (
+                  <motion.span
+                    key="b"
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1.4, opacity: 0 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.45 }}
+                    className="absolute inset-0 rounded-full bg-primary-500/10"
+                  />
+                )}
+              </AnimatePresence>
+            </button>
+          )
+        })}
+      </div>
     </div>
   )
 }
